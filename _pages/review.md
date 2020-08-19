@@ -1,9 +1,9 @@
 ---
 layout: page
-title: "Diary"
-author: "Arikim"
-category: diary
-permalink: /diary/
+title: "회고록"
+author: "SunwooHan"
+category: review
+permalink: /review/
 ---
 
 <div class="catalogue">
