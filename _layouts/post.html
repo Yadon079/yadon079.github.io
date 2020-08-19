@@ -1,0 +1,60 @@
+---
+layout: default
+---
+
+<div class="post">
+    <div class="post-info">
+        <span>Written by</span>
+        {% if page.author %}
+            {{ page.author }}
+        {% else %}
+            {{ site.author.name }}
+        {% endif %}
+
+        {% if page.date %}
+        <br>
+        <span>on&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+        {% endif %}
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-line"></div>
+    <div class="post-content">{{ content }}</div>
+    <div class="post-line-bottom"></div>
+
+    {% include post-footer.html %}
+
+    <script>
+    // 복사 함수
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        console.log( $(element).text() );
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+    // 복사 아이콘
+    $('div.highlighter-rouge')
+    .append(
+        $("<button></button>")
+        .addClass("fas fa-copy highlighter-copy")
+    );
+    $('.highlighter-copy').click(function() {
+        copyToClipboard( $(this).prev().children().children() );
+        alert( "복사되었습니다 :)" );
+        // console.log( $(this).prev().children().children() );
+    });
+    </script>
+</div>
+
+<div class="pagination">
+    {% if page.next.url %}
+        <a href="{{ page.next.url | prepend: site.baseurl }}" class="fas fa-chevron-left"></a>
+    {% endif %}
+    {% if page.previous.url %}
+        <a href="{{ page.previous.url | prepend: site.baseurl }}" class="fas fa-chevron-right"></a>
+    {% endif %}
+
+    <a href="#" class="top">Top</a>
+</div>

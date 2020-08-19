@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+    {% include head.html %}
+    <header>
+        <div id="loading">
+            <img id="loading-image" src="/assets/layout/loading.gif" alt="Loading..." />
+        </div>
+    </header>
+    <body>
+        {% include navigation.html %}
+        <main>{{ content }}</main>
+        {% include footer.html %}
+    </body>
+</html>

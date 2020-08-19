@@ -1,0 +1,46 @@
+.pagination {
+    border-top: .5px solid #3f5161;
+    font-family: $serif-secondary;
+    padding-top: 2rem;
+    position: relative;
+    text-align: center;
+
+    span {
+        color: $default-shade;
+        font-size: 1.1rem;
+    }
+
+    a.fa-chevron-left {
+        position: absolute;
+        left: 0;
+    }
+
+    a.fa-chevron-right {
+        position: absolute;
+        right: 0;
+    }
+
+    span.page-left {
+        color: #aaa;
+    }
+
+    span.page-slice {
+        color: #3f5161;
+    }
+
+    span.page-right {
+        color: #aaa;
+    }
+
+    .top {
+        @include transition(all .3s ease-out);
+        color: $default-color;
+        font-family: $sans-serif;
+        font-size: 1.1rem;
+        opacity: .6;
+
+        &:hover {
+        opacity: 1;
+        }
+    }
+}

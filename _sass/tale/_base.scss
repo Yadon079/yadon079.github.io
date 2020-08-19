@@ -1,0 +1,178 @@
+/********************
+        reset
+********************/
+* {
+    @include box-sizing;
+    line-height: 1.5;
+}
+
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    color: $default-color;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: $serif-primary;
+    font-size: 14px;
+    overflow-y: scroll;
+
+    @media (min-width: 700px) {
+        font-size: 16px;
+    }
+}
+
+body {
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+}
+
+body, input, textarea {
+    background: #2b303a;
+    color: #e4e4e4;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $sans-serif;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: $blue;
+    text-decoration: none;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+blockquote {
+    border-left: .25rem solid $grey-1;
+    color: $grey-1;
+    // margin: 2.8rem 0 .8rem 0;
+    margin: 2rem 0 1rem 0;
+    padding: .5rem .8rem;
+    font-size: 1.2em;
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    @media (min-width: 700px) {
+        padding: 0 5rem 0 1.25rem;
+    }
+}
+
+img {
+    display: block;
+    margin: 0 0 1rem;
+    max-width: 100%;
+    border: 0;
+}
+
+img, input, button {
+    vertical-align: middle;
+}
+
+button, html input[type=button], input[type=reset], input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button, select {
+    background: transparent;
+    text-transform: none;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    color: #777;
+    border: 1px solid #555;
+    padding: .2em;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+strong, .strong {
+    font-weight: bold;
+}
+
+table {
+    border: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+}
+
+td {
+    vertical-align: top;
+}
+
+
+/************************
+        wrap
+************************/
+
+#loading {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    display: block;
+    opacity: .8;
+    background-color: #fff;
+    z-index: 99;
+    text-align: center;
+}
+
+#loading-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+}
+
+/************************
+        bootstrap
+************************/
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+.activle .caret {
+    content: "";
+    border-top: 0;
+    border-bottom: 4px solid;
+}

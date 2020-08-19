@@ -1,0 +1,42 @@
+{% include post-tags.html %}
+
+{% assign category = page.categories[ 0 ] %}
+<div class="post-footer">
+    <div>
+        <h2 id="GitHub-File">GitHub File</h2>
+        <a href="https://github.com/yadon079/yadon079.github.io/blob/master/{{ page.path }}" target="_blank">GitHub 에서 원문보기</a>
+    </div>
+    <div>
+        <h2 id="Category">Category</h2>
+        <a href="/category/#{{ category }}">{{ category }}</a>
+    </div>
+    <div>
+        <h2 id="Tags">Tags</h2>
+        <p class="post-tag">{{ tags_list }}</p>
+    </div>
+</div>
+
+{% if page.comments %}
+<h2>Comments</h2>
+<script src="https://utteranc.es/client.js"
+    repo="yadon079/comment"
+    issue-term="url"
+    theme="github-dark"
+    crossorigin="anonymous"
+    async>
+</script>
+{% endif %}
+
+<!-- Adsense -->
+
+<h2 class="fas fa-feather">{{ category | upcase }} 의 다른 글</h2>
+<ul class="posts-list">
+    {% for scc in site.categories[ category ] %}
+    <li>
+        <h3>
+            <a href="{{ site.baseurl }}{{ scc.url }}">{{ scc.title }}</a>
+            <small>{{ scc.date | date_to_string }}</small>
+        </h3>
+    </li>
+    {% endfor %}
+</ul>

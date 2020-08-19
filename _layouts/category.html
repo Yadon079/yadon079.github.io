@@ -1,0 +1,21 @@
+---
+layout: default
+---
+
+<div class="category-wrap">
+    <h1 class="category-title"><a href="/category/{{ page.title }}">카테고리: {{ page.title }}</a></h1>
+</div>
+<div class="catalogue">
+    {% assign cate = page.category | default: page.title %}
+    {% for post in site.categories[ cate ] %}
+    <a href="{{ post.url | prepend: site.baseurl }}" class="catalogue-item">
+        <div>
+            <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%B %d, %Y" }}</time>
+            <h1 class="catalogue-title">{{ post.subject | upcase }}/ {{ post.title }}</h1>
+            <h4 class="catalogue-desc">{{ post.description }}</h4>
+            <div class="catalogue-line"></div>
+            <p class="catalogue-content">{{ post.content | strip_html | truncatewords: 30 }}</p>
+        </div>
+    </a>
+    {% endfor %}
+</div>

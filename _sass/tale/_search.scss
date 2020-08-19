@@ -1,0 +1,24 @@
+// /search
+#search-wrap {
+    width: 100%;
+    padding-top: 4em;
+
+    &-input {
+        width: 100%;
+        padding: .5em;
+        font-size: 1.7em;
+        border: none;
+        border-bottom: 1px solid #555;
+    }
+
+    &-result {
+        margin: 0;
+        padding: 1em;
+    }
+
+    &-result > li {
+        list-style: none;
+        padding: .5em 0;
+        font-size: 1.2em;
+    }
+}

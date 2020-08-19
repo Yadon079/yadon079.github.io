@@ -1,0 +1,36 @@
+<nav class="nav">
+    <div class="nav-container">
+        <a href="{{ site.baseurl }}/">
+            <h2 class="nav-title">{{ site.title }}</h2>
+        </a>
+        <ul>
+            <li><a href="{{ '/' | site.baseurl }}">Dev</a></li>
+            <li><a href="{{ '/about' | site.baseurl }}">About</a></li>
+            <li><a href="{{ '/diary' | site.baseurl }}">Diary</a></li>
+            <li><a href="{{ '/category' | site.baseurl }}">Category</a></li>
+            <!-- <li><a href="{{ '/tags' | site.baseurl }}">Tag</a></li> -->
+            <li><a href="{{ '/search' | site.baseurl }}">Search</a></li>
+            <li>
+                <div id="search-container"><input type="text" id="search-input" placeholder="검색어를 입력해주세요."><ul id="results-container"></ul></div>
+                <span class="fas fa-search"></span>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Script pointing to jekyll-search.js -->
+<!-- <script src="{{site.baseurl}}/dest/jekyll-search.js" type="text/javascript"></script> -->
+<script src="{{ '/assets/search/jekyll-search.js' | relative_url }}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        json: "{{ '/assets/search/search2.json' | relative_url }}",
+        searchResultTemplate: '<li><a href="{url}" title="{desc}" target="_blank">{title}</a></li>',
+        noResultsText: '검색 결과가 없습니다.',
+        limit: 10,
+        fuzzy: false,
+        exclude: ['Welcome']
+    })
+</script>

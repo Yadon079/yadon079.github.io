@@ -1,0 +1,31 @@
+// /category
+.category {
+    &-wrap {
+        margin-top: 2rem;
+    }
+    
+    &-title > a {
+        color: $grey-1;
+    }
+}
+
+@media (max-width: 660px) {
+    .category {
+        &-wrap {
+            .posts-list {
+                padding-left: 2.2rem;
+            }
+        }
+    }
+}
+
+// /tags
+.tag {
+    &-wrap {
+        margin-top: 2rem;
+
+        li > a {
+            color: $grey-1;
+        }
+    }
+}

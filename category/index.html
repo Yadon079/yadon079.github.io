@@ -1,0 +1,20 @@
+---
+layout: default
+permalink: '/category'
+---
+
+<div class="category-wrap">
+{% for list in site.category_list %}
+    <h1 class="category-title"><a href="/category/{{ list }}">{{ list | upcase }}</a></h1>
+    <ul class="posts-list">
+        {% for post in site.categories[ list ] %}
+        <li>
+            <h3>
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                <small>{{ post.date | date_to_string }}</small>
+            </h3>
+        </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+</div>
