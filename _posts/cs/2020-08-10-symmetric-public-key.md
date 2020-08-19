@@ -3,7 +3,7 @@ layout: post
 date: 2020-08-10 14:50:00
 title: "대칭키와 공개키"
 description: "SSL 탄생의 시초"
-subject: blog
+subject: dev
 category: [ cs ]
 tags: [ network, internet ]
 comments: true

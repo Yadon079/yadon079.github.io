@@ -3,7 +3,7 @@ layout: post
 date: 2020-08-10 14:50:00
 title: "HTTP & HTTPS"
 description: "http와 https"
-subject: blog
+subject: dev
 category: [ cs ]
 tags: [ network, internet ]
 comments: true
