@@ -13,9 +13,9 @@ permalink: /about/
 
 ## Contect Me
 
-<i class="fa fa-github" aria-hidden="true" style="font-size:24px">[Github](https://github.com/yadon079)</i>
+<i class="fab fa-github" aria-hidden="true" style="font-size:24px"> [Github](https://github.com/yadon079)</i>
 
-<i class="fa fa-envelope" aria-hidden="true" style="font-size:22px">[Email](mailto:thankowl777@kakao.com)</i>
+<i class="fa fa-envelope" aria-hidden="true" style="font-size:22px"> [Email](mailto:thankowl777@kakao.com)</i>
 
 ## 프로젝트 리스트
 
