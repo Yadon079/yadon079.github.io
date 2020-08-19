@@ -7,9 +7,15 @@ permalink: /about/
 
 > Who am I
 
-백앤드, 서버 개발자 지망생입니다.
+백앤드, 서버 개발자 지망생 **한선우** 입니다.
 
 매일 꾸준히 글을 올리는게 목표입니다.
+
+## Contect Me
+
+<i class="fab fa-github" aria-hidden="true"></i>[Github](https://github.com/yadon079)
+
+<i class="fab fa-envelope" aria-hidden="true"></i>[Email](mailto:thankowl777@kakao.com)
 
 ## 프로젝트 리스트
 
