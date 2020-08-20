@@ -24,9 +24,9 @@ comments: true
 
 ## 입출력 예시
 
-| <center> x || <center> n || <center> answer |
+| <center> x |&nbsp;&nbsp;| <center> n |&nbsp;&nbsp;| <center> answer |
 |---|---|---|---|---|
-| <center> 2 || <center> 5 || <center> [2, 4, 6, 8, 10] |
+| <center> 2 || <center> 5 |&nbsp;| <center> [2, 4, 6, 8, 10] |
 | <center> 4 || <center> 3 || <center> [4, 8, 12] |
 | <center> -4 || <center> 2 || <center> [-4, -8] |
 
