@@ -24,11 +24,11 @@ comments: true
 
 ## 입출력 예시
 
-<span style="color:white">| x | n | answer |</span>
-<span style="color:white">|----|---|---|</span>
-<span style="color:white">| 2 | 5 | [2, 4, 6, 8, 10] |</span>
-<span style="color:white">| 4 | 3 | [4, 8, 12] |</span>
-<span style="color:white">| -4 | 2 | [-4, -8] |</span>
+| x | n | answer |
+|:---:|:---:|:---:|
+| 2 | 5 | [2, 4, 6, 8, 10] |
+| 4 | 3 | [4, 8, 12] |
+| -4 | 2 | [-4, -8] |
 
 ---
 
