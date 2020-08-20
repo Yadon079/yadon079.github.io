@@ -3,7 +3,7 @@ layout: post
 date: 2020-08-11 14:50:00
 title: "[JAVA]직사각형 별찍기"
 description: "프로그래머스 연습문제 Lv.1"
-subject: dev
+subject: Algo
 category: [ algorithm ]
 tags: [ algorithm, java ]
 comments: true
