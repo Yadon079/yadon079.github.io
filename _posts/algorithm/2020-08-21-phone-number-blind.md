@@ -26,8 +26,8 @@ comments: true
 
 | <center> phone_number |&nbsp;&nbsp;| <center> return |
 |---|---|---|   
-| <center> "01033334444" || <center> "`*******4444`" |
-| <center> "027778888" || <center> "`*****8888`" |
+| <center> "01033334444" || <center> "*******4444" |
+| <center> "027778888" || <center> "*****8888" |
 
 ---
 
