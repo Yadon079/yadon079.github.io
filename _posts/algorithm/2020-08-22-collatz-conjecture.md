@@ -6,7 +6,7 @@ description: "프로그래머스 연습문제 Lv.1"
 subject: algo
 category: [ algorithm ]
 tags: [ algorithm, java ]
-comments : true
+comments: true
 ---
 
 # 콜라츠 추측
