@@ -38,7 +38,7 @@ comments: true
 
 &nbsp;간단한게 반복문을 사용하여 행과 열의 길이만큼 별을 출력하게 작성하였다.
 
-```
+```java
 import java.util.*;
 
 public class Solution {

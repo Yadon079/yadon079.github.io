@@ -34,7 +34,7 @@ comments: true
 
 ## 코드
 
-```
+```java
 class Solution {
   public boolean solution(int x) {
     boolean answer = true;

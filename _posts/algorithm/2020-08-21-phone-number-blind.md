@@ -34,7 +34,7 @@ comments: true
 
 ## 코드
 
-```
+```java
 class Solution {
   public String solution(String phone_number) {
     char[] chk = phone_number.toCharArray();

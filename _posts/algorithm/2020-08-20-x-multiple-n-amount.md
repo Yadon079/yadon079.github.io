@@ -34,7 +34,7 @@ comments: true
 
 ## 코드
 
-```
+```java
 class Solution {
   public long[] solution(long x, int n) {
     long[] answer = new long[n];

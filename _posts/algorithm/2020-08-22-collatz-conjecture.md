@@ -43,7 +43,7 @@ comments: true
 
 ## 코드
 
-```
+```java
 class solution {
   public int solution(long num) {
     int answer = 0;
