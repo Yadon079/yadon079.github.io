@@ -33,8 +33,8 @@ comments: true
 
 ## 입출력 예시
 
-| <center> n | &nbsp; &nbsp; | <center> result |
-|---|---|---|
+| n | &nbsp; &nbsp; | result |
+|:---:|---|:---:|
 | 6 || 8 |
 | 16 || 4 |
 | 626331 || -1 |
