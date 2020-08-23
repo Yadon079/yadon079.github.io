@@ -65,4 +65,6 @@ GREP_OPTIONS="--color=always";export GREP_OPTIONS
 | 문자열 라인 처음 시작 패턴 검색하기 || grep "^EXAM" [FILE] |
 | 문자열 라인 마지막 종료 패턴 검색하기 || grep "$EXAM" [FILE] |
 
+---
+
 [^1]: 정규표현식(Regular Expression)이란, 특정 규칙을 가진 문자열 집합을 표현하기 위한 형식 언어로써, 주로 문자열 패턴 매칭을 검사하거나 문자열을 치환하기 위해 사용된다.
