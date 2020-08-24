@@ -3,7 +3,7 @@ layout: post
 date: 2020-08-23 20:26:30
 title: "grep 명령어 사용법"
 description: "Mac / Unix"
-subject: mac
+subject: dev
 category: [ cs ]
 tags: [ mac, unix, command ]
 comments: true
