@@ -6,7 +6,7 @@ code {
 code {
     background-color: $code-back;
     border-radius: 3px;
-    color: $code-color;
+    color: #a96767;
     font-size: 90%;
     padding: .25em .5em;
 }
@@ -29,7 +29,7 @@ div.highlighter-rouge {
 }
 
 /* 무슨 코드인지 알려주려고 */
-.highlighter-rouge:before {    
+.highlighter-rouge:before {
     position: absolute;
     top: -1.2em;
     left: .7em;
