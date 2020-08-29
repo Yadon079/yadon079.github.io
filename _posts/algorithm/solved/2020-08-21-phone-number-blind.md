@@ -25,10 +25,10 @@ comments: true
 
 ## 입출력 예시
 
-| <center> phone_number |&nbsp;&nbsp;| <center> return |
-|---|---|---|   
-| <center> "01033334444" || <center> "*******4444" |
-| <center> "027778888" || <center> "*****8888" |
+| phone_number | return |
+|---|---|   
+| "01033334444" | "*******4444" |
+| "027778888" | "*****8888" |
 
 ---
 

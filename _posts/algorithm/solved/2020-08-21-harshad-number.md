@@ -23,12 +23,12 @@ comments: true
 
 ## 입출력 예시
 
-| <center> x |&nbsp;&nbsp;| <center> return |
-|---|---|---|   
-| <center> 10 || <center> true |
-| <center> 12 || <center> true |
-| <center> 11 || <center> false |
-| <center> 13 || <center> false |
+| x | return |
+|---|---|   
+| 10 | true |
+| 12 | true |
+| 11 | false |
+| 13 | false |
 
 ---
 
