@@ -122,9 +122,9 @@ strong, .strong {
 }
 
 table {
-    border: 1px solid #ffffff;
-    border-collapse: collapse;
-    border-spacing: 0;
+    border: 0.5px solid #ffffff;
+    border-collapse: separate;
+    border-spacing: 0.5px;
     text-align: left;
 }
 
