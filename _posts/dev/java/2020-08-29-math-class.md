@@ -35,8 +35,8 @@ public class Sample {
 결과
 
 > 1
-  0
-  1
+> 0
+> 1
 
 ## max(), min() 메소드
 
@@ -57,7 +57,7 @@ public class Sample {
 결과
 
 > 100
-  10
+> 10
 
 ## pow() 메소드
 
