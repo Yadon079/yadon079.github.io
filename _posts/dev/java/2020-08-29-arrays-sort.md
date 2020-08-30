@@ -165,3 +165,7 @@ public class Sort {
 출력
 
 > [1][9][16][24][32][17][22][7]
+
+---
+**Reference**
++ [Java Api Documentaion](https://docs.oracle.com/javase/8/docs/api/)
