@@ -25,9 +25,9 @@ comments: true
   - 인자 값으로 Object(객체)를 받습니다. Integer[], Double[], Character[] 등의 값을 받을 수 있다.
 + **public static void sort ( Object[] a, int fromIndex, int toIndex)**
   - 인자 값으로 Object(객체)를 받습니다. Integer[], Double[], Character[] 등의 값을 받을 수 있으며, 정렬 시작 index 값 및 종료 index 값을 지정한다.
-+ **public static <T> void sort ( T[] a, Comparator<? super T> c )**
++ <b>public static <T> void sort ( T[] a, Comparator<? super T> c )</b>
   - 인자 값으로 객체를 받으며, 지정된 Comparator가 가리키는 순서에 따라 지정된 객체의 배열을 정렬한다.
-+ **public static <T> void sort ( T[] a, int fromIndex, int toIndex, Comparator<? super T> c )**
++ <b>public static <T> void sort ( T[] a, int fromIndex, int toIndex, Comparator<? super T> c )</b>
   - 인자 값으로 객체를 받으며, 지정된 Comparator가 가리키는 순서에 따라 지정된 객체의 배열을 정렬하며, 정렬 시작 index 값 및 종료 index 값을 지정한다.
 
 ## 예시
