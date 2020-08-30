@@ -17,7 +17,7 @@ comments: true
 
 | 기본형 | 래퍼클래스 | 생성자 | 활용 예시 |
 |:---:|:---:|:---|:---|
-| boolean | Boolean | Boolean (boolean value)</br> Boolean (String s) | Boolean b = new Boolean(true);</br> Boolean b2 = new Boolean("true"); |
+| boolean | Boolean | Boolean (boolean value) <br/> Boolean (String s) | Boolean b = new Boolean(true); <br/> Boolean b2 = new Boolean("true"); |
 | char | <b>Character</b> | Character (char value) | Character c = new Character('a'); |
 | byte | Byte | Byte (byte value)</br> Byte (String s) | Byte b = new Byte(10);</br> Byte b2 = new Byte("10"); |
 | short | Short | Short (short value)</br> Short (String s) | Short s = new Short(10);</br> |
