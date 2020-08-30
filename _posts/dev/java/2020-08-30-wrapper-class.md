@@ -17,14 +17,14 @@ comments: true
 
 | 기본형 | 래퍼클래스 | 생성자 | 활용 예시 |
 |:---:|:---:|:---|:---|
-| boolean | Boolean | <p>Boolean (boolean value)</p> <p>Boolean (String s)</p> | <p>Boolean b = new Boolean(true);</p> <p>Boolean b2 = new Boolean("true");</p> |
-| char | <b>Character</b> | Character (char value) | |
-| byte | Byte | <p>Byte (byte value)</p> <p>Byte (String s)</p> | Character c = new Character('a'); |
-| short | Short | <p>Short (short value)</p> <p>Short (String s)</p> | <p>Byte b = new Byte(10);</p> <p>Byte b2 = new Byte("10");</p> |
-| int | <b>Integer</b> | <p>Integer (int value)</p> <p>Integer (String s)</p> | <p>Integer i = new Integer(100);</p> <p>Integer i2 = new Integer("100");</p> |
-| long | Long | <p>Long (long value)</p> <p>Long (String s)</p> | <p>Long l = new Long(100);</p> <p>Long l2 = new Long("100");</p> |
-| float | Float | <p>Float (double value)</p> <p>Float (float value)</p> <p>Float (String s)</p> | <p>Float f = new Float(1.0);</p> <p>Float f2 = new Float(1.0f);</p> <p>Float f3 = new Float("1.0f");</p> |
-| double | Double | <p>Double (double value)</p> <p>Double (String s)</p> | <p>Double d = new Double(1.0);</p> <p>Double d2 = new Double("1.0");</p> |
+| boolean | Boolean | Boolean (boolean value)</br> Boolean (String s) | Boolean b = new Boolean(true);</br> Boolean b2 = new Boolean("true"); |
+| char | <b>Character</b> | Character (char value) | Character c = new Character('a'); |
+| byte | Byte | Byte (byte value)</br> Byte (String s) | Byte b = new Byte(10);</br> Byte b2 = new Byte("10"); |
+| short | Short | Short (short value)</br> Short (String s) | Short s = new Short(10);</br> |
+| int | <b>Integer</b> | Integer (int value)</br> Integer (String s) | Integer i = new Integer(100);</br> Integer i2 = new Integer("100"); |
+| long | Long | Long (long value)</br> Long (String s) | Long l = new Long(100);</br> Long l2 = new Long("100"); |
+| float | Float | Float (double value)</br> Float (float value)</br> Float (String s) | Float f = new Float(1.0);</br> Float f2 = new Float(1.0f);</br> Float f3 = new Float("1.0f"); |
+| double | Double | Double (double value)</br> Double (String s) | Double d = new Double(1.0);</br> Double d2 = new Double("1.0"); |
 
 ## 래퍼 클래스 구조도
 
@@ -32,7 +32,16 @@ comments: true
 
 계층 구조에서 알 수 있듯이, 기본형 중에서 숫자와 관련된 래퍼 클래스들은 모두 Number클래스의 자손이라는 것을 알 수 있다.
 
+# 박싱(boxing)과 언박싱(UnBoxing)
+
+기본 타입의 값을 포장 객체로 만드는 과정을 <b>박싱(Boxing)</b>이라고 하고 반대로 포장객체에서 기본타입의 값을 얻어내는 과정을 <b>언박싱(UnBoxing)</b>이라고 한다.
+
+## 자동 박싱(AutoBoxing)과 자동 언박싱(AutoUnBoxing)
+
+기본타입 값을 직접 박싱, 언박싱하지 않아도 자동적으로 박싱과 언박싱을 해주는 경우가 있다. 이는 자동 박싱의 포장 클래스 타입에 기본값이 대입될 경우에 발생한다.
+
 ---
 **Reference**
 + [Wiki](https://en.wikipedia.org/wiki/Primitive_wrapper_class_in_java)
 + 남궁 성님의 자바의 정석
++ [w3resource](https://w3resource.com/java-tutorial/java-wrapper-classes.php)
