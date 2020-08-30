@@ -12,7 +12,7 @@ comments: true
 
 # Integer 클래스
 
-&nbsp; 자바 Integer 클래스는 `java.lang` 패키지에 포함된 클래스로 `원시적 형(primitive type) int`의 값을 객체에 wrap한다. Intege 유형의 오브젝트에는 유형이 int인 단일 필드가 들어있다.
+&nbsp; 자바 Integer 클래스는 `java.lang` 패키지에 포함된 클래스로 `원시적 형(primitive type) int`의 값을 객체에 wrap한다. Integer 유형의 오브젝트에는 유형이 int인 단일 필드가 들어있다.
 
 &nbsp; Integer 클래스에 포함된 메소드 중에서 자주 사용되는 것들을 적어보았다.
 
