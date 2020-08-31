@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2020-08-31 22:42:00
+date: 2020-08-31 23:42:00
 title: "2020년 8월 돌아보기"
 description: "회고록"
 subject: 월간회고
