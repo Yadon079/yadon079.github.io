@@ -177,3 +177,53 @@ Sorting 알고리즘은 크게 Comparisons 방식과 Non-Comparisons 방식으�
 ### Comparisons Sorting Algorithm(비교 방식 알고리즘)
 
 `Bubble sort`, `Selection Sort`, `Insertion Sort`, `Merge Sort`, `Heap Sort`, `Quick Sort`
+
+### Bubble Sorting
+
+`n`개의 원소를 가진 배열을 정렬할 때, `In-place Sort`로 인접한 두 개의 데이터를 비교해가면서 정렬을 진행하는 방식이다. 가장 큰 값을 배열의 맨 끝에다 이동시키면서 정렬하고자 하는 원소의 개수 만큼을 두 번 반복하게 된다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(1) | O(n<sup>2</sup>)|
+
+### Selection Sort
+
+`n`개의 원소를 가진 배열을 정렬할 때, 계속해서 바꾸는 것이 아니라 비교하고 있는 값의 `index`를 저장해두었다가 최종적으로 한 번만 바꿔준다. 하지만 여러 번 비교를 하는 것은 마찬가지이다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(1) | O(n<sup>2</sup>)|
+
+### Insertion Sort
+
+`n`개의 원소를 가진 배열을 정렬할 때, `i`번째를 정렬할 순서라고 가정하면, `0`부터 `i - 1`까지의 원소들은 정렬되어 있다는 가정 하에, `i`번째 원소와 `i - 1`번째 원소부터 `0`번째 원소까지 비교하면서 `i`번째 원소가 비교하는 원소보다 클 경우 서로의 위치를 바꾸고, 작을 경우 위치를 바꾸지 않고 다음 순서의 원소와 비교하면서 정렬해준다. 이 과정을 정렬하려는 배열의 마지막 원소까지 반복한다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(1) | O(n<sup>2</sup>)|
+
+### Merge Sort
+
+`n`개의 원소를 가진 배열을 정렬할 때, 정렬하고자 하는 배열의 크기를 작은 단위로 나누어 정렬하고자 하는 배열의 크기를 줄이는 원리를 사용한다. `Divide and Conquer`, <b>분할하여 정복한다</b>의 원리이다. 말 그대로 복잡한 문제를 복잡하지 않은 문제로 분할하여 정복하는 방법이다. 단, 분할(Divde)해서 정복하였으니 정복(Conquer)한 후에는 <b>결합(Combine)</b>의 과정을 거쳐야 한다.
+
+`Merge Sort`는 더 이상 나누어지지 않을 때까지 <b>반 씩(1/2)</b> 분할하다가 더 이상 나누어지지 않은 경우(원소가 하나인 배열일 때) 자기 자신, 즉 원소 하나를 반환한다. 원소가 하나일 경우 정렬할 필요가 없기 때문이다. 이 때 반환한 값끼리 <b>`Combine`될 때, 비교가 이뤄지며</b> 비교 결과를 기반으로 정렬되어 <b>임시 배열에 저장</b>된다. 그리고 임시 배열에 저장된 순서를 합쳐진 값으로 반환한다. 실제 정렬은 나눈 것을 병합하는 과정에서 이루어진다.
+
+하나씩 남을 때까지 분할하는 것이면, 바로 하나씩 분할하면 되지 않을까? 라는 생각에서 재귀적으로 정렬하는 원리이다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(n) | O(n log n)|
+
+### Heap Sort
+
+`binary heap` 자료구조를 활용할 Sorting 방법은 두 가지 방법이 존재한다. 하나는 정렬의 대상인 데이터들을 `heap`에 넣었다가 꺼내는 원리로 Sorting을 하게 되는 방법이고, 나머지 하나는 기존의 배열을 `heapify`(`heap`으로 만들어주는 과정)을 거쳐 꺼내는 원리로 정렬하는 방법이다. `heap`에 데이터를 저장하는 시간 복잡도는 `O(log n)`이고, 삭제 시간 복잡도 또한 `O(log n)`이 된다. 따라서 `heap` 자료구조를 사용하여 Sorting을 하는데 시간복잡도는 `O(log n)`이 된다. 이 정렬을 하려는 대상이 `n`개라면 시간복잡도는 `O(n log n)`이 된다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(1) | O(n log n)|
+
+### Quick Sort
+
+Sorting 기법 중 가장 빠르다고 해서 Quick이라는 이름이 붙어졌다. 단, <b>Worst Case에서는 시간복잡도가 O(n<sup>2</sup>)가 나올 수도 있다.</b> 하지만 `constant factor`가 작아서 속도가 빠르다.
+
+`Quick Sort` 역시 `Divide and Conquer` 전략을 사용하여 Sorting이 이루어진다. Divide 과정에서 `pivot`이라는 개념이 사용된다. 입력된 배열에 대해 오름차순으로 정렬한다고 하면 이 `pivot`을 기준으로 좌측은 `pivot`으로 설정된 값보다 작은 값이 위치하고, 우측은 큰 값이 위치하도록 나누어지는 `partition` 과정이 이루어진다. 이렇게 좌,우측 각각의 배열을 다시 재귀적으로 Quick Sort 시키면 또 `partition` 과정이 적용된다. 이 때 한 가지 주의할 점은 `partition` 과정에서 `pivot`으로 설정된 값은 다음 재귀과정에 포함시키지 않아야 한다. `partition` 과정에서 이미 정렬된 자신의 위치를 찾았기 때문이다.
