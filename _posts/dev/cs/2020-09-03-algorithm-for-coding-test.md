@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2020-08-31 20:00:00
+date: 2020-09-03 13:20:00
 title: "코딩 테스트를 위한 알고리즘"
 description: "전략적 접근 및 Tip"
 subject: dev
