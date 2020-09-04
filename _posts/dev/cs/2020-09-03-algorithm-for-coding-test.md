@@ -122,8 +122,6 @@ comments: true
 + 트라이(Trie) : 모든 String을 저장하면서 비교하는 방법이다.
 + 비트마스킹 : `|는 OR, &는 AND, ^는 XOR`를 통해 메모리를 절약할 수 있다.
 
-![sort](/assets/img/cs/sort-time.png)
-
 ### 해결 방법 분류
 
 <b>DP(동적 계획법)</b>
@@ -227,3 +225,90 @@ Sorting 알고리즘은 크게 Comparisons 방식과 Non-Comparisons 방식으�
 Sorting 기법 중 가장 빠르다고 해서 Quick이라는 이름이 붙어졌다. 단, <b>Worst Case에서는 시간복잡도가 O(n<sup>2</sup>)가 나올 수도 있다.</b> 하지만 `constant factor`가 작아서 속도가 빠르다.
 
 `Quick Sort` 역시 `Divide and Conquer` 전략을 사용하여 Sorting이 이루어진다. Divide 과정에서 `pivot`이라는 개념이 사용된다. 입력된 배열에 대해 오름차순으로 정렬한다고 하면 이 `pivot`을 기준으로 좌측은 `pivot`으로 설정된 값보다 작은 값이 위치하고, 우측은 큰 값이 위치하도록 나누어지는 `partition` 과정이 이루어진다. 이렇게 좌,우측 각각의 배열을 다시 재귀적으로 Quick Sort 시키면 또 `partition` 과정이 적용된다. 이 때 한 가지 주의할 점은 `partition` 과정에서 `pivot`으로 설정된 값은 다음 재귀과정에 포함시키지 않아야 한다. `partition` 과정에서 이미 정렬된 자신의 위치를 찾았기 때문이다.
+
+<b>Quick Sort's Worst case</b>
+
+그렇다면 어떤 경우가 Worst Case일까? Quick Sort로 오름차순 정렬을 한다고 할 때, Worst Case는 `partition` 과정에서 `pivot value`가 항상 배열 내에서 가장 작은 값 또는 가장 큰 값으로 설정되었을 때이다. 매 `partition`마다 `unbalanced partition`이 이루어지고 이렇게 `partition`이 되면 비교 횟수는 원소 `n`개에 대해서 n번, (n-1)번, (n-2)번, ... 이 되므로 시간 복잡도는 <b>O(n<sup>2</sup>)</b>이 된다.
+
+<b>Balanced-partitioning</b>
+
+Worst Case를 알았으니 자연스럽게 Best Case는 두 개의 sub-problem의 크기가 동일한 경우가 된다. 즉 `partition` 과정에서 반반씩 나누게 되는 경우이다. 그러면 `partition` 과정에서 `pivot`을 어떻게 정할 것인가가 중요해진다. 어떻게 정하면 정확히 반반이 아니더라도 균형 잡힌 불할, `balanced-partitioning`을 할 수 있을까? 특정 위치의 원소를 `pivot`으로 설정하지 않고 배열 내의 원소 중에서 임의의 원소를 `pivot`으로 설정하면 입력에 관계없이 일정한 수준의 성능을 얻을 수 있다. 또한 악의적인 입력에 따른 성능 저하를 막을 수 있다.
+
+<b>Partitioning</b>
+
+그렇다면 가장 중요한 `partition`은 어떻게 이루어지는가? 먼저 가장 마지막 원소를 `pivot`으로 설정했다고 가정한다. 이 `pivot`의 값을 기준으로 좌측에는 작은 값, 우측에는 큰 값이 오도록 해야하는데, `pivot`은 움직이지 않는다. 첫번째 원소부터 비교해서 만약 그 값이 `pivot`보다 작다면 그대로 두고, 크다면 맨 마지막 자리의 앞의 원소와 자리를 바꿔준다. `pivot value`의 `index`가 `k`라면 `k-1`번째와 바꾸어 주는 것이다. 이것을 모든 원소에 대해 실행하고 마지막 과정에서 작은 값들이 채워지는 인덱스를 가리키고 있는 값에 1을 더한 `index`값과 `pivot`값을 바꿔준다. 최종적으로 결정될 `pivot`의 인덱스를 `i`라고 하면, 0부터 `i-1`까지는 작은 값이 될 것이고 `i+1`부터 `k`까지는 큰 값이 될 것이다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(log(n)) | O(n log n)|
+
+### non-Comparisons Sorting Algorithm
+
+`Counting Sort`, `Radix Sort`
+
+<b>Counting Sort</b>
+
+Count Sort는 몇 개인지 개수를 세어 정렬하는 방식이다. 정렬하고자 하는 값 중 **최대값에 해당하는 값을 size로 하는 임시 배열**을 만든다. 만들어진 배열의 `index` 중 일부는 정렬하고자 하는 값들이 되므로 그 값에는 그 값들의 <b>개수</b>를 나타낸다. 정렬하고자 하는 값들이 몇 개씩인지 파악하는 임시 배열이 만들어졌다면 이 임시 배열을 기준으로 정렬을 한다. 그 전에 한 가지 작업을 추가적으로 수행해줘야 하는데 큰 `index`부터 시작하여 누적된 값으로 변경해주는 것이다. 이 누적된 값은 정렬하고자 하는 값들이 정렬될 `index` 값을 나타내게 된다. 작업을 마친 임시 배열의 `index`는 정렬하고자 하는 값을 나타내고 value는 정렬하고자 하는 값들이 정렬되었을 때의 index를 나타내게 된다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(n) | O(n)|
+
+<b>Radix Sort</b>
+
+정렬 알고리즘의 한계는 O(n long n)이지만, 기수 정렬은 이 한계를 넘을 수 있는 알고리즘이다. 한 가지 단점이 존재하는데 적용할 수 있는 범위가 제한적이다. 이 범위는 <b>데이터 길이</b>에 의존하게 된다. 정렬하고자 하는 데이터의 길이가 동일하지 않은 데이터에 대해서는 정렬이 불가능하다. 기존 정렬 알고리즘에 비해 좋은 성능을 내는 것이 불가능하다는 것이다. 문자열의 경우도 마찬가지이다.
+
+기수(radix)란 주어진 데이터를 구성하는 기본요소를 의미한다. 이 기수를 이용해서 정렬을 진행하는데, 하나의 기수마다 하나의 버킷을 생성하여 분류를 한 뒤 버킷 안에서 정렬을 하는 방식이다.
+
+기수 정렬은 `LSD(Least Significant Digit)`방식과 `MSD(Most Significant Digit)`방식 두 가지로 나뉜다. LSD는 덜 중요한 숫자부터 정렬하는 방식으로 예를 들어 숫자를 정렬한다고 하면 일의 자리부터 정렬하는 방식이다. MSD는 중요한 숫자부터 정렬하는 방식으로 세 자리 수이면 백의 자리부터 정렬하는 방식이다.
+
+두 가지 방식의 `Big-O`는 동일하다. 하지만 기수정렬을 이야기 할 때는 주로 LSD를 이야기한다. LSD는 중간에 정렬 결과를 볼 수 없다. 일의 자리부터 시작해 마지막 자리까지 모두 정렬이 끝나야 결과를 확인할 수 있다. MSD는 정렬 중간에 정렬이 완성 될 수 있다. 정렬하는데 걸리는 시간을 줄일 수 있지만 정렬이 완료되었는지 확인하는 과정이 필요하고 이 때문에 메모리 사용량이 커진다. 또 상황마다 일관적인 정렬 알고리즘을 사용하여 정렬하는데 적용할 수 없기 때문에 불편하다. 이러한 이유들로 기수 정렬을 논할 때는 대부분 LSD에 대해서 논한다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(n) | O(n)|
+
+### Sorting Algorithm's Complexity 정리
+
+| 알고리즘 | 공간 복잡도 | (평균)시간 복잡도 | (최악)시간 복잡도 |
+|:--:|:--:|:--:|:--:|
+| Bubble sort | O(1) | O(n<sup>2</sup>) | O(n<sup>2</sup>) |
+| Selection sort | O(1) | O(n<sup>2</sup>) | O(n<sup>2</sup>) |
+| Insertion sort | O(1) | O(n<sup>2</sup>) | O(n<sup>2</sup>) |
+| Merge sort | O(n) | O(n log n) | O(n log n) |
+| Heap sort | O(1) | O(n log n) | O(n log n) |
+| Quick sort | O(1) | O(n log n ) | O(n<sup>2</sup>) |
+| Count sort | O(n) | O(n) | O(n) |
+| Radix sort | O(n) | O(n) | O(n) |
+
+---
+
+## Prime Number Algorithm
+
+소수란 양의 약수를 딱 두 개만 갖는 자연수를 소수라 부른다. 2, 3, 5, 7, 11, ...이 그러한 수들인데, 소수를 판별하는 방법으로 어떤 수 N이 소수인지 판별하기 위해서는 N을 2부터 N-1까지 나누어서 나머지가 0인 경우를 검사하는 방법과 `에라토스테네스의 체`를 사용할 수 있다.
+
+### 에라토스테네스의 체 [Eratosthenes' sieve]
+
+`에라토스테네스의 체(Eratosthenes' sieve)`는, 임의의 자연수에 대하여, 그 자연수 이하의 `소수(prime number)`를 모두 찾아주는 방법이다. 입자의 크기가 서로 다른 가루들을 섞어 체에 거르면 특정 크기 이하의 가루들은 아래로 떨어지고, 그 이상의 것들만 체에 남는 것처럼, 에라토스테네스의 체를 사용하면 특정 자연수 이하의 합성수는 다 지워지고 소수들만 남는 것이다.
+
+`100`이하의 소수를 찾는다고 가정할 때, `1`부터 `100`까지의 자연수를 모두 나열한 후 먼저 소수도 합성수도 아닌 `1`을 지우고, `2`를 제외한 `2`의 배수들을 다 지우고, `3`을 제외한 `3`의 배수들을 지우고, `5`를 제외한 `5`의 배수들을 지우는 등의 과정을 `100`의 제곱근인 `10`이하의 소수들에 대해서 반복하면, 남은 수들이 구하고자 하는 소수들이다.
+
+| Space Complexity | Time Complexity |
+|:---:|:---:|
+| O(n) | O(log(logn))|
+
+---
+
+**Time Complexity**
+
+O(1) < O(log N) < O(N) < O(N log N) < O(N<sup>2</sup>) < O(N<sup>3</sup>)
+
+O(2<sup>N</sup>) : 크기가 N인 집합의 부분 집합
+
+O(N!) : 크기가 N인 순열
+
+---
+**Reference**
++ [How to Rock an Algorithm Interview](web.archive.org/web/20110929132042/https://blog.palantir.com/2011/09/26/how-to-rock-an-algorithm-interview/)
++ [Interview Question for Biginner](https://github.com/JaeYeopHan/Interview_Question_for_Beginner/)
++ [프로그래밍 대회에서 배우는 알고리즘 문제 해결 전략](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788966260546&orderClick=LEa&Kc=)
