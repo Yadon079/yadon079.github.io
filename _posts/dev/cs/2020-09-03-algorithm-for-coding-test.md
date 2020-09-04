@@ -178,6 +178,8 @@ Sorting 알고리즘은 크게 Comparisons 방식과 Non-Comparisons 방식으�
 
 ### Bubble Sorting
 
+[더 알아보기](https://yadon079.github.io/2020/cs/bubble-sort)
+
 `n`개의 원소를 가진 배열을 정렬할 때, `In-place Sort`로 인접한 두 개의 데이터를 비교해가면서 정렬을 진행하는 방식이다. 가장 큰 값을 배열의 맨 끝에다 이동시키면서 정렬하고자 하는 원소의 개수 만큼을 두 번 반복하게 된다.
 
 | Space Complexity | Time Complexity |
