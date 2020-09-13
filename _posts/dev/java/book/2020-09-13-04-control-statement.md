@@ -14,7 +14,7 @@ comments: true
 > 이 글은 남궁성님의 [자바의 정석 3/e](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788994492032)을 기반으로 공부한 내용을 정리한 글입니다.
 
 + [조건문](#조건문-if-switch)
-+ [반복문](#논리-연산자)
++ [반복문](#반복문-for-while-do-while)
 
 ## 조건문 if switch
 
@@ -159,3 +159,130 @@ switch문의 조건식은 결과값이 반드시 정수이어야 하며, 이 값
 <span style="font-size:13px;">
 <b>| 참고 | JDK1.7이전에는 switch문의 조건식에 문자열이 허용되지 않았다.</b><br/>
 </span>  
+
+<p style="color:#a0adec"><b>switch문의 중첩</b></p>
+
+`if`문처럼 `switch`문도 중첩이 가능하다. `break`문을 빼먹지 않도록 주의해야한다.
+
+```java
+import java.util.*;
+
+class Flow {
+  public static void main(String[] args) {
+    System.out.print("당신의 주민번호를 입력해주세요. >");
+
+    Scanner sc = new Scanner(System.in);
+    String regNo = sc.nextLine();
+    char gender = regNo.charAt(7);
+
+    switch(gender) {
+      case '1' : case '3' :
+        switch(gender) {
+          case '1' :
+            System.out.println("2000년 이전 출생 남자입니다.");
+            break;
+          case '3' :
+            System.out.println("2000년 이후 출생 남자입니다.");
+        }
+        break;
+      case '2' : case '4' :
+        switch(gender) {
+          case '2' :
+            System.out.println("2000년 이전 출생 여자입니다.");
+            break;
+          case '4' :
+            System.out.println("2000년 이후 출생 여자입니다.");
+        }
+        break;
+      default :
+        System.out.println("유효하지 않은 주민번호입니다.");
+    }
+  }
+}
+```
+
+## 반복문 for while do-while
+
+반복문은 어떤 작업이 반복적으로 수행되도록 할 때 사용되며, 반복문의 종류로는 `for`문, `while`문, 그리고 `while`문의 변형인 `do-while`문이 있다.
+
+`for`문이나 `while`문에 속한 문장은 조건에 따라 한 번도 수행되지 않을 수 있지만, `do-while`문은 최소 한 번의 수행을 보장한다. 반복문은 주어진 조건을 만족하는 동안 반복 수행하므로 조건문을 포함하며, 조건식이 true이면 참, false이면 거짓로 간주한다.
+
+`for`문과 `while`문은 구조와 기능이 유사하여 어느 경우에나 서로 변환이 가능하다.
+
+### 2.1 for문
+
+`for`문은 주로 반복 횟수를 알고 있을 때 적합하다. 구조가 조금 복잡하지만 직관적이라 오히려 이해하기 쉽다.
+
+```java
+  for(int i = 1; i <= 5; i++) {
+    System.out.println("I can do it");
+  }
+```
+
+변수 `i`에 1을 저장한 다음, 매 반복마다 `i`의 값을 1씩 증가시킨다. 그러다가 `i`의 값이 5를 넘으면 조건식 `i <= 5`가 거짓이 되어 반복을 마친다. `i`의 값이 1부터 5까지 1씩 증가하므로 5번 반복한다.
+
+<p style="color:#a0adec"><b>for문의 구조와 수행순서</b></p>
+
+`for`문은 '초기화', '조건식', '증감식', '블럭 { }' 모두 4부분으로 이루어져 있으며, 조건식이 참인 동안 블럭 내의 문장들을 반복하다 거짓이 되면 반복문을 벗어난다.
+
+```java
+  for(초기화; 조건식; 증감식) {
+    // 조건식이 참일 때
+  }
+```
+
+<span style="font-size:13px;">
+<b>| 참고 | 반복하려는 문장이 단 하나일 때는 괄호 { }를 생략할 수 있다.</b><br/>
+</span>  
+
+<p style="color:#a0adec"><b>초기화</b></p>
+
+반복문에 사용될 변수를 초기화하는 부분이며 처음에 한번만 수행된다. 보통 변수 하나로 `for`문을 제어하지만, 둘 이상의 변수가 필요할 때는 콤마 `,`를 구분자로 변수를 초기화하면 된다. 단, 두 변수의 타입은 같아야 한다.
+
+<p style="color:#a0adec"><b>조건식</b></p>
+
+조건식의 값이 `true`면 반복을 계속하고 `false`면 반복을 중단하고 for문을 벗어난다. `for`의 뜻이 '~하는 동안'이므로 조건식이 '참인 동안' 반복을 계속한다고 생각하면 된다.
+
+조건식을 잘못 작성하면 블럭 { } 내의 문장이 한 번도 수행하지 않거나 영원히 반복되는 무한반복에 빠지기 쉬우니 주의해야 한다.
+
+<p style="color:#a0adec"><b>증감식</b></p>
+
+반복문을 제어하는 변수의 값을 증가 또는 감소시키는 식이다. 매 반복마다 변수의 값이 증감식에 의해서 변하다가 조건식이 거짓이 되면서 `for`문을 벗어나게 된다. 변수의 값을 1씩 증가시키는 연산자 `++`이 증감식에 주로 사용된다.
+
+증감식도 쉼표를 이용해서 두 문장 이상을 하나로 연결해서 쓸 수 있다.
+
+<p style="color:#a0adec"><b>중첩 for문</b></p>
+
+`for`문 안에 또 다른 `for`문을 포함시키는 것이 가능하다. 그리고 중첩의 횟수는 거의 제한이 없다.
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    for(int i = 1; i <= 5; i++) {
+      for(int j = 1; j <= 10; j++) {
+        System.out.print("*");
+      }
+      System.out.println();
+    }
+  }
+}
+```
+
+중첩 `for`문의 예제로 대표적인 별을 찍는 예제이다. 위의 예제는 사각형 모양의 별이 출력되는데 삼각형 모양의 별을 출력하는 예제는 다음과 같다.
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    for(int i = 0; i < 5; i++) {
+      for(int j = 0; j <= i; j++) {
+        System.out.print("*");
+      }
+      System.out.println();
+    }
+  }
+}
+```
+
+사각형일 때와 다르게 조건식에 숫자 대신 변수 `i`를 넣고 `i`값이 증가하는 `for`문 안에 넣었다.
+
+<p style="color:#a0adec"><b>향상된 for문(enhanced for statement)</b></p>
