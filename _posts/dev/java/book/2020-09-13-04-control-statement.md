@@ -5,7 +5,7 @@ title: "조건문과 반복문 if, switch, for, while statement"
 description: "자바의 정석"
 subject: java의 정석
 category: [ java ]
-tags: [ java, variable]
+tags: [ java, control statement]
 comments: true
 ---
 
@@ -201,6 +201,8 @@ class Flow {
 }
 ```
 
+[위로](#조건문과-반복문)
+
 ## 반복문 for while do-while
 
 반복문은 어떤 작업이 반복적으로 수행되도록 할 때 사용되며, 반복문의 종류로는 `for`문, `while`문, 그리고 `while`문의 변형인 `do-while`문이 있다.
@@ -286,3 +288,212 @@ class Flow {
 사각형일 때와 다르게 조건식에 숫자 대신 변수 `i`를 넣고 `i`값이 증가하는 `for`문 안에 넣었다.
 
 <p style="color:#a0adec"><b>향상된 for문(enhanced for statement)</b></p>
+
+JDK 1.5부터 배열과 컬렉션에 저장된 요소에 접근할 때 기존보다 편리한 방법으로 처리할 수 있도록 for문의 새로운 문법이 추가되었다.
+
+```java
+  for(타입 변수명 : 배열 또는 컬렉션) {
+    // 반복할 문장
+  }
+```
+
+타입은 배열 또는 컬렉션의 요소의 타입이어야 한다. 배열 또는 컬렉션에 저장된 값이 매 반복마다 하나씩 순서대로 읽혀서 변수에 저장된다. 반복문의 괄호 { }내에서는 이 변수를 사용해서 코드를 작성한다.
+
+향상된 `for`문은 `for`문보다 간결하나, 배열이나 컬렉션에 저장된 요소들을 읽어오는 용도로만 사용할 수 있다.
+
+### 2.2 while문
+
+`for`문에 비해 `while`문은 구조가 간단하다. `if`문처럼 조건식과 블럭 { }만으로 이루어져 있다. 다만 `if`문과 달리 `while`문은 조건식이 `true`인 동안, 즉 조건식이 거짓이 될 때까지 블럭 내의 문장을 반복한다.
+
+```java
+  while(조건식) {
+    // 조건식의 연산결과가 true인 동안
+  }
+```
+
+`while`문은 먼저 조건식을 평가해서 조건식이 거짓이면 문장 전체를 벗어나고, 참이면 블럭 { } 내의 문장을 수행하고 다시 조건식으로 돌아간다. 거짓이 될 때까지 계속 반복된다.
+
+<p style="color:#a0adec"><b>for문과 while문의 비교</b></p>
+
+1부터 10까지의 정수를 순서대로 출력하는 `for`문과 `while`문을 비교했다.
+
+```java
+  for(int i = 1; i < 11; i++) {
+    System.out.println(i);
+  }
+```
+
+```java
+  int i = 1;
+
+  while(i < 11) {
+    System.out.println(i);
+    i++;
+  }
+```
+
+위의 두 코드는 동일하다. `for`문은 초기화, 조건식, 증감식을 한 곳에 모아 놓은 것일 뿐, `while`문과 다르지 않다. 만일 초기화나 증감식이 필요하지 않은 경우라면, `while`문이 더 적합하다.
+
+<p style="color:#a0adec"><b>while문의 조건식은 생략불가</b></p>
+
+`while`문은 `for`문과 달리 조건식을 생략할 수 없다. `while`문의 조건식이 항상 참이 되도록 하려면 반드시 `true`를 넣어야한다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 무한 반복문은 반드시 블럭 { } 안에 조건문을 넣어서 특정 조건을 만족하면 무한 반복문을 벗어나도록 해야 한다.</b><br/>
+</span>  
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    int i = 5;
+
+    while(i-- != 0) {
+      System.out.println(i);
+    }
+  }
+}
+```
+
+변수 `i`의 값만큼 블럭 { }을 반복하는 예제이다. i의 값이 5이므로 5번(4 ~ 0) 출력된다. 조건식이 `i-- != 0`인데 `i`의 값이 0이 아닌 동안 true이고, 0이 되는 순간 `while`문을 벗어난다.
+
+`i--`는 후위형이므로 조건식이 평가된 후 `i`의 값이 감소된다. `i`값이 1일 때 조건식을 참으로 판단하고 `i`의 값을 1 감소시켜 0으로 만든 뒤 출력한다. 즉, 아래 코드와 같다.
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    int i = 5;
+
+    while(i != 0) {
+      i--;
+      System.out.println(i);
+    }
+  }
+}
+```
+
+반대로 `--i`와 같은 전위형은 감소 연산자가 조건식에서 분리되면 전혀 다른 문장이 된다.
+
+```java
+  while(--i != 0) {
+    System.out.println(i);
+  }
+```
+
+```java
+  --i;
+  while(i != 0) {
+    System.out.println(i);
+  }
+```
+
+위와 같이 `i`가 감소된 후 출력이 되기 때문에 후위형과 다르게 0이 출력되지 않는다.
+
+### 2.3 do-while문
+
+`do-while`문은 `while`문의 변형으로 기본적인 구조는 `while`문과 같으나 조건식과 블럭 { }의 순서를 바꿔놓은 것이다. 그래서 `while`문과 반대로 블럭 { }이 먼저 수행한 후에 조건식을 평가한다. 따라서 최소한 한번은 수행될 것을 보장한다.
+
+```java
+  do {
+    // 조건식의 연산결과가 true일 때
+  } while(조건식);
+```
+
+반복적으로 사용자의 입력을 받아서 처리할 때 유용하다.
+
+```java
+import java.util.*;
+
+class Flow {
+  public static void main(String[] args) {
+    int input = 0, answer = 0;
+
+    answer = (int)(Math.random() * 100) + 1;
+    Scanner sc = new Scanner(System.in);
+
+    do {
+      System.out.print("1과 100 사이의 정수를 입력하세요. >");
+      input = sc.nextInt();
+
+      if(input > answer) {
+        System.out.println("더 작은 수로 다시 시도해보세요.");
+      } else if(input < answer) {
+        System.out.println("더 큰 수로 다시 시도해보세요.");
+      }
+    } while(input != answer);
+
+    System.out.println("정답입니다.")
+  }
+}
+```
+
+임의의 수를 맞추는 예제이다. 사용자 입력 `input`과 변수 `answer`가 같으면 반복을 종료한다.
+
+### 2.4 break문
+
+`switch`문에서 `break`문을 사용한 것처럼 반복문에서도 `break`문을 사용할 수 있다. 자신이 포함된 가장 가까운 반복문을 벗어나게 하는데, 주로 `if`문과 함께 사용되어 특정 조건을 만족할 때 쓰인다.
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    int sum = 0;
+    int i = 0;
+
+    while(true) {
+      if(sum > 100) break;
+      ++i;
+      sum += i;
+    }
+
+    System.out.println("i = " + i);
+    System.out.println("sum = " + sum);
+  }
+}
+```
+
+1부터 계속 더해 나가서 몇까지 더하면 합이 100을 넘는지 알아내는 예제이다. `sum`이 100을 넘으면 `break`문이 수행되어 반복문을 벗어난다.
+
+<span style="font-size:13px;">
+<b>| 참고 | <code>sum += i;</code>와 <code>++i;</code> 두 문장을 <code>sum += ++i;</code>와 같이 한 문장으로 줄여 쓸 수 있다.</b><br/>
+</span>  
+
+### 2.5 continue문
+
+`continue`문은 반복문 내에서만 사용될 수 있으며, 반복이 진행되는 도중에 `continue`문을 만나면 반복문의 끝으로 이동하여 다음 반복으로 넘어간다. `for`문의 경우 증감식으로 이동하며, `while`문과 `do-while`문은 조건식으로 이동한다.
+
+`continue`문은 반복문 전체를 벗어나지 않고 다음 반복을 계속한다는 점에서 `break`문과 다르다. `if`문과 함께 사용되어 특정 조건을 만족하는 경우에 `continue`문 이후의 문장들을 수행하지 않고 다음 반복으로 넘어가서 계속 진행하도록 한다. 특정 조건을 만족하는 경우를 제외하고자 할 때 유용하다.
+
+```java
+class Flow {
+  public static void main(String[] args) {
+    for(int i = 0; i <= 10; i++) {
+      if(i % 3 == 0) continue;
+      System.out.println(i);
+    }
+  }
+}
+```
+
+1에서 10까지 출력하되 3의 배수는 제외하는 예제이다. `i`의 값이 3의 배수인 경우, `if`문의 조건식이 `true`가 되어 `continue`문에 의해 반복문의 블럭 끝으로 이동한다.
+
+### 2.6 이름 붙은 반복문
+
+`break`문은 근접한 단 하나의 반복문만 벗어날 수 있기 때문에, 여러 개의 반복문이 중첩된 경우에는 `break`문으로 완전히 벗어날 수 없다. 이때는 중첩 반복문 앞에 이름을 붙이고 `break`문이나 `continue`문에 이름을 지정해서 하나 이상의 반복문을 벗어나거나 반복을 건너뛸 수 있다.
+
+```java
+  outer:
+  while(true) {
+    ...
+    for(;;) {
+      ...
+      if(num == 0)
+        break;
+      if(num == 99)
+        break outer;
+      ...
+    } // for(;;)
+  } // while(true)
+```
+
+이름을 지정해준 `break`문은 지정된 이름의 반복문을 벗어나고 지정하지 않은 `break`문은 가장 가까운 반복문을 벗어난다.
+
+[위로](#조건문과-반복문)
