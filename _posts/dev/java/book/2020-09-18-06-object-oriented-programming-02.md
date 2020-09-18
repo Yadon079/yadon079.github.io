@@ -20,6 +20,6 @@ comments: true
 
 ## 변수와 메서드
 
-[이전 편](/_posts/dev/java/book/2020-09-16-06-object-oriented-programming-01.md)
+[이전 편](/2020/java/06-object-oriented-programming-01)
 
 ### 3.11 클래스 메서드(static메서드)와 인스턴스 메서드
