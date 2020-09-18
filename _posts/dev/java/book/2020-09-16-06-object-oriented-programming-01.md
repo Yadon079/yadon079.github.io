@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2020-09-16 13:24:00
-title: "객체지향 프로그래밍 I"
+title: "객체지향 프로그래밍 I 1편"
 description: "자바의 정석"
 subject: java의 정석
 category: [ java ]
