@@ -130,7 +130,7 @@ comments: true
 
 클래스를 상속관계를 맺어 줄 것인지 포함관계를 맺어 줄 것인지 결정하는 것은 때때로 혼란스럽다. 그럴 때는 문장을 만들어보면 보다 명확해 진다.
 
-<table style="width:100%; background-color:#3a3c3e; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
     <td style="border:0">
       원(Circle)은 점(Point)<b>이다.</b> - Circle <b>is a</b> Point.<br/>
