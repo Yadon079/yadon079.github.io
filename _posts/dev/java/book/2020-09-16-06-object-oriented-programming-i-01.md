@@ -9,7 +9,7 @@ tags: [ java, class, method]
 comments: true
 ---
 
-# 객체지향 프로그래밍
+# 객체지향 프로그래밍 I
 
 > 이 글은 남궁성님의 [자바의 정석 3/e](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788994492032)을 기반으로 공부한 내용을 정리한 글입니다.
 
@@ -125,7 +125,7 @@ JDK에서는 프로그래밍을 위해 많은 수의 유용한 클래스(Java AP
 
 프로그래밍언어에서 제공하는 자료형(primitive type)외에 프로그래머가 서로 관련된 변수들을 묶어서 하나의 타입으로 새로 추가하는 것을 사용자정의 타입(user-defined type)이라고 한다. 객체지향언어에서는 클래스가 곧 사용자 정의 타입이다. 기본형의 개수는 8개로 정해져 있지만 참조형의 개수가 정해져 있지 않은 이유는 프로그래머가 새로운 타입을 추가할 수 있기 때문이다.
 
-[위로](#객체지향-프로그래밍)
+[위로](#객체지향-프로그래밍-i)
 
 ## 변수와 메서드
 
@@ -495,8 +495,8 @@ class Factorial {
 
 `factorial`메서드가 `static`메서드이므로 인스턴스를 생성하지 않고 직접 호출할 수 있다. 그리고 `main`메서드와 같은 클래스에 있기 때문에 `static`메서드를 호출할 때 클래스이름을 생략하는 것이 가능하다.
 
-[위로](#객체지향-프로그래밍)
+[위로](#객체지향-프로그래밍-i)
 
 ### 3.11 클래스 메서드(static메서드)와 인스턴스 메서드
 
-[다음 편](/2020/java/06-object-oriented-programming-02)
+[다음 편](/2020/java/06-object-oriented-programming-i-02)
