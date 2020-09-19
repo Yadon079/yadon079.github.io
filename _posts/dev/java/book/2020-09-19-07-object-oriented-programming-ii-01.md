@@ -132,7 +132,7 @@ comments: true
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0">
+    <td style="border:0; padding:10px">
       원(Circle)은 점(Point)<b>이다.</b> - Circle <b>is a</b> Point.<br/>
       원(Circle)은 점(Point)을 <b>가지고 있다.</b> - Circle <b>has a</b> Point.<br/>
     </td>
