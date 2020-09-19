@@ -132,7 +132,7 @@ comments: true
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px">
+    <td style="border:0; padding:10px; font-size:15px">
       원(Circle)은 점(Point)<b>이다.</b> - Circle <b>is a</b> Point.<br/>
       원(Circle)은 점(Point)을 <b>가지고 있다.</b> - Circle <b>has a</b> Point.<br/>
     </td>
@@ -166,9 +166,9 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 접근제어자(access modifier)와 예외(exception)는 제한된 조건 하에서 다르게 변경할 수 있다.
 
-1. <b>접근 제어자는 조상 클래스의 메서드보다 좁은 범위로 변경 할 수 없다.</b>
+1. <b>접근 제어자는 조상 클래스의 메서드보다 좁은 범위로 변경 할 수 없다.</b>   
 만일 조상 클래스에 정의된 메서드의 접근 제어자가 protected라면, 이를 오버라이딩하는 자손 클래스의 메서드는 접근 제어자가 protected나 public이어야 한다. 대부분의 경우 같은 범위의 접근 제어자를 사용한다.<br/>
-2. <b>조상클래스의 메서드보다 많은 수의 예외를 선언할 수 없다.</b>
+2. <b>조상클래스의 메서드보다 많은 수의 예외를 선언할 수 없다.</b>   
 주의할 점은 `throws Exception`의 경우 `Exception`이 모든 예외의 최고 조상이므로 하나를 선언한 것처럼 보이지만 가장 많은 개수의 예외를 던질 수 있도록 선언한 것이다.
 3. <b>인스턴스메서드를 static메서드로 또는 그 반대로 변경할 수 없다.</b>
 
