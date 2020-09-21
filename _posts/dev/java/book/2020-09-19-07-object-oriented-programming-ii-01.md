@@ -198,7 +198,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
+    <td style="border:0; padding:10px; padding-left:48px; font-size:15px; color:white">
       Object 클래스를 제외한 모든 클래스의 생성자 첫 줄에 생성자, this() 또는 super(),를 호출해야 한다. 그렇지 않으면 컴파일러가 자동적으로 'super();'를 생성자의 첫 줄에 삽입한다.
     </td>
   </tr>   
@@ -310,8 +310,8 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
     <td style="border:0; padding:10px; font-size:15px; color:white">
-      <b>접근 제어자</b> public, protected, default, private<br/>
-      <b>그 외</b> static, final, abstract, native, transient, synchronized, volatile, strictfp<br/>
+      &nbsp;&nbsp;&nbsp;<b>접근 제어자</b> public, protected, default, private<br/>
+      &nbsp;&nbsp;&nbsp;<b>그 외</b> static, final, abstract, native, transient, synchronized, volatile, strictfp<br/>
     </td>
   </tr>   
 </table>
@@ -326,7 +326,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
     <td style="border:0; padding:10px; font-size:15px; color:white">
-      <b>static이 사용될 수 있는 곳 - 멤버변수, 메서드, 초기화 블럭</b><br/>
+      &nbsp;&nbsp;&nbsp;<b>static이 사용될 수 있는 곳 - 멤버변수, 메서드, 초기화 블럭</b><br/>
     </td>
   </tr>   
 </table>
@@ -349,7 +349,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
     <td style="border:0; padding:10px; font-size:15px; color:white">
-      <b>final이 사용될 수 있는 곳 - 클래스, 메서드, 멤버변수, 지역변수</b><br/>
+      &nbsp;&nbsp;&nbsp;<b>final이 사용될 수 있는 곳 - 클래스, 메서드, 멤버변수, 지역변수</b><br/>
     </td>
   </tr>   
 </table>
@@ -388,3 +388,55 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <br/>
 추상 클래스는 아직 완성되지 않은 메서드가 존재하는 '미완성 설계도'이므로 인스턴스를 생성할 수 없다.
+
+### 4.5 접근 제어자(access modifier)
+
+접근 제어자는 멤버 또는 클래스에 사용되어, 해당하는 멤버 또는 클래스를 외부에서 접근하지 못하도록 제한하는 역할을 한다.
+
+<table style="width:100%; background-color:#3a3c42; border:0">
+  <tr style="border:0">
+    <td style="border:0; padding:10px; font-size:15px; color:white">
+      &nbsp;&nbsp;&nbsp;<b>접근 제어자가 사용될 수 있는 곳 - 클래스, 멤버변수, 메서드, 생성자</b><br/>
+      &nbsp;&nbsp;&nbsp;<b>private</b> 같은 클래스 내에서만 접근이 가능하다.<br/>
+      &nbsp;&nbsp;&nbsp;<b>default</b> 같은 패키지 내에서만 접근이 가능하다.<br/>
+      &nbsp;&nbsp;&nbsp;<b>protected</b> 같은 패키지 내에서, 다른 패키지의 자손클래스에서 접근이 가능하다.<br/>
+      &nbsp;&nbsp;&nbsp;<b>public</b> 접근 제한이 없다.<br/>
+    </td>
+  </tr>   
+</table>
+<br/>
+
+|제어자|같은 클래스|같은 패키지|자손클래스|전체|
+|:---:|:---:|:---:|:---:|:---:|
+|public|가능|가능|가능|가능|
+|protected|가능|가능|가능||
+|public|가능|가능|||
+|public|가능||||
+
+<br/>
+<span style="font-size:13px;">
+<b>| 참고 | 접근 제어자가 default라는 것은 아무런 접근 제어자도 붙이지 않는 것을 의미한다.</b><br/>
+</span>
+
+|대상|<center>사용가능한 접근 제어자|
+|:---:|:---|
+|클래스|public, (default)|
+|메서드<br/>멤버변수|public, protected, (default), private|
+|지역변수|없음|
+
+<br/>
+<p style="color:#a0adec"><b>접근 제어자를 이용한 캡슐화</b></p>
+
+주로 멤버에 접근 제어자를 사용하는 이유는 클래스의 내부에 선언된 데이터를 보호하기 위해서이다. 데이터가 유효한 값을 유지하도록, 또는 비밀번호와 같은 데이터를 외부에서 변형하지 못하도록 하기 위해서는 외부로부터의 접근을 제한하는 것이 필요하다.   
+이것을 데이터 감추기(data hiding)라고 하며, 객체지향개념의 캡슐화(encapsulation)에 해당하는 내용이다.
+
+<table style="width:100%; background-color:#3a3c42; border:0">
+  <tr style="border:0">
+    <td style="border:0; padding:10px; font-size:15px; color:white">
+      &nbsp;&nbsp;&nbsp;<b>접근 제어자를 사용하는 이유</b><br/>
+      &nbsp;&nbsp;&nbsp;<b>- 외부로부터 데이터를 보호하기 위해서</b><br/>
+      &nbsp;&nbsp;&nbsp;<b>- 외부에는 불필요한, 내부적으로만 사용되는, 부분을 감추기 위해서</b>
+    </td>
+  </tr>   
+</table>
+<br/>
