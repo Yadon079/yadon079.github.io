@@ -132,7 +132,7 @@ comments: true
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       원(Circle)은 점(Point)<b>이다.</b> - Circle <b>is a</b> Point.<br/>
       원(Circle)은 점(Point)을 <b>가지고 있다.</b> - Circle <b>has a</b> Point.<br/>
     </td>
@@ -207,7 +207,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       <b>1. 클래스</b> - 어떤 클래스의 인스턴스를 생성할 것인가?<br/>
       <b>2. 생성자</b> - 선택한 클래스의 어떤 생성자를 이용해서 인스턴스를 생성할 것인가?<br/>
     </td>
@@ -309,9 +309,9 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
-      &nbsp;&nbsp;&nbsp;<b>접근 제어자</b> public, protected, default, private<br/>
-      &nbsp;&nbsp;&nbsp;<b>그 외</b> static, final, abstract, native, transient, synchronized, volatile, strictfp<br/>
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>접근 제어자</b> public, protected, default, private<br/>
+      <b>그 외</b> static, final, abstract, native, transient, synchronized, volatile, strictfp<br/>
     </td>
   </tr>   
 </table>
@@ -325,8 +325,8 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
-      &nbsp;&nbsp;&nbsp;<b>static이 사용될 수 있는 곳 - 멤버변수, 메서드, 초기화 블럭</b><br/>
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>static이 사용될 수 있는 곳 - 멤버변수, 메서드, 초기화 블럭</b><br/>
     </td>
   </tr>   
 </table>
@@ -348,8 +348,8 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
-      &nbsp;&nbsp;&nbsp;<b>final이 사용될 수 있는 곳 - 클래스, 메서드, 멤버변수, 지역변수</b><br/>
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>final이 사용될 수 있는 곳 - 클래스, 메서드, 멤버변수, 지역변수</b><br/>
     </td>
   </tr>   
 </table>
@@ -374,7 +374,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       <b>abstract이 사용될 수 있는 곳 - 클래스, 메서드</b><br/>
     </td>
   </tr>   
@@ -395,12 +395,12 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
-      &nbsp;&nbsp;&nbsp;<b>접근 제어자가 사용될 수 있는 곳 - 클래스, 멤버변수, 메서드, 생성자</b><br/>
-      &nbsp;&nbsp;&nbsp;<b>private</b> 같은 클래스 내에서만 접근이 가능하다.<br/>
-      &nbsp;&nbsp;&nbsp;<b>default</b> 같은 패키지 내에서만 접근이 가능하다.<br/>
-      &nbsp;&nbsp;&nbsp;<b>protected</b> 같은 패키지 내에서, 다른 패키지의 자손클래스에서 접근이 가능하다.<br/>
-      &nbsp;&nbsp;&nbsp;<b>public</b> 접근 제한이 없다.<br/>
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>접근 제어자가 사용될 수 있는 곳 - 클래스, 멤버변수, 메서드, 생성자</b><br/>
+      <b>private</b> 같은 클래스 내에서만 접근이 가능하다.<br/>
+      <b>default</b> 같은 패키지 내에서만 접근이 가능하다.<br/>
+      <b>protected</b> 같은 패키지 내에서, 다른 패키지의 자손클래스에서 접근이 가능하다.<br/>
+      <b>public</b> 접근 제한이 없다.<br/>
     </td>
   </tr>   
 </table>
@@ -432,11 +432,50 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; font-size:15px; color:white">
-      &nbsp;&nbsp;&nbsp;<b>접근 제어자를 사용하는 이유</b><br/>
-      &nbsp;&nbsp;&nbsp;<b>- 외부로부터 데이터를 보호하기 위해서</b><br/>
-      &nbsp;&nbsp;&nbsp;<b>- 외부에는 불필요한, 내부적으로만 사용되는, 부분을 감추기 위해서</b>
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>접근 제어자를 사용하는 이유</b><br/>
+      <b>- 외부로부터 데이터를 보호하기 위해서</b><br/>
+      <b>- 외부에는 불필요한, 내부적으로만 사용되는, 부분을 감추기 위해서</b>
     </td>
   </tr>   
 </table>
 <br/>
+
+멤버변수의 값을 읽는 메서드의 이름을 `get멤버변수이름`으로 하고, 멤버변수의 값을 변경하는 메서드의 이름을 `set멤버변수이름`으로 한다. `get`으로 시작하는 메서드는 '겟터(getter)', `set`으로 시작하는 메서드는 '세터(setter)'라고 부른다.
+
+<p style="color:#a0adec"><b>생성자의 접근 제어자</b></p>
+
+생성자에 접근 제어자를 사용해 인스턴스의 생성을 제한할 수 있다. 생성자의 접근 제어자를 `private`으로 지정하면, 외부에서 생성자에 접근할 수 없으므로 인스턴스를 생성할 수 없게 된다. 클래스 내부에서는 인스턴스를 생성할 수 있다.
+
+인스턴스를 생성해서 반환해주는 `public`메서드를 제공함으로써 외부에서 이 클래스의 인스턴스를 '사용'하도록 할 수 있다. 이 메서드는 `public`인 동시에 `static`이어야 한다.
+
+생성자가 `private`인 클래스는 조상 클래스가 될 수 없다. 자손 클래스가 인스턴스를 생성할 때 조상 클래스의 생성자를 호출할 수 없기 때문이다.
+
+### 4.6 제어자(modifier)의 조합
+
+|대상|<center>사용가능한 접근 제어자|
+|:---:|:---|
+|클래스|public, (default), final, abstract|
+|메서드|모든 접근 제어자, final, abstract, static|
+|멤버변수|모든 접근 제어자, final, static|
+|지역변수|final|
+
+<p style="color:#a0adec"><b>제어자를 조합해서 사용할 때 주의해야 할 사항</b></p>
+
+<table style="width:100%; background-color:#3a3c42; border:0">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>1. 메서드에 static과 abstract를 함께 사용할 수 없다.</b><br/>
+      static메서드는 몸통이 있는 메서드에만 사용할 수 있다.<br/>
+      <b>2. 클래스에 abstract와 final을 동시에 사용할 수 없다.</b><br/>
+      final은 클래스를 확장할 수 없다는 의미이고, abstract은 상속을 통해 완성되어야 한다는 의미이므로 서로 모순된다.
+      <b>3. abstract메서드의 접근 제어자가 private일 수 없다.</b><br/>
+      abstract메서드는 자손클래스에서 구현해야하는데 접근 제어자가 private이면 자손클래스에서 접근할 수 없다.
+      <b>4. 메서드에 private과 final을 같이 사용할 필요는 없다.</b><br/>
+      접근 제어자가 private인 메서드는 오버라이딩될 수 없다. 하나만 사용해도 의미가 충분하다.
+    </td>
+  </tr>   
+</table>
+<br/>
+
+[위로](#객체지향-프로그래밍-ii)
