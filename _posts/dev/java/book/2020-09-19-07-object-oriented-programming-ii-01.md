@@ -198,7 +198,7 @@ Object클래스는 모든 클래스 상속계층도의 최상위에 있는 조�
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:10px; padding-left:48px; font-size:15px; color:white">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       Object 클래스를 제외한 모든 클래스의 생성자 첫 줄에 생성자, this() 또는 super(),를 호출해야 한다. 그렇지 않으면 컴파일러가 자동적으로 'super();'를 생성자의 첫 줄에 삽입한다.
     </td>
   </tr>   
