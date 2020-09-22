@@ -177,14 +177,73 @@ comments: true
 
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
-    <td style="border:0; padding:14px; padding-left:32px; font-size:14px; color:white">
-      <b>추상</b>
-    </td>
-    <td style="border:0; padding:14px; padding-right:32px; font-size:14px; color:white">
-      낱낱의 구체적 표상이나 개념에서 공통된 성질을 뽑아 이를 일반적인 개념으로 파악하는 정신 작용
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>추상</b> 낱낱의 구체적 표상이나 개념에서 공통된 성질을 뽑아 이를 일반적인 개념으로 파악하는 정신 작용
     </td>
   </tr>   
 </table>
-<br/>
 
 상속이 자손 클래스를 만드는데 조상 클래스를 사용하는 것이라면, 추상화는 기존 클래스의 공통부분을 뽑아내서 조상 클래스를 만드는 것이다.
+
+<table style="width:100%; background-color:#3a3c42; border:0">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; font-size:14px; color:white">
+      <b>추상화</b> 클래스간의 공통점을 찾아내서 공통의 조상을 만드는 작업<br/>
+      <b>구체화</b> 상속을 통해 클래스를 구현, 확장하는 작업
+    </td>
+  </tr>   
+</table>
+
+## 인터페이스 interface
+
+### 7.1 인터페이스란?
+
+인터페이스는 일종의 추상클래스이다. 인터페이스는 추상클래스처럼 추상메서드를 갖지만 추상클래스보다 추상화 정도가 높아서 몸통을 갖춘 일반 메서드 또는 멤버변수를 구성원으로 가질 수 없다. 오직 추상메서드와 상수만을 멤버로 가질 수 있다.
+
+인터페이스는 밑그림만 그려져 있는 '기본 설계도'라 할 수 있다. 그 자체만으로 사용되기 보다는 다른 클래스를 작성하는데 도움 줄 목적으로 작성된다.
+
+### 7.2 인터페이스의 작성
+
+클래스 작성 방법과 동일하지만 키워드로 `class` 대신 `interface`를 사용한다는 것만 다르다. `interface`에도 클래스와 같이 접근제어자로 `public` 또는 `default`를 사용할 수 있다.
+
+```java
+  interface 인터페이스이름 {
+    public static final 타입 상수이름 = 값;
+    public abstract 메서드이름(매개변수목록);
+  }
+```
+
+인터페이스의 멤버들은 다음과 같은 제약사항이 있다.
+
+<table style="width:100%; background-color:#3a3c42; border:0">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; font-size:14px; color:white">
+      - 모든 멤버변수는 public static final 이어야 하며, 이를 생략할 수 있다.<br/>
+      - 모든 메서드는 public abstract 이어야 하며, 이를 생략할 수 있다.
+    </td>
+  </tr>   
+</table>
+
+인터페이스에 정의된 모든 멤버에 예외없이 적용되기 때문에 제어자를 생략할 수 있다. 생략된 제어자는 컴파일 시 컴파일러가 자동으로 추가해준다.
+
+### 7.3 인터페이스의 상속
+
+인터페이스는 인터페이스로부터만 상속받을 수 있으며, 클래스와는 달리 다중상속, 즉 여러 개의 인터페이스로부터 상속을 받는 것이 가능하다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 인터페이스는 클래스와 달리 Object클래스와 같은 최고 조상이 없다.</b><br/>
+</span>
+
+클래스의 상속과 마찬가지로 자손 인터페이스는 조상 인터페이스에 정의된 멤버를 모두 상속받는다.
+
+### 7.4 인터페이스의 구현
+
+인터페이스도 추상클래스처럼 그 자체로는 인스턴스를 생성할 수 없다. 따라서 자신에 정의된 추상메서드의 몸통을 만들어주는 클래스를 작성해야 하는데, 확장한다는 의미의 `extends` 대신 구현한다는 의미의 `implements`를 사용한다.
+
+```java
+  class 클래스이름 implements 인터페이스이름 {
+    // 인터페이스에 정의된 추상메서드를 구현
+  }
+```
+
+구현하는 인터페이스의 메서드 중 일부만 구현한다면, `abstract`를 붙여서 추상클래스로 선언해야 한다. 그리고 상속과 구현을 동시에 할 수 있다.
