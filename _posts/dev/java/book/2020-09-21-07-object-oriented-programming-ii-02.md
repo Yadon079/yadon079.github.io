@@ -175,7 +175,7 @@ comments: true
 
 ### 6.3 추상클래스의 작성
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       <b>추상</b> &nbsp;&nbsp;&nbsp;&nbsp; 낱낱의 구체적 표상이나 개념에서 공통된 성질을 뽑아 이를 일반적인 개념으로 파악하는 정신 작용
@@ -194,6 +194,8 @@ comments: true
     </td>
   </tr>   
 </table>
+
+[위로](#객체지향-프로그래밍-ii)
 
 ## 인터페이스 interface
 
