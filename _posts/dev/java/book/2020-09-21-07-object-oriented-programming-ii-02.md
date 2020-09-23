@@ -34,7 +34,7 @@ comments: true
 
 참조변수의 타입이 참조변수가 참조하고 있는 인스턴스에서 사용할 수 있는 멤버의 개수를 결정한다.
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       조상타입의 참조변수로 자손타입의 인스턴스를 참조할 수 있다.<br/>
@@ -42,7 +42,6 @@ comments: true
     </td>
   </tr>   
 </table>
-<br/>
 
 ### 5.2 참조변수의 형변환
 
@@ -52,7 +51,7 @@ comments: true
 <b>| 참고 | 바로 윗 조상이나 자손이 아닌, 조상의 조상으로도 형변환이 가능하다. 따라서 모든 참조변수는 Object클래스 타입으로 형변환이 가능하다.</b><br/>
 </span>
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       자손타입 &rarr; 조상타입(Up-casting) : <b>생략 가능</b><br/>
@@ -60,20 +59,18 @@ comments: true
     </td>
   </tr>   
 </table>
-<br/>
 
 참조변수간의 형변환 역시 캐스트연산자를 사용하며, 괄호()안에 변환하고자 하는 타입의 이름(클래스명)을 적어주면 된다.
 
 <b>형변환은 참조변수의 타입을 변환하는 것이지 인스턴스를 변환하는 것은 아니기 때문에 참조변수의 형변환은 인스턴스에 아무런 영향을 미치지 않는다. 형변환을 통해서, 참조하고 있는 인스턴스에서 사용할 수 있는 멤버의 범위(개수)를 조절하는 것뿐이다.</b>
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       서로 상속관계에 있는 타입간의 형변환은 양방향으로 자유롭게 수행될 수 있으나, <b>참조변수가 가리키는 인스턴스의 자손타입으로 형변환은 허용되지 않는다.</b><br/> 그래서 참조변수가 가리키는 인스턴스의 타입이 무엇인지 확인하는 것이 중요하다.
     </td>
   </tr>   
 </table>
-<br/>
 
 ### 5.3 instanceof연산자
 
@@ -182,7 +179,6 @@ comments: true
     </td>
   </tr>   
 </table>
-<br/>
 
 상속이 자손 클래스를 만드는데 조상 클래스를 사용하는 것이라면, 추상화는 기존 클래스의 공통부분을 뽑아내서 조상 클래스를 만드는 것이다.
 
@@ -218,7 +214,7 @@ comments: true
 
 인터페이스의 멤버들은 다음과 같은 제약사항이 있다.
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; font-size:14px; color:white">
       - 모든 멤버변수는 public static final 이어야 하며, 이를 생략할 수 있다.<br/>
@@ -226,7 +222,7 @@ comments: true
     </td>
   </tr>   
 </table>
-<br/>
+
 인터페이스에 정의된 모든 멤버에 예외없이 적용되기 때문에 제어자를 생략할 수 있다. 생략된 제어자는 컴파일 시 컴파일러가 자동으로 추가해준다.
 
 ### 7.3 인터페이스의 상속
