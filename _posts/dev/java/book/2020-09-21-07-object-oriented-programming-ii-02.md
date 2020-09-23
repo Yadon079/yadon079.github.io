@@ -178,14 +178,15 @@ comments: true
 <table style="width:100%; background-color:#3a3c42; border:0">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
-      <b>추상</b> 낱낱의 구체적 표상이나 개념에서 공통된 성질을 뽑아 이를 일반적인 개념으로 파악하는 정신 작용
+      <b>추상</b> &nbsp;&nbsp;&nbsp;&nbsp; 낱낱의 구체적 표상이나 개념에서 공통된 성질을 뽑아 이를 일반적인 개념으로 파악하는 정신 작용
     </td>
   </tr>   
 </table>
+<br/>
 
 상속이 자손 클래스를 만드는데 조상 클래스를 사용하는 것이라면, 추상화는 기존 클래스의 공통부분을 뽑아내서 조상 클래스를 만드는 것이다.
 
-<table style="width:100%; background-color:#3a3c42; border:0">
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; font-size:14px; color:white">
       <b>추상화</b> 클래스간의 공통점을 찾아내서 공통의 조상을 만드는 작업<br/>
@@ -223,7 +224,7 @@ comments: true
     </td>
   </tr>   
 </table>
-
+<br/>
 인터페이스에 정의된 모든 멤버에 예외없이 적용되기 때문에 제어자를 생략할 수 있다. 생략된 제어자는 컴파일 시 컴파일러가 자동으로 추가해준다.
 
 ### 7.3 인터페이스의 상속
