@@ -75,3 +75,59 @@ comments: true
 </table>
 
 ### 1.3 예외처리하기 - try-catch문
+
+에러는 어쩔 수 없지만, 예외는 프로그래머가 미리 처리해 두어야 한다.
+
+예외처리(exception handling)란, 프로그램 실행 시 발생할 수 있는 예외의 발생에 대비한 코드를 작성하여 정상적인 실행상태를 유지하는 것이 목적이다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>예외처리(exception handling)</b><br/>
+      <b>정의</b> &nbsp;&nbsp; - &nbsp;&nbsp; 프로그램 실행 시 발생할 수 있는 예외에 대비한 코드를 작성하는 것<br/>
+      <b>목적</b> &nbsp;&nbsp; - &nbsp;&nbsp; 프로그램의 비정상 종료를 막고, 정상적인 실행상태를 유지하는 것
+    </td>
+  </tr>   
+</table>
+
+<span style="font-size:13px;">
+<b>| 참고 | 에러와 예외는 모두 실행 시(runtime) 발생하는 오류이다.</b><br/>
+</span>  
+
+처리되지 못한 예외(uncaught exception)는 JVM의 '예외처리기(UncaughtExceptionHandler)'가 받아서 예외의 원인을 출력한다.
+
+예외를 처리하기 위해서 `try-catch`문을 사용한다.
+
+```java
+  try {
+    // 예외가 발생할 가능성이 있는 문장
+  } catch (Exception e1) {
+    // Exception이 발생했을 경우
+  } catch (Exception e2) {
+    // Exception이 발생했을 경우
+  } catch (Exception eN) {
+    // Exception이 발생했을 경우
+  }
+```
+
+발생한 예외의 종류와 일치하는 `catch`블럭이 없으면 예외는 처리되지 않는다.
+
+<span style="font-size:13px;">
+<b>| 참고 | try블럭이나 catch블럭 내에 포함된 문장이 하나뿐이어도 괄호를 생략할 수 없다.</b><br/>
+</span>  
+
+`try-catch`문 내에 또 다른 `try-catch`문을 사용할 수 있다. `catch`블럭의 괄호 내에 선언된 변수는 `catch`블럭 내에서만 유효하기 때문에, 모든 `catch`블럭에 같은 이름의 참조변수를 사용해도 된다. 하지만 `catch`블럭 내에 `try-catch`문이 포함된 경우, 참조변수의 영역이 겹치므로 다른 이름을 사용해서 구별해야한다.
+
+### 1.4 try-catch문에서의 흐름
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>&#9654; try블럭 내에서 예외가 발생한 경우</b><br/>
+      1. 발생한 예외와 일치하는 catch블럭이 있는지 확인한다.<br/>
+      2. 일치하는 catch블럭을 찾게 되면, 그 catch블럭 내의 문장들을 수행하고 전체 try-catch문을 빠져나가서 그 다음 문장을 계속해서 수행한다. 만일 일치하는 catch블럭을 찾지 못하면, 예외는 처리되지 못한다.<br/><br/>
+      <b&#9654; try블럭 내에서 예외가 발생하지 않은 경우</b><br/>
+      1. catch블럭을 거치지 않고 전체 try-catch문을 빠져나가서 수행을 계속한다.
+    </td>
+  </tr>   
+</table>
