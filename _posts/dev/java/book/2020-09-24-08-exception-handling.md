@@ -131,3 +131,83 @@ comments: true
     </td>
   </tr>   
 </table>
+
+### 1.5 예외의 발생과 catch블럭
+
+catch블럭은 괄호와 블럭 두 부분으로 나눠져 있는데, 괄호 내에는 처리하고자 하는 예외와 같은 타입의 참조변수 하나를 선언해야한다.
+
+예외가 발생하면, 발생한 예외에 해당하는 클래스의 인스턴스가 만들어진다. 예외가 발생한 문장이 `try`블럭에 포함되어 있다면, 이 예외를 처리할 수 있는 `catch`블럭이 있는지 찾는다.
+
+첫 번째부터 차례로 내려가면서 괄호 내에 선언된 참조변수의 종류와 생성된 예외클래스의 인스턴스에 `instanceof`연산자를 이용해서 검사결과가 `true`인 `catch`블럭을 만날 때까지 검사한다. `true`인 블럭을 찾게 되면 블럭에 있는 문장들을 수행한 후 `try-catch`문을 빠져나가고 예외는 처리되지만, 없으면 예외는 처리되지 않는다.
+
+모든 예외 클래스는 `Exception`클래스의 자손이므로, `catch`블럭의 괄호에 `Exception`클래스 타입의 참조변수를 선언해 놓으면 어떤 종류의 예외가 발생하더라도 이 `catch`블럭에 의해서 처리된다.
+
+<p style="color:#a0adec"><b>printStackTrace()와 getMessage()</b></p>
+
+예외가 발생했을 때 생성되는 예외 클래스의 인스턴스에는 발생한 예외에 대한 정보가 담겨져 있으며, `printStackTrace()`와 `getMessage()`를 통해서 이 정보들을 얻을 수 있다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>printStackTrace()</b> &nbsp;&nbsp;&nbsp;&nbsp; 예외발생 당시의 호출스택(Call Stack)에 있었던 메서드의 정보와 예외 메시지를 화면에 출력한다.<br/>
+      <b>getMessage()</b> &nbsp;&nbsp;&nbsp;&nbsp; 발생한 예외클래스의 인스턴스에 저장된 메시지를 얻을 수 있다.
+    </td>
+  </tr>   
+</table>
+
+<p style="color:#a0adec"><b>멀티 catch블럭</b></p>
+
+JDK1.7부터 catch블럭을 `|`기호를 이용해서, 하나의 catch블럭으로 합칠 수 있게 되었으며, 이를 '멀티 catch블럭'이라 한다. `|`기호로 연결할 수 있는 예외 클래스의 개수에는 제한이 없다.
+
+```java
+  try {
+    ...
+  } catch (ExceptionA e) {
+    e.printStackTrace();
+  } catch (ExceptionB e2) {
+    e2.printStackTrace();
+  }
+```
+
+위 코드를 아래와 같이 바꿀 수 있다.
+
+```java
+  try {
+    ...
+  } catch (ExceptionA | ExceptionB e) {
+    e.printStackTrace();
+  }
+```
+
+연결된 예외 클래스가 조상과 자손의 관계에 있다면 컴파일 에러가 발생한다. 그냥 조상 클래스만 써주는 것과 같기 때문에 불필요한 코드를 제거하라는 에러가 발생하는 것이다.
+
+### 1.6 메서드에 예외 선언하기
+
+메서드에 예외를 선언하려면, 메서드의 선언부에 키워드 `throws`를 사용해 메서드 내에서 발생할 수 잇는 예외를 적어주면 된다. 여러 개일 경우에는 쉼표로 구분한다.
+
+```java
+  void method() throws Exception1, Exception2, ... ExceptionN {
+    // 메서드 내용
+  }
+```
+
+모든 예외의 최고조상인 `Exception`클래스를 선언하면, 이 메서드는 모든 종류의 예외가 발생할 가능성이 있다는 뜻이다. 이럴 경우 자손타입의 예외까지 발생할 수 있다는 점에 주의해야 한다.
+
+예외를 메서드의 `throws`에 명시하는 것은 예외를 처리하는 것이 아니라, 자신(예외가 발생할 가능성이 있는 메서드)을 호출한 메서드에게 예외를 전달하여 예외처리를 떠맡기는 것이다. 결국 어느 한 곳에서는 `try-catch`문으로 예외처리를 해주어야 한다.
+
+### 1.7 finally 블럭
+
+finally 블럭은 `try-catch`문과 함께 예외의 발생여부에 상관없이 실행되어야할 코드를 포함시킬 목적으로 사용된다.
+
+```java
+  try {
+    // 예외 발생 가능성이 있는 문장
+  } catch(Exception e) {
+    // 예외처리를 위한 문장
+  } finally {
+    // 예외 발생여부에 관계없이 항상 수행되어야하는 문장
+    // try-catch문의 맨 마지막에 위치해야한다
+  }
+```
+
+[위로](#예외처리-exception-handling)
