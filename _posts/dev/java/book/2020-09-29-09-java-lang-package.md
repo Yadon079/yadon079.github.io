@@ -127,3 +127,87 @@ comments: true
 Class객체를 이용하면 클래스에 대한 모든 정보를 얻을 수 있기 때문에 보다 동적인 코드를 작성할 수 있다.
 
 ### 1.2 String클래스
+
+<p style="color:#a0adec"><b>변경 불가능한(immutable) 클래스</b></p>
+
+String클래스에는 문자열을 저장하기 위해서 문자형 배열 변수(char[]) value를 인스턴스 변수로 정의해놓고 있다. 인스턴스 생성 시 생성자의 매개변수로 입력받는 문자열을 인스턴스변수(value)에 문자형 배열(char[])로 저장되는 것이다.
+
+<span style="font-size:13px;">
+<b>| 참고 | String클래스는 앞에 final이 붙어 있으므로 다른 클래스의 조상이 될 수 없다.</b><br/>
+</span>  
+
+문자열간의 결합이나 추출 등 문자열을 다루는 작업이 많이 필요한 경우 `StringBuffer`클래스를 사용하는 것이 좋다. `StringBuffer`인스턴스에 저장된 문자열은 변경이 가능하므로 하나의 `StringBuffer`인스턴스만으로도 문자열을 다루는 것이 가능하다.
+
+<p style="color:#a0adec"><b>문자열의 비교</b></p>
+
+문자열을 생성하는 방법은 문자열 리터럴을 지정하는 방법과 String클래스의 생성자를 사용해서 만드는 방법, 두 가지가 있다.
+
+생성자를 이용한 경우에는 new연산자에 의해 메모리할당이 이루어지기 때문에 항상 새로운 String인스턴스가 생성된다. 반면 문자열 리터럴은 이미 존재하는 것을 재사용하는 것이다.
+
+`equals()`를 사용했을 때 문자열의 내용을 비교하기 때문에 두 경우 모두 true를 얻는다. 하지만 인스턴스의 주소를 등가비교연산자 `==`로 비교했을 때는 결과가 다르다.
+
+<p style="color:#a0adec"><b>문자열 리터럴</b></p>
+
+자바 소스파일에 포함된 모든 문자열 리터럴은 컴파일 시에 클래스 파일에 저장된다. 이 때 같은 내용의 문자열 리터럴은 한번만 저장된다. 문자열 리터럴도 String인스턴스이고, 한번 생성하면 내용을 변경할 수 없으니 하나의 인스턴스를 공유하면 되기 때문이다.
+
+<p style="color:#a0adec"><b>빈 문자열(empty string)</b></p>
+
+`String s = "";`과 같은 문장이 있을 때, 참조변수 s가 참조하고 있는 String인스턴스는 내부에 `new char[0]`과 같이 길이가 0인 char형 배열을 저장하고 있다. 그러나 char형 변수에는 반드시 하나의 문자를 지정해야 한다.
+
+<p style="color:#a0adec"><b>String클래스의 생성자와 메서드</b></p>
+
+<table>
+  <tr>
+    <td> 메서드 / 설명 </td>
+    <td> 예 제 </td>
+    <td> 결 과 </td>
+  </tr>
+  <tr>
+    <td><b> String(String s) </b></td>
+    <td rowspan=2> String s = new String("Hello") </td>
+    <td rowspan=2> s = "Hello" </td>
+  </tr>
+  <tr>
+    <td> 주어진 문자열(s)을 갖는 String인스턴스를 생성한다. </td>
+  </tr>
+  <tr>
+    <td><b> String(char[] value) </b></td>
+    <td rowspan=2> char[] c = {'H', 'e', 'l', 'l', 'o'};<br/>String s = new String(c); </td>
+    <td rowspan=2> s = "Hello" </td>
+  </tr>
+  <tr>
+    <td> 주어진 문자열(value)을 갖는 String인스턴스를 생성한다. </td>
+  </tr>
+  <tr>
+    <td><b> String(StringBuffer buf) </b></td>
+    <td rowspan=2> StringBuffer sb = new StringBuffer("Hello");<br/>String s = new String(sb); </td>
+    <td rowspan=2> s = "Hello" </td>
+  </tr>
+  <tr>
+    <td> StringBuffer인스턴스가 가지고 있는 문자열과 같은 내용의 String인스턴스를 생성한다. </td>
+  </tr>
+  <tr>
+    <td><b> char charAt(int index) </b></td>
+    <td rowspan=2> String s = "Hello";</br> char c = s.charAt(1); </td>
+    <td rowspan=2> c = 'e' </td>
+  </tr>
+  <tr>
+    <td> 지정된 위치(index)에 있는 문자를 알려준다.(index는 0부터 시작) </td>
+  </tr>
+  <tr>
+    <td><b> int compareTo(String str) </b></td>
+    <td rowspan=2> int i = "aaa".compareTo("aaa");<br/> int i2 = "aaa".compareTo("bbb");<br/> int i3 = "bbb".compareTo("aaa");</td>
+    <td rowspan=2> i = 0<br/> i2 = -1<br/> i3 = 1</td>
+  </tr>
+  <tr>
+    <td> 문자열(str)과 사전순서로 비교한다. 같으면 0, 이전이면 음수, 이후면 양수를 반환한다. </td>
+  </tr>
+  <tr>
+    <td><b> String concat(String str) </b></td>
+    <td rowspan=2> String s = "Hello";<br/> String s2 = s.concat(" World");</td>
+    <td rowspan=2> s2 = "Hello World"</td>
+  </tr>
+  <tr>
+    <td> 문자열(str)을 뒤에 덧붙인다. </td>
+  </tr>
+<table>
