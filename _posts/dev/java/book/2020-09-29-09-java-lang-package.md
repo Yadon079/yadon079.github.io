@@ -156,58 +156,88 @@ String클래스에는 문자열을 저장하기 위해서 문자형 배열 변�
 
 <p style="color:#a0adec"><b>String클래스의 생성자와 메서드</b></p>
 
-<table>
-  <tr>
-    <td> 메서드 / 설명 </td>
-    <td> 예 제 </td>
-    <td> 결 과 </td>
-  </tr>
-  <tr>
-    <td><b> String(String s) </b></td>
-    <td rowspan=2> String s = new String("Hello") </td>
-    <td rowspan=2> s = "Hello" </td>
-  </tr>
-  <tr>
-    <td> 주어진 문자열(s)을 갖는 String인스턴스를 생성한다. </td>
-  </tr>
-  <tr>
-    <td><b> String(char[] value) </b></td>
-    <td rowspan=2> char[] c = {'H', 'e', 'l', 'l', 'o'};<br/>String s = new String(c); </td>
-    <td rowspan=2> s = "Hello" </td>
-  </tr>
-  <tr>
-    <td> 주어진 문자열(value)을 갖는 String인스턴스를 생성한다. </td>
-  </tr>
-  <tr>
-    <td><b> String(StringBuffer buf) </b></td>
-    <td rowspan=2> StringBuffer sb = new StringBuffer("Hello");<br/>String s = new String(sb); </td>
-    <td rowspan=2> s = "Hello" </td>
-  </tr>
-  <tr>
-    <td> StringBuffer인스턴스가 가지고 있는 문자열과 같은 내용의 String인스턴스를 생성한다. </td>
-  </tr>
-  <tr>
-    <td><b> char charAt(int index) </b></td>
-    <td rowspan=2> String s = "Hello";</br> char c = s.charAt(1); </td>
-    <td rowspan=2> c = 'e' </td>
-  </tr>
-  <tr>
-    <td> 지정된 위치(index)에 있는 문자를 알려준다.(index는 0부터 시작) </td>
-  </tr>
-  <tr>
-    <td><b> int compareTo(String str) </b></td>
-    <td rowspan=2> int i = "aaa".compareTo("aaa");<br/> int i2 = "aaa".compareTo("bbb");<br/> int i3 = "bbb".compareTo("aaa");</td>
-    <td rowspan=2> i = 0<br/> i2 = -1<br/> i3 = 1</td>
-  </tr>
-  <tr>
-    <td> 문자열(str)과 사전순서로 비교한다. 같으면 0, 이전이면 음수, 이후면 양수를 반환한다. </td>
-  </tr>
-  <tr>
-    <td><b> String concat(String str) </b></td>
-    <td rowspan=2> String s = "Hello";<br/> String s2 = s.concat(" World");</td>
-    <td rowspan=2> s2 = "Hello World"</td>
-  </tr>
-  <tr>
-    <td> 문자열(str)을 뒤에 덧붙인다. </td>
-  </tr>
-<table>
+자주 쓰이는 생성자와 메서드들이 있는데 기능에 대한 것은 [공식 문서](https://docs.oracle.com/javase/8/docs/api/)에서 확인하면 된다.
+
+<p style="color:#a0adec"><b>join()과 StringJoiner</b></p>
+
+`join()`은 여러 문자열 사이에 구분자를 넣어서 결합한다. `split()`과 반대의 작업을 한다.
+
+`java.util.StringJoiner`클래스를 사용해서 문자열을 결합할 수도 있는데, 사용 예시는 아래와 같다.
+
+```java
+  StringJoiner sj = new StringJoiner(",", "[", "]");
+  String[] strArr = { "aaa", "bbb", "ccc" };
+
+  for(String s : strArr)
+    sj.add(s.toUpperCase());
+
+  System.out.println(sj.toString());
+```
+
+<p style="color:#a0adec"><b>String.format()</b></p>
+
+`format()`은 형식화된 문자열을 만들어내는 간단한 방법이다. `printf()`와 사용법이 동일하다.
+
+```java
+  String str = String.format("%d 더하기 %d는 %d이다.", 3, 5, 3 + 5);
+  System.out.println(str);
+```
+
+<p style="color:#a0adec"><b>기본형 값을 String으로 변환</b></p>
+
+기본형을 문자열로 변경하는 방법은 간단하다. 숫자에 빈 문자열 " "을 더해주기만 하면 된다. 또는 `valueOf()`를 사용해도 된다. 빈 문자열을 더하는 편이 훨씬 편하기 때문에 성능향상이 필요한 경우에만 `valueOf()`를 쓰는 편이 좋다.
+
+<p style="color:#a0adec"><b>String을 기본형 값으로 변환</b></p>
+
+`valueOf()`를 쓰거나 혹은 `parseInt()`를 사용하면 된다.
+
+```java
+  int i = Integer.parseInt("100");
+  int i = Integer.valueOf("100");
+```
+
+`valueOf()`의 반환 타입은 int가 아니라 Integer인데, 오토박싱에 의해 `Integer`가 `int`로 자동 변환된다.
+
+### 1.3 StringBuffer클래스와 StringBuilder클래스
+
+`String`클래스는 인스턴스를 생성할 때 지정된 문자열을 변경할 수 없지만 `StringBuffer`클래스는 변경이 가능하다. 내부적으로 문자열 편집을 위한 Buffer를 가지고 있으며, 인스턴스를 생성할 때 크기를 지정할 수 있다.
+
+`StringBuffer`클래스는 `String`클래스와 유사한 점이 많다.
+
+<p style="color:#a0adec"><b>StringBuffer의 생성자</b></p>
+
+`StringBuffer`클래스의 인스턴스를 생성할 때, 적절한 길이의 char형 배열이 생성되고, 이 배열은 문자열을 저장하고 편집하기 위한 공간(buffer)으로 사용된다.
+
+인스턴스로 문자열을 다루는 작업을 할 때, 버퍼의 크기가 작업하려는 문자열의 길이보다 작을 때는 내부적으로 버퍼의 크기를 증가시키는 작업이 수행된다. 배열의 길이는 변경될 수 없기 때문에 새로운 배열을 생성해서 이전 배열의 값을 복사해야 한다. 따라서 작업효율이 떨어지기 때문에 처음 생성할 때 충분히 여유있는 크기를 지정해줘야 한다.
+
+<p style="color:#a0adec"><b>StringBuffer의 변경</b></p>
+
+`append()`는 반환타입이 `StringBuffer`인데 자신의 주소를 반환한다. 따라서 아래와 같은 코드를 실행할 경우, `sb`와 `sb2`는 같은 주소를 가진다. 즉, 같은 인스턴스를 가리키고 있으며 같은 내용을 출력한다.
+
+```java
+  StringBuffer sb = new StringBuffer("abc");
+  sb.append("123");
+  StringBuffer sb2 = sb.append("ZZ");
+  System.out.println(sb);
+  System.out.println(sb2);
+```
+
+<span style="font-size:13px;">
+<b>| 참고 | StringBuffer클래스에는 append()처럼 객체 자신을 반환하는 메서드들이 많다.</b><br/>
+</span>  
+
+<p style="color:#a0adec"><b>StringBuffer의 비교</b></p>
+
+`String`클래스에서는 `equals`메서드를 오버라이딩해서 문자열의 내용을 비교하도록 구현되어 있지만, `StringBuffer`클래스는 오버라이딩하지 않아서 등가비교연산자로 비교한 것과 같은 결과를 얻는다.
+
+반면에 `toString()`은 오버라이딩되어 있어서 `StringBuffer`인스턴스에 호출하면, 담고있는 문자열을 `String`으로 반환한다. 따라서 문자열을 비교하기 위해서는 `toString()`으로 호출해서 String인스턴스를 얻은 다음, 여기에 `equals`메서드를 사용해야 한다.
+
+<p style="color:#a0adec"><b>StringBuilder란?</b></p>
+
+`StringBuffer`에서 쓰레드의 동기화를 제거한 것이 `StringBuilder`이다. 완전히 똑같은 기능으로 작성되어 있어서 참조변수를 선언한 부분과 생성자만 바꾸면 된다. 성능향상이 반드시 필요한 경우를 제외하면 어느 쪽을 쓰든 상관없다.
+
+### 1.4 Math클래스
+
+`Math`클래스의 생성자는 접근 제어자가 `private`이기 때문에 다른 클래스에서 인스턴스를 생성할 수 없도록 되어있다. 메서드는 모두 `static`이며, 자연로그의 밑 `E`와 원주율 `PI`만 정의해 놓았다.
+
+<p style="color:#a0adec"><b>올림, 버림, 반올림</b></p>
