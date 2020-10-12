@@ -9,7 +9,7 @@ tags: [ java, java.lang, package ]
 comments: true
 ---
 
-# java.lang패키지와 유용한 클래스
+# java lang패키지와 유용한 클래스
 
 > 이 글은 남궁성님의 [자바의 정석 3/e](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788994492032)을 기반으로 공부한 내용을 정리한 글입니다.
 
@@ -196,7 +196,7 @@ String클래스에는 문자열을 저장하기 위해서 문자형 배열 변�
   int i = Integer.valueOf("100");
 ```
 
-`valueOf()`의 반환 타입은 int가 아니라 Integer인데, 오토박싱에 의해 `Integer`가 `int`로 자동 변환된다.
+`valueOf()`의 반환 타입은 int가 아니라 Integer인데, <b>오토박싱</b>에 의해 `Integer`가 `int`로 자동 변환된다.
 
 ### 1.3 StringBuffer클래스와 StringBuilder클래스
 
@@ -241,3 +241,47 @@ String클래스에는 문자열을 저장하기 위해서 문자형 배열 변�
 `Math`클래스의 생성자는 접근 제어자가 `private`이기 때문에 다른 클래스에서 인스턴스를 생성할 수 없도록 되어있다. 메서드는 모두 `static`이며, 자연로그의 밑 `E`와 원주율 `PI`만 정의해 놓았다.
 
 <p style="color:#a0adec"><b>올림, 버림, 반올림</b></p>
+
+소수점 n번째 자리에서 반올림한 값을 얻기 위해서는 `round()`를 사용해야 하는데, 이 메서드는 항상 소수점 첫째자리에서 반올림을 해서 정수값(long)을 결과로 돌려준다.
+
+n번째 자리 수에서 반올림된 값을 얻기 위해서는 10의 n제곱으로 곱한 후, `round()`를 사용해 나온 값을 다시 10의 n제곱으로 나누면 된다.
+
+### 1.5 래퍼(wrapper) 클래스
+
+기본형 값들을 객체로 변환하여 작업을 수행할 때 사용되는 것이 래퍼(wrapper) 클래스이다. 8개의 기본형을 대표하는 8개의 래퍼클래스가 있는데, 이 클래스들을 이용하면 기본형 값을 객체로 다룰 수 있다.
+
+`char`형과 `int`형을 제외한 나머지는 자료형 이름의 첫 글자를 대문자로 한 것이 래퍼 클래스의 이름이고, `char`형은 `Character`, `int`형은 `Integer`가 래퍼 클래스의 이름이다.
+
+래퍼 클래스의 생성자는 매개변수로 문자열이나 각 자료형의 값들을 인자로 받는다. 객체생성 시에 생성자의 인자로 주어진 각 자료형에 알맞은 값을 내부적으로 저장하고 있으며, 이에 관련된 여러 메서드가 정의되어있다.
+
+래퍼 클래스들은 모두 `equals()`가 오버라이딩되어 있어서 주소값이 아닌 객체가 가지고 있는 값을 비교한다. <b>오토박싱</b>이 된다고 해도 객체에 비교연산자를 사용할 수 없기 때문에 `compareTo()`를 제공한다. 그리고 `toString()`도 오버라이딩되어 있어서 객체가 가지고 있는 값을 문자열로 변환하여 반환한다.
+
+<p style="color:#a0adec"><b>Number 클래스</b></p>
+
+`Number`클래스는 추상클래스로 내부적으로 숫자를 멤버변수로 갖는 래퍼 클래스들의 조상으로 기존 래퍼 클래스들 외에도 `BigInteger`와 `BigDecimal` 등이 있다. `BigInteger`는 `long`으로도 다룰 수 없는 큰 범위의 정수를, `BigDecimal`은 `double`로도 다룰 수 없는 큰 범위의 부동 소수점수를 처리하기 위한 것으로 연산자의 역할을 대신하는 다양한 메서드를 제공한다.
+
+<p style="color:#a0adec"><b>문자열을 숫자로 변환하기</b></p>
+
+`타입.parse타입(String s)`형식은 반환값이 기본형이고 `타입.valueOf()`메서드는 래퍼 클래스 타입을 반환한다. <b>오토박싱</b> 기능이 도입된 이후부터는 반환값이 기본형일 때와 래퍼클래스일 때의 차이가 없어졌다.
+
+<p style="color:#a0adec"><b>오토박싱 & 언박싱(autoboxing & unboxing)</b></p>
+
+기본형 값을 래퍼 클래스의 객체로 자동 변환해주는 것을 `오토박싱(autoboxing)`이라고 하고, 반대로 변환하는 것을 `언박싱(unboxing)`이라고 한다.
+
+기본형과 참조형 간의 형변환 뿐만 아니라, 참조형 간의 연산도 가능하게 해준다. 하지만 단지 컴파일러가 변환해주는 것일 뿐 자바의 원칙이 바뀐 것은 아니다.
+
+[위로](#java-lang패키지와-유용한-클래스)
+
+## 유용한 클래스
+
+### 2.1 java.util.Scanner 클래스
+
+`Scanner`는 화면, 파일, 문자열과 같은 입력소스로부터 문자데이터를 읽어오기 위해 추가되었다. 또한 정규식 표현(Regular expression)을 이용한 라인단위의 검색을 지원하며 구분자(delimiter)에도 정규식 표현을 사용할 수 있어서 복잡한 형태의 구분자도 처리가 가능하다.
+
+### 2.2 java.util.StringTokenizer 클래스
+
+`StringTokenizer`는 긴 문자열을 지정된 구분자(delimiter)를 기준으로 토큰(token)이라는 여러 개의 문자열로 잘라내는 데 사용된다.
+
+`StringTokenizer`이외에도 `String`의 `split(String regex)`나 `Scanner`의 `useDelimiter(String pattern)`를 사용할 수도 있다. 하지만 이 두 가지 방법은 정규식 표현(Regular expression)을 사용해야하므로 정규식 표현이 익숙하지 않은 경우 `StringTokenizer`를 사용하는 것이 간단하다.
+
+[위로](#java-lang패키지와-유용한-클래스)
