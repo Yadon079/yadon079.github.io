@@ -122,7 +122,7 @@ comments: true
 <p style="color:#a0adec"><b>Period와 Duration</b></p>
 
 <table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
-  <tr style="border:0">
+  <tr style="border:0; text-align:center">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
       <b>날짜 - 날짜 = Period</b><br/>
       <b>시간 - 시간 = Duration</b>
@@ -201,3 +201,87 @@ comments: true
 `equals()`가 있는데도, `isEqual()`을 제공하는 이유는 연표(chronology)가 다른 두 날짜를 비교하기 위해서이다. `equals()`는 모든 필드가 일치해야하지만, `isEqual()`은 날짜만 비교한다. 대부분의 경우 결과가 같다.
 
 ### 3.3 Instant
+
+`Instant`는 에포크 타임(EPOCH TIME, 1970-01-01 00:00:00 UTC)부터 경과된 시간을 나노초 다윈로 표현한다. 단일 진법으로만 다루기 때문에 계산하기 쉽다.
+
+`Instant`를 생성할 때는 `now()`와 `ofEpochSecond()`를 사용한다. 그리고 필드에 저장된 값을 가져올 때는 다음과 같이 한다.
+
+```java
+  long epochSec = now.getEpochSecond();
+  int nano = new.getNano();
+```
+
+`Instant`는 항상 UTC(+00:00)를 기준으로 하기 때문에, `LocalTime`과 차이가 있을 수 있다.
+
+<p style="color:#a0adec"><b>Instant와 Date간의 변화</b></p>
+
+`Instant`는 기존의 `java.util.Date`를 대체하기 위한 것이며, JDK1.8부터 `Date`에 `Instant`로 변환할 수 있는 새로운 메서드가 추가되었다.
+
+```
+  static Date   from(Instant instant) // Instant -> Date
+  Instant       toInstant()           // Date -> Instant
+```
+
+### 3.4 LocalDateTime과 ZonedDateTime
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0; text-align:center">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      LocalDate + LocalTime -> LocalDateTime<br/>
+      LocalDateTime + 시간대 -> ZonedDateTime
+    </td>
+  </tr>   
+</table>
+
+<p style="color:#a0adec"><b>LocalDate와 LocalTime으로 LocalDateTime만들기</b></p>
+
+```java
+  LocalDate date = LocalDate.of(2020, 10, 13);
+  LocalTime time = LocalTime.of(17, 15, 00);
+
+  LocalDateTime dt1 = LocalDateTime.of(date, time);
+  LocalDateTime dt2 = date.atTime(time);
+  LocalDateTime dt3 = time.atDate(date);
+  LocalDateTime dt4 = date.atTime(17, 15, 00);
+  LocalDateTime dt5 = time.atDate(LocalDate.of(2020, 10, 13));
+  LocalDateTime dt6 = date.atStartOfDay(); // dt6 = date.atTime(0, 0, 0);
+```
+
+<p style="color:#a0adec"><b>LocalDateTime의 변환</b></p>
+
+`LocalDateTime`을 `LocalDate` 또는 `LocalTime`으로 변환할 수 있다.
+
+```java
+  LocalDateTime dt = LocalDateTime.of(2020, 10, 13, 17, 15, 00);
+  LocalDate date = dt.toLocalDate();
+  LocalTime time = dt.toLocalTime();
+```
+
+<p style="color:#a0adec"><b>LocalDateTime으로 ZonedDateTime만들기</b></p>
+
+`LocalDateTime`에 시간대(time-zone)을 추가하면, `ZonedDateTime`이 된다. 기존에는 `TimeZone`클래스로 시간대를 다뤘지만 새로운 시간 패키지에서는 `ZoneId`라는 클래스를 사용한다. `ZoneId`는 일광 절약시간(DST, Daylight Saving Time)을 자동적으로 처리해주므로 더 편리하다.
+
+`LocalDateTime`에 `atZone()`으로 시간대 정보를 추가하면 `ZonedDateTime`을 얻을 수 있다. 또는 `LocalDate`에 `atStartOfDay()`라는 메서드에 매개변수로 `ZoneId`를 지정해도 얻을 수 있다.
+
+<p style="color:#a0adec"><b>ZoneOffset</b></p>
+
+UTC로부터 얼마만큼 떨어져 있는지를 `ZoneOffSet`으로 표현한다.
+
+<p style="color:#a0adec"><b>OffsetDateTime</b></p>
+
+`ZonedDateTime`은 `ZoneId`로 구역을 표현하는데, `ZoneOffSet`을 사용하면 `OffsetDateTime`이다. `ZoneOffset`은 시간대를 시간의 차이로만 구분한다.
+
+<p style="color:#a0adec"><b>ZonedDateTime의 변환</b></p>
+
+`ZonedDateTime`도 `LocalDateTime`처럼 날짜와 시간에 관련된 다른 클래스로 변환하는 메서드들을 가지고 있다.
+
+```JAVA
+  LocalDate toLocalDate()
+  LocalTime toLocalTime()
+  LocalDateTime toLocalDateTime()
+  OffsetDateTime toOffsetDateTime()
+  long toEpochSecond()
+  Instant toInstant()
+```
+
+### 3.5 TemporalAdjusters
