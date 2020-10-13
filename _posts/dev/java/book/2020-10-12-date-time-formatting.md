@@ -145,3 +145,59 @@ comments: true
 날짜와 시간의 단위를 정의해 놓은 것이 `TemporalUnit`인터페이스이고, 이 인터페이스를 구현한 것이 열거형 `ChronoUnit`이다. 그리고 `TemporalField`는 년, 월, 일 등 날짜와 시간의 필드를 정의해 놓은 것으로, 열거형 `ChronoField`가 이 인터페이스를 구현하였다.
 
 ### 3.2 LocalDate와 LocalTime
+
+두 클래스는 `java.time`패키지의 가장 기본이 되는 클래스이며, 나머지 클래스들은 이들의 확장이다.
+
+객체를 생성하는 방법은 현재 날짜와 시간을 `LocalDate`와 `LocalTime`으로 각각 반환하는 `now()`와 지정된 날짜와 시간으로 객체를 생성하는 `of()`가 있다. 둘 다 `static`메서드이다.
+
+<p style="color:#a0adec"><b>특정 필드의 값 가져오기 - get(), getXXX()</b></p>
+
+`LocalDate`와 `LocalTime`의 객체에서 특정 필드의 값을 가져올 때 `getXXX()`와 같은 형태의 메서드를 사용한다. 이 외에도 `get()`과 `getLong()`이 있는데, 원하는 필드를 직접 지정할 수 있다. 대부분의 필드는 `int`타입의 범위에 속하지만, 몇몇 필드는 `int`타입의 범위를 넘을 수 있다. 그럴 때 `get()` 대신 `getLong()`을 사용해야 한다.
+
+메서드들의 매개변수로 사용할 수 있는 필드는 `ChronoField`에 정의되어 있는데, 사용할 수 있는 필드는 클래스마다 다르다. `LocalDate`의 경우 날짜를 표현하기 위한 것이므로, 시간에 관련된 필드는 사용할 수 없다.
+
+<p style="color:#a0adec"><b>필드의 값 변경하기 - with(), plus(), minus()</b></p>
+
+날짜와 시간에서 특정 필드 값을 변경하려면, 다음과 같이 with로 시작하는 메서드를 사용하면 된다.
+
+```
+  LocalDate withYear(int year)
+  LocalDate withMonth(int month)
+  LocalDate withDayOfMonth(int dayOfMonth)
+  LocalDate withDayOfYear(int dayOfYear)
+
+  LocalTime withHour(int hour)
+  LocalTime withMinute(int minute)
+  LocalTime withSecond(int second)
+  LocalTime withNano(int nanoOfSecond)
+```
+
+`with()`를 사용하면, 원하는 필드를 직접 지정할 수 있다.
+
+```
+  LocalDate with(TemporalField field, long newValue)
+```
+
+이 외에도 특정 필드에 값을 더하거나 빼는 `plus()`와 `minue()`가 있다. 그리고 `LocalTime`의 `truncatedTo()`는 지정된 것보다 작은 단위의 필드를 0으로 만든다.
+
+`LocalDate`에는 `truncatedTo()`가 없는데, `LocalDate`의 필드인 년, 월, 일은 0이 될 수 없기 때문이다.
+
+<p style="color:#a0adec"><b>날짜와 시간의 비교 - isAfter(), isBefore(), isEqual()</b></p>
+
+`compareTo()`가 적절히 오버라이딩되어 있어서, 아래와 같이 비교할 수 있다.
+
+```
+  int result = date1.compareTo(date2); // 같으면 0, date1 이전이면 -1, 이후면 1
+```
+
+보다 더 편리하게 비교할 수 있는 메서드들이 추가로 제공된다.
+
+```
+  boolean isAfter (ChronoLocalDate other)
+  boolean isBefore(ChronoLocalDate other)
+  boolean isEqual (ChronoLocalDate other)
+```
+
+`equals()`가 있는데도, `isEqual()`을 제공하는 이유는 연표(chronology)가 다른 두 날짜를 비교하기 위해서이다. `equals()`는 모든 필드가 일치해야하지만, `isEqual()`은 날짜만 비교한다. 대부분의 경우 결과가 같다.
+
+### 3.3 Instant
