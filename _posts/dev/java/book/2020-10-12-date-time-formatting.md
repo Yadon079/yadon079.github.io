@@ -285,3 +285,152 @@ UTC로부터 얼마만큼 떨어져 있는지를 `ZoneOffSet`으로 표현한다
 ```
 
 ### 3.5 TemporalAdjusters
+
+자주 쓰일만한 날짜 계산들을 대신 해주는 메서드를 정의해놓은 것이 `TemporalAdjusters`클래스이다.
+
+```JAVA
+  LocalDate today = LocalDate.now();
+  LocalDate nextMonday = today.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+```
+
+<p style="color:#a0adec"><b>TemporalAdjuster 직접 구현하기</b></p>
+
+보통의 정의된 메서드로 충분하지만, 필요에 의해 자주 사용되는 날짜 계산 메서드를 직접 만들 수 있다. `LocalDate`의 `with()`는 다음과 같이 정의되어 있으며, `TemporalAdjuster`인터페이스를 구현한 클래스의 객체를 매개변수로 제공해야한다.
+
+```JAVA
+  LocalDate with(TemporalAdjuster adjuster)
+```
+
+`with()`는 대부분의 날짜와 시간에 관련된 클래스에 포함되어 있다.
+
+`TemporalAdjuster`인터페이스는 추상 메서드 하나만 정의되어 있으므로, 이 메서드만 구현하면 된다.
+
+```JAVA
+  @FunctionalInterface
+  public interface TemporalAdjuster {
+    Temporal adjustInfo(Temporal temporal);
+  }
+```
+
+### 3.6 Period와 Duration
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0; text-align:center">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>날짜 - 날짜 = Period</b><br/>
+      <b>시간 - 시간 = Duration</b>
+    </td>
+  </tr>   
+</table>
+
+<p style="color:#a0adec"><b>between()</b></p>
+
+date1과 date2 두 날짜 차이를 나타내는 Period는 `between()`으로 얻을 수 있다. date1이 date2보다 이전이면 양수, 이후면 음수로 Period에 저장된다. Duration은 시간의 차이라는 점을 제외하면 Period와 똑같다.
+
+특정 필드의 값을 얻을 때는 `get()`을 사용한다. Period와 달리 Duration에는 `getHours()`, `getMinites()` 같은 메서드가 없다.
+
+Duration을 `LocalTime`으로 변환한 다음에, `LocalTime`이 가지고있는 `get`메서드들을 사용하면 된다.
+
+<p style="color:#a0adec">between()과 until()</b></p>
+
+`until()`은 `between()`과 거의 동일한 일을 한다. `between()`은 static메서드이고, `until()`은 인스턴스 메서드라는 차이가 있다.
+
+```JAVA
+  Period pe = Period.between(today, myBirthDay);
+  Period pe = today.until(myBirthDay);
+```
+
+Period는 년원일을 분리해서 저장하기 때문에, D-day를 구하려는 경우에는 두 개의 매개변수를 받는 `until()`을 사용하는 것이 좋다. 시간에도 `until()`을 사용할 수 있지만, Duration을 반환하는 `until()`은 없다.
+
+```JAVA
+  long sec = LocalTime.now().until(endTime, ChronoUnit.SECONDS);
+```
+
+<p style="color:#a0adec"><b>of(), with()</b></p>
+
+Period에는 `of()`, `ofYears()`, `ofMonths()`, `ofWeeks()`, `ofDays()`가 있고, Duration에는 `of()`, `ofDays()`, `ofHours()`, `ofMinutes()`, `ofSeconds()` 등이 있다.
+
+특정 필드의 값을 변경하는 `with()`도 있다.
+
+<p style="color:#a0adec"><b>사칙연산, 비교연산, 기타 메서드</b></p>
+
+곱셈을 위한 메서드 `multiplied()`, 나눗셈을 위한 메서드 `divided()`가 있는데 Period에는 나눗셈을 위한 메서드가 없다. 날짜의 기간을 표현하기 위한 것이므로 유용하지 않기 때문이다.
+
+음수인지 확인하는 `isNegative()`와 0인지 확인하는 `isZero()`가 있고, 부호를 반대로 변경하는 `negate()`와 부호를 없애는 `abs()`가 있다. Period에는 `abs()`가 없다.
+
+Period에는 `normalized()`라는 메서드가 있는데, 이 메서드는 월(month)의 값이 12를 넘지 않게 해준다. 하지만 일(day)의 길이는 일정하지 않으므로 그대로 놔둔다.
+
+<p style="color:#a0adec"><b>다른 단위로 변환 - toTotalMonths(), toDays(), toHours(), toMinutes()</b></p>
+
+이름이 `to`로 시작하는 메서드들은 Period와 Duration을 다른 단위의 값으로 변환하는데 사용된다. `get()`은 특정 필드의 값을 그대로 가져오는 것이지만, 이 메서드들은 특정 단위로 변환한 결과를 반환한다는 차이가 있다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 이 메서드들의 반환타입은 모두 정수(long타입)이다. 지정된 단위 이하의 값들은 버려진다.</b><br/>
+</span>  
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>Period</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toTotalMonths() - 년월일을 월단위로 변환해서 반환(일 단위는 무시)<br/>
+      <b>Duration</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toDays() - 일단위로 변환해서 반환<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toHours() - 시간단위로 변환해서 반환<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toMinutes() - 분단위로 변환해서 반환<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toMillis() - 천분의 일초 단위로 변환해서 반환<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; long toNanos() - 나노초 단위로 변환해서 반환<br/>
+    </td>
+  </tr>   
+</table>
+
+### 3.7 파싱과 포맷
+
+형식화(formatting)와 관련된 클래스들은 `java.time.format`패키지에 들어있는데, 이중에서 `DateTimeFormatter`가 핵심이다. 이 클래스에는 자주 쓰이는 다양한 형식들을 기본적으로 정의하고 있으며, 그 외의 형식이 필요하다면 직접 정의해서 사용할 수도 있다.
+
+```java
+  LocalDate date = LocalDate.of(2020, 1, 2);
+  String yyyymmdd = DateTimeFormatter.ISO_LOCAL_DATE.format(date);
+  String yyyymmdd = date.format(DateTimeFormatter.ISO_LOCAL_DATE);
+```
+
+날짜와 시간의 형식화에는 위와 같이 `format()`이 사용되는데, 이 메서드는 `DateTimeFormatter`뿐만 아니라 `LocalDate`나 `LocalTime`같은 클래스에도 있다.
+
+<p style="color:#a0adec"><b>로케일에 종속된 형식화</b></p>
+
+`DateTimeFormatter`의 static메서드 `ofLocalizedDate()`, `ofLocalizedTime()`, `ofLocalized DateTime()`은 로케일(locale)에 종속적인 포맷터를 생성한다.
+
+```java
+  DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+  String shortFormat = formatter.format(LocalDate.now());
+```
+
+<p style="color:#a0adec"><b>출력형식 직접 정의하기</b></p>
+
+`DateTimeFormatter`의 `ofPattern()`으로 원하는 출력형식을 직접 작성할 수도 있다.
+
+```java
+  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/mm/dd");
+```
+
+출력형식에 사용되는 기호의 목록은 Java API Documents를 참고한다.
+
+<p style="color:#a0adec"><b>문자열을 날짜와 시간으로 파싱하기</b></p>
+
+문자열을 날짜 또는 시간으로 변환하려면 static메서드 `parse()`를 사용하면 된다. 날짜와 시간을 표현하는데 사용되는 클래스에는 이 메서드가 거의 다 포함되어 있다.
+
+`parse()`는 오버로딩된 메서드가 여러 개 있는데, 그 중에서 다음 2개가 자주 쓰인다.
+
+```JAVA
+  static LocalDateTime parse(CharSequence text)
+  static LocalDateTime parse(CharSequence text, DateTimeFormatter formatter)
+```
+
+`DateTimeFormatter`에 상수로 정의된 형식을 사용할 때는 다음과 같이 한다.
+
+```java
+  LocalDate date = LocalDate.parse("2020-01-02", DateTimeFormatter.ISO_LOCAL_DATE);
+```
+
+자주 사용되는 기본적인 형식의 문자열은 형식화 상수를 사용하지 않고도 파싱이 가능하다. 또한 `ofPattern()`을 이용해서 파싱을 할 수도 있다.
+
+[위로](#날짜와-시간과-형식화)
