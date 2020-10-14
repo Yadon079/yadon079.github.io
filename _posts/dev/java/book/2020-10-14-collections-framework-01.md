@@ -50,6 +50,7 @@ comments: true
     <td> 구현클래스 : HashMap, TreeMap, Hashtable, Properties 등 </td>
   </tr>
 </table>
+<br/>
 
 <span style="font-size:13px;">
 <b>| 참고 | 키(key)란, 데이터 집합 중에서 어떤 값(value)을 찾는데 열쇠(key)가 된다는 의미에서 붙여진 이름이다. 그래서 중복을 허용하지 않는다.</b><br/>
