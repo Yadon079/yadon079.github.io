@@ -25,11 +25,11 @@ comments: true
 
 <table>
   <tr>
-    <td><center> 인터페이스 </td>
-    <td><center> 특 징 </td>
+    <td><center> 인터페이스 </center></td>
+    <td><center> 특 징 </center></td>
   </tr>
   <tr>
-    <td rowspan=2><center> List </td>
+    <td rowspan=2><center> List </center></td>
     <td> 순서가 있는 데이터의 집합. 데이터의 중복을 허용한다.<br/>
     예) 대기자 명단 </td>
   </tr>
@@ -37,7 +37,7 @@ comments: true
     <td> 구현클래스 : ArrayList, LinkedList, Stack, Vector 등 </td>
   </tr>
   <tr>
-    <td rowspan=2><center> Set </td>
+    <td rowspan=2><center> Set </center></td>
     <td> 순서를 유지하지 않는 데이터의 집합. 데이터의 중복을 허용하지 않는다.<br/>
     예) 양의 정수집합, 소수의 집합 </td>
   </tr>
@@ -45,7 +45,7 @@ comments: true
     <td> 구현클래스 : HashSet, TreeSet 등 </td>
   </tr>
   <tr>
-    <td rowspan=2><center> Map </td>
+    <td rowspan=2><center> Map </center></td>
     <td> 키(key)와 값(value)의 쌍(pair)으로 이루어진 데이터의 집합<br/>
      순서는 유지되지 않으며, 키는 중복을 허용하지 않고, 값은 중복을 허용한다.<br/>
      예) 우편번호, 지역번호(전화번호) </td>
