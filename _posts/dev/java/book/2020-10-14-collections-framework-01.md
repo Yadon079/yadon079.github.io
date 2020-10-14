@@ -30,28 +30,32 @@ comments: true
   </tr>
   <tr>
     <td rowspan=2><center> List </td>
-    <td> 순서가 있는 데이터의 집합. 데이터의 중복을 허용한다.<br/> 예) 대기자 명단 </td>
+    <td> 순서가 있는 데이터의 집합. 데이터의 중복을 허용한다.<br/>
+    예) 대기자 명단 </td>
   </tr>
   <tr>
     <td> 구현클래스 : ArrayList, LinkedList, Stack, Vector 등 </td>
   </tr>
   <tr>
     <td rowspan=2><center> Set </td>
-    <td> 순서를 유지하지 않는 데이터의 집합. 데이터의 중복을 허용하지 않는다.<br/> 예) 양의 정수집합, 소수의 집합 </td>
+    <td> 순서를 유지하지 않는 데이터의 집합. 데이터의 중복을 허용하지 않는다.<br/>
+    예) 양의 정수집합, 소수의 집합 </td>
   </tr>
   <tr>
     <td> 구현클래스 : HashSet, TreeSet 등 </td>
   </tr>
   <tr>
     <td rowspan=2><center> Map </td>
-    <td> 키(key)와 값(value)의 쌍(pair)으로 이루어진 데이터의 집합<br/> 순서는 유지되지 않으며, 키는 중복을 허용하지 않고, 값은 중복을 허용한다.<br/>  예) 우편번호, 지역번호(전화번호) </td>
+    <td> 키(key)와 값(value)의 쌍(pair)으로 이루어진 데이터의 집합<br/>
+     순서는 유지되지 않으며, 키는 중복을 허용하지 않고, 값은 중복을 허용한다.<br/>
+     예) 우편번호, 지역번호(전화번호) </td>
   </tr>
   <tr>
     <td> 구현클래스 : HashMap, TreeMap, Hashtable, Properties 등 </td>
   </tr>
 </table>
-<br/>
 
+<br/>
 <span style="font-size:13px;">
 <b>| 참고 | 키(key)란, 데이터 집합 중에서 어떤 값(value)을 찾는데 열쇠(key)가 된다는 의미에서 붙여진 이름이다. 그래서 중복을 허용하지 않는다.</b><br/>
 </span>  
