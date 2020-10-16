@@ -77,3 +77,30 @@ comments: true
   Set eSet = map.entrySet();
   Iterator list = eSet.iterator();
 ```
+
+<p style="color:#a0adec"><b>ListIterator와 Enumeration</b></p>
+
+`Enumeration`은 컬렉션 프레임웍이 만들어지기 이전에 사용하던 `Iterator`의 구버전이라고 생각하면 된다.
+
+`ListIterator`는 `Iterator`를 상속받아서 기능을 추가한 것으로, 컬렉션의 요소에 접근할 때 `Iterator`는 단방향으로만 이동할 수 있지만 `ListIterator`는 양방향으로의 이동이 가능하다. 단 List 인터페이스를 구현한 컬렉션에서만 사용할 수 있다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>Enumeration</b> Iterator의 구버전<br/>
+      <b>ListIterator</b> Iterator에 양방향 조회기능추가(List를 구현한 경우만 사용가능)
+    </td>
+  </tr>   
+</table>
+
+`Enumeration`과 `Iterator`는 메서드 이름만 다를 뿐 기능은 같고, `ListIterator`는 `Iterator`에 이전방향으로의 접근기능을 추가한 것일 뿐이다.
+
+메서드 중에서 '선택적 기능(optional operation)'은 반드시 구현하지 않아도 된다. 예를 들어 `Iterator` 인터페이스를 구현하는 클래스에서 `remove()`는 선택적 기능이므로 구현하지 않아도 된다. 하지만 인터페이스로부터 상속받은 메서드는 추상메서드여서 메서드의 몸통(body)을 반드시 만들어주어야 하므로 다음과 같이 처리한다.
+
+```JAVA
+  public void remove() {
+    throw new UnsupportedOperationException();
+  }
+```
+
+예외를 던져서 구현되지 않은 기능이라는 것을 메서드를 호출하는 쪽에 알리는 것이 좋다.
