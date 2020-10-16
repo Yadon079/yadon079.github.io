@@ -253,3 +253,232 @@ comments: true
 두 클래스의 장점을 이용해 조합해서 사용하는 방법도 있다. 컬렉션 프레임웍에 속한 대부분의 컬렉션 클래스들은 서로 변환이 가능한 생성자를 제공하므로 이를 이용해 간단히 데이터를 옮길 수 있다.
 
 ### 1.4 Stack과 Queue
+
+스택(Stack)은 LIFO(후입선출, Last In First Out)구조로 마지막에 들어간 데이터가 가장 먼저 나온다. 쉽게 말해 한 쪽이 막힌 원통을 생각하면 된다.
+
+큐(Queue)는 FIFO(선입선출, First In First Out)구조로 처음 들어간 데이터가 먼저 나오는데, 막히지 않은 원통을 생각하면 된다.
+
+순차적으로 데이터를 추가하고 삭제하는 `Stack`에는 `ArrayList`와 같은 배열기반의 컬렉션 클래스가 적합하지만, `Queue`의 경우 데이터를 꺼내면 항상 첫번째 데이터가 삭제되므로 배열기반의 컬렉션 클래스를 사용할 경우 빈 공간을 채우기 위해 데이터의 복사가 발생하므로 비효율적이다. 따라서 `LinkedList`로 구현하는 편이 더 적합하다.
+
+자바에서는 스택을 `Stack`클래스로 구현하여 제공하지만 큐는 `Queue`인터페이스로만 정의해 놓고 별도의 클래스는 제공하지 않는다. 대신 `Queue`인터페이스를 구현한 클래스들이 있어서 이 들 중의 하나를 선택해서 사용하면 된다.
+
+<p style="color:#a0adec"><b>Stack 직접 구현하기</b></p>
+
+`Vector`를 상속받아 구현된 `Stack` 코드이다.
+
+```java
+  import java.util.*;
+
+  class Stack extends Vector {
+    public Object push(Object item) {
+      addElement(item);
+      return item;
+    }
+
+    public Object pop() {
+      Object obj = peek(); // 스택에 저장된 마지막 요소를 읽어온다.
+      // 스택이 비어 있으면 peek() 메서드가 EmptyStackException을 발생시킨다.
+
+      // 마지막 요소를 삭제한다.
+      removeElementAt(size() - 1);
+      return obj;
+    }
+
+    public Object peek() {
+      int len = size();
+
+      if(len == 0)
+        throw new EmptyStackException();
+
+      // 마지막 요소를 반환한다.
+      return elementAt(len - 1);
+    }
+
+    public boolean empty() {
+      return size() == 0;
+    }
+
+    public int search(Object o) {
+      int i = lastIndexOf(o); // 끝에서부터 객체를 찾는다. 반환값은 저장된 위치(배열의 index)이다.
+
+      if(i >= 0) { // 객체를 찾은 경우
+        return size() - i;
+      }
+
+      return -1; // 객체를 찾지 못한 경우
+    }
+  }
+```
+
+<p style="color:#a0adec"><b>스택과 큐의 활용</b></p>
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>스택 활용 예</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 수식계산, 수식괄호검사, 워드프로세서의 undo/redo, 웹브라우저의 뒤로/앞으로<br/>
+      <b>큐 활용 예</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 최근사용문서, 인쇄작업 대기목록, 버퍼(buffer)
+    </td>
+  </tr>   
+</table>
+
+스택을 활용해 웹브라우저의 페이지 이동 버튼(뒤로, 앞으로)을 구현한 코드이다.
+
+```java
+  import java.util.*;
+
+  public class StackEx {
+    public static Stack back = new Stack();
+    public static Stack forward = new Stack();
+
+    public static void main(String[] args) {
+      goURL("1. 네이버")
+      goURL("2. 다음")
+      goURL("3. 구글")
+      goURL("4. 네이트")
+
+      printStatus();
+
+      goBack();
+      System.out.println("= 뒤로가기 버튼을 누른 후 =");
+      printStatus();
+
+      goBack();
+      System.out.println("= '뒤로' 버튼을 누른 후 =");
+      printStatus();
+
+      goForward();
+      System.out.println("= '앞으로' 버튼을 누른 후 =");
+      printStatus();
+
+      goURL("javatutorial.com");
+      System.out.println("= 새로운 주소로 이동 후 =");
+      printStatus();
+    }
+
+    public static void printStatus() {
+      System.out.println("back : " + back);
+      System.out.println("forward : " + forward);
+      System.out.println("현재 화면은 '" + back.peek() + "' 입니다.");
+      System.out.println();
+    }
+
+    public static void goURL(String url) {
+      back.push(url);
+
+      if(!forward.empty())
+        forward.clear();
+    }
+
+    public static void goForward() {
+      if(!forward.empty())
+        back.push(forward.pop());
+    }
+
+    public static void goBack() {
+      if(!back.empty())
+        forward.push(back.pop());
+    }
+  }
+```
+
+유닉스의 명령어 중 입력한 명령어를 순서대로 보여주는 `history`명령어를 `Queue`를 이용해 구현한 코드이다.
+
+```java
+  import java.util.*;
+
+  class QueueEx {
+    static Queue que = new LinkedList();
+    static final int MAX_SIZE = 5; // 최대 5개까지 저장되도록 한다.
+
+    public static void main(String[] args) {
+      System.out.println("help를 입력하면 도움말을 볼 수 있습니다.");
+
+      while(true) {
+        System.out.print(">>");
+        try {
+          // 화면으로부터 라인단위로 입력받는다.
+          Scanner sc = new Scanner(System.in);
+          String input = sc.nextLine().trim();
+
+          if("".equals(input)) continue;
+
+          if(input.equalsIgnoreCase("q")) {
+            System.exit(0);
+          } else if(input.equalsIgnoreCase("help")) {
+            System.out.println(" help - 도움말을 보여줍니다. ");
+            System.out.println(" q 또는 Q - 프로그램을 종료합니다. ");
+            System.out.println(" history - 최근에 입력한 명령어를 " + MAX_SIZE + "개 보여줍니다.");
+          } else if(input.equalsIgnoreCase("history")) {
+            int i = 0;
+
+            save(input); // 입력받은 명령어 저장
+
+            // LinkedList의 내용을 보여준다.
+            LinkedList tmp = (LinkedList)q;
+            ListIterator it = tmp.listIterator();
+
+            while(it.hasNext())
+              System.out.println(++i + "." + it.next());
+          } else {
+            save(input);
+            System.out.println(input);
+          }
+        } catch(Exception e) {
+          System.out.println("입력오류입니다.");
+        }
+      }
+    }
+
+    public static void save(String input) {
+      // queue에 저장한다.
+      if(!"".equals(input))
+        q.offer(input);
+
+      // queue의 최대크기를 넘으면 제일 처음 입력된 것을 삭제한다.
+      if(q.size() > MAX_SIZE) // size()는 Collection 인터페이스에 정의
+        q.remove();
+    }
+  }
+```
+
+<p style="color:#a0adec"><b>PriorityQueue</b></p>
+
+`Queue`인터페이스의 구현체 중의 하나로, 저장한 순에 관계없이 우선순위(priority)가 높은 것부터 꺼내게 되는 특징을 가지고 있다. 그리고 null을 저장할 수 없는데 null을 저장하면 NullPointerException이 발생한다.
+
+`PriorityQueue`는 저장공간으로 배열을 사용하며, 각 요소를 `힙(heap)`이라는 자료구조의 형태로 저장한다.
+
+```java
+  import java.util.*;
+
+  class PriorityQueueEx {
+    public static void main(String[] args) {
+      Queue pq = new PriorityQueue();
+      pq.offer(3); // pq.offer(new Integer(3)); 오토박싱
+      pq.offer(1);
+      pq.offer(5);
+      pq.offer(2);
+      pq.offer(4);
+      System.out.println(pq); // pq 내부 배열 출력
+
+      Object obj = null;
+
+      //PriorityQueue에 저장된 요소를 하나씩 꺼낸다.
+      while((obj = pq.poll()) != null)
+        System.out.println(obj);
+    }
+  }
+```
+
+저장순서는 3, 1, 5, 2, 4인데 출력결과는 1, 2, 3, 4, 5로 나온다. 숫자일 경우 우선순위가 오름차순을 기본으로 하기때문이다. 객체를 저장했을 때는 객체의 크기를 비교할 수 있는 방법을 제공해야 한다. Number의 자손들은 자체적으로 숫자를 비교하는 방법을 정의하고 있기 때문에 비교 방법을 지정해 주지 않아도 된다.
+
+<p style="color:#a0adec"><b>Deque(Double-Ended Queue)</b></p>
+
+`Queue`의 변형으로, 한 쪽 끝으로만 추가/삭제할 수 있는 큐와 달리, `Deque`(덱 또는 디큐)은 양쪽 끝에 추가/삭제가 가능하다. 덱의 조상은 큐이며, 구현체로는 `ArrayDeque`과 `LinkedList` 등이 있다.
+
+덱은 스택과 큐를 하나로 합쳐놓은 것과 같으며 스택으로도 큐로도 사용할 수 있다.
+
+[다음 편](/2020/java/11-collections-framework-02)
+
+[위로](#컬렉션-프레임웍)
