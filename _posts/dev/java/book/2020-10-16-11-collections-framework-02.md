@@ -104,3 +104,51 @@ comments: true
 ```
 
 예외를 던져서 구현되지 않은 기능이라는 것을 메서드를 호출하는 쪽에 알리는 것이 좋다.
+
+`Iterator`의 `remove()`는 단독으로 쓰일 수 없고, `next()`와 같이 써야한다. 특정위치의 요소를 삭제하는 것이 아니라 읽어 온 것을 삭제한다. `next()`의 호출없이 `remove()`를 호출하면, `IllegalStateException`이 발생한다.
+
+### 1.6 Arrays
+
+`Arrays`클래스에는 배열을 다루는데 유용한 메서드가 정의되어 있다. 메서드는 모두 static 메서드이다.
+
+<p style="color:#a0adec"><b>배열의 복사 - copy(), copyOfRange()</b></p>
+
+`copyOf()`는 배열 전체를, `copyOfRange()`는 배열의 일부를 복사해서 새로운 배열을 만들어 반환한다. 단, `copyOfRange()`에 지정된 범위의 끝은 포함되지 않는다.
+
+```JAVA
+  int[] arr = {0, 1, 2, 3, 4};
+  int[] arr2 = Arrays.copyOf(arr, arr.length); // arr2 = [0, 1, 2, 3, 4]
+  int[] arr3 = Arrays.copyOf(arr, 3); // arr3 = [0, 1, 2]
+  int[] arr4 = Arrays.copyOf(arr, 7); // arr4 = [0, 1, 2, 3, 4, 0, 0]
+  int[] arr5 = Arrays.copyOfRange(arr, 2, 4) // arr5 = [2, 3]
+  int[] arr6 = Arrays.copyOfRange(arr, 0, 7) // arr6 = [0, 1, 2, 3, 4, 0, 0]
+```
+
+<p style="color:#a0adec"><b>배열 채우기 - fill(), setAll()</b></p>
+
+`fill()`은 배열의 모든 요소를 지정된 값으로 채운다. `setAll()`은 배열을 채우는데 사용할 함수형 인터페이스를 매개변수로 받는다. 이 메서드를 호출할 때는 함수형 인터페이스를 구현한 객체를 매개변수로 지정하던가 아니면 람다식을 지정해야한다.
+
+```JAVA
+  int[] arr = new int[5];
+  Arrays.fill(arr, 9); // arr = [9, 9, 9, 9, 9]
+  Arrays.setAll(arr, () -> (int)(Math.random() * 5) + 1;
+```
+
+위 코드에서 `i -> (int)(Math.random() * 5) + 1`은 '람다식(lambda expression)'으로, 1 ~ 5의 범위에 속한 임의의 정수를 반환하는 일을 한다. `setAll()`메서드는 람다식이 반환한 임의의 정수로 배열을 채운다.
+
+<p style="color:#a0adec"><b>배열의 정렬과 검색 - sort(), binarySearch()</b></p>
+
+`sort()`는 배열을 정렬할 때, `binarySearch()`는 배열에 저장된 요소를 검색할 때 사용한다. `binarySearch()`는 배열에서 지정된 값이 저장된 위치(index)를 찾아서 반환하는데, 반드시 배열이 정렬된 상태이어야 올바른 결과를 얻을 수 있다. 만일 검색한 값과 일치한 요소가 여러 개라면, 어느 위치가 반환될지는 알 수 없다.
+
+```JAVA
+  int[] arr = {3, 2, 0, 1, 4};
+  int idx = Arrays.binarySearch(arr, 2); // 잘못된 결과가 나온다.
+
+  Arrays.sort(arr);
+  System.out.println(Arrays.toString(arr)); // [0, 1, 2, 3, 4]
+  int idx = Arrays.binarySearch(arr, 2); // idx = 2
+```
+
+배열을 처음부터 순서대로 하나씩 검사하는 것을 '순차 검색(linear search)'이라 하는데, 이 방법은 배열이 정렬되어 있을 필요는 없지만 하나씩 비교하기 때문에 시간이 많이 걸린다. 반면에 '이진 검색(binary search)'은 검색 범위를 절반씩 줄여가면서 검색하기 때문에 속도가 빠르다. 단, 배열이 정렬되었을 때만 사용할 수 있다는 단점이 있다.
+
+<p style="color:#a0adec"><b>문자열의 비교와 출력 - equals(), toString()</b></p>
