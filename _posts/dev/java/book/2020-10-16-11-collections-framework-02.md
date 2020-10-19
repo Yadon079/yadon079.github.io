@@ -131,7 +131,7 @@ comments: true
 ```JAVA
   int[] arr = new int[5];
   Arrays.fill(arr, 9); // arr = [9, 9, 9, 9, 9]
-  Arrays.setAll(arr, () -> (int)(Math.random() * 5) + 1;
+  Arrays.setAll(arr, () -> (int)(Math.random() * 5) + 1);
 ```
 
 위 코드에서 `i -> (int)(Math.random() * 5) + 1`은 '람다식(lambda expression)'으로, 1 ~ 5의 범위에 속한 임의의 정수를 반환하는 일을 한다. `setAll()`메서드는 람다식이 반환한 임의의 정수로 배열을 채운다.
@@ -152,3 +152,179 @@ comments: true
 배열을 처음부터 순서대로 하나씩 검사하는 것을 '순차 검색(linear search)'이라 하는데, 이 방법은 배열이 정렬되어 있을 필요는 없지만 하나씩 비교하기 때문에 시간이 많이 걸린다. 반면에 '이진 검색(binary search)'은 검색 범위를 절반씩 줄여가면서 검색하기 때문에 속도가 빠르다. 단, 배열이 정렬되었을 때만 사용할 수 있다는 단점이 있다.
 
 <p style="color:#a0adec"><b>문자열의 비교와 출력 - equals(), toString()</b></p>
+
+`toString()`은 배열의 모든 요소를 문자열로 출력할 수 있다. 일차원 배열에만 사용할 수 있고, 다차원 배열에는 `deepToStirng()`을 사용해야한다. `deepToStirng()`은 배열의 모든 요소를 재귀적으로 접근해서 문자열을 구성하므로 2차원뿐만 아니라 3차원 이상의 배열에도 동작한다.
+
+```JAVA
+  int[] arr = {0, 1, 2, 3, 4};
+  int[][] arr2D = {{11, 12}, {21, 22}};
+
+  System.out.println(Arrays.toString(arr)); // [0, 1, 2, 3, 4]
+  System.out.println(Arrays.deepToString(arr2D)); // [[11, 12], [21, 22]]
+```
+
+`equals()`는 두 배열에 저장된 모든 요소를 비교해서 같으면 true, 다르면 false를 반환한다. 마찬가지로 일차원 배열에만 사용가능하므로, 다차원 배열의 비교에는 `deepEquals()`를 사용해야한다.
+
+2차원 배열을 비교할 때 `equals()`를 사용하면 배열에 저장된 내용이 같아도 false를 결과로 얻는다. 다차원 배열은 '배열의 배열'의 형태로 구성되기 때문에 문자열이 아닌 '배열에 저장된 배열의 주소'를 비교하게 된다. 서로 다른 배열은 항상 주소가 다르기 때문에 false를 얻게 되는 것이다.
+
+<p style="color:#a0adec"><b>배열을 List로 변환 - asList(Object... a)</b></p>
+
+`asList()`는 배열을 List에 담아서 반환한다. 매개변수의 타입이 가변인수라 배열 생성없이 저장할 요소들만 나열하는 것도 가능하다.
+
+한 가지 주의할 점은 `asList()`가 반환한 List의 크기는 변경할 수 없다. 즉, 추가 또는 삭제가 불가능하다. 저장된 내용을 변경하는 것은 가능하다.
+
+```JAVA
+  List list = Arrays.asList(new Integer[]{1, 2, 3, 4, 5}); // list = [1, 2, 3, 4, 5]
+  List list = Arrays.asList(1, 2, 3, 4, 5); // list = [1, 2, 3, 4, 5]
+  list.add(6); // UnsupportedOperationException 예외 발생
+```
+
+크기를 변경할 수 있는 List가 필요하다면 다음과 같이 하면된다.
+
+```JAVA
+  List list = new ArrayList(Arrays.asList(1, 2, 3, 4, 5));
+```
+
+<p style="color:#a0adec"><b>parallelXXX(), spliterator(), stream()</b></p>
+
+`parallel`로 시작하는 메서드들은 보다 빠른 결과를 얻기 위해 여러 쓰레드가 작업을 나누어 처리하도록 한다. `spliterator()`는 여러 쓰레드가 처리할 수 있게 하나의 작업을 여러 작업으로 나누는 `Spliterator`를 반환하며, `stream()`은 컬렉션을 스트림으로 변환한다.
+
+### 1.7 Comparator와 Comparable
+
+`Arrays.sort()`를 호출만 하면 컴퓨터가 배열을 자동으로 정렬하는 것처럼 보이지만, 사실은 `Comparator`클래스와 `Comparable`의 구현에 의해 정렬된 것이다. `Comparator`와 `Comparable`은 모두 인터페이스로 컬렉션을 정렬하는데 필요한 메서드를 정의하고 있다.
+
+`Comparable`을 구현하고 있는 클래스들은 같은 타입의 인스턴스끼리 서로 비교할 수 있는 클래스들(Integer와 같은 wrapper클래스, String, Date, File 등)이며 기본적으로 오름차순, 작은 값에서부터 큰 값의 순으로 정렬되도록 구현되어 있다. 그래서 `Comparable`을 구현한 클래스는 정렬이 가능하다는 것을 의미한다.
+
+실제 소스는 다음과 같다.
+
+```JAVA
+  public interface Comparator {
+    int compare(Object o1, Object o2);
+    boolean equals(Object obj);
+  }
+
+  public interface Comparable {
+    public int compareTo(Object o);
+  }
+```
+
+<span style="font-size:13px;">
+<b>| 참고 | Comparator는 java.util 패키지에 있고, Comparable은 java.lang패키지에 있다.</b><br/>
+</span>  
+
+`compare()`와 `compareTo()`는 선언형태와 이름이 다를 뿐 두 객체를 비교한다는 같은 기능을 목적으로 고안된 것이다. 객체를 비교해서 음수, 0, 양수 중 하나를 반환하도록 구현해야 한다.
+
+`Comparable`을 구현한 클래스들이 기본적으로 오름차순으로 정렬되어 있지만, 내림차순 또는 다른 기준에 의해서 정렬되도록 하고 싶을 때 `Comparator`를 구현해서 정렬기준을 제공할 수 있다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>Comparable</b> &nbsp;&nbsp;&nbsp;&nbsp; 기본 정렬기준을 구현하는데 사용.<br/>
+      <b>Comparator</b> &nbsp;&nbsp;&nbsp;&nbsp; 기본 정렬기준 외 다른 기준으로 정렬하고자 할 때 사용.
+    </td>
+  </tr>   
+</table>
+
+```java
+  import java.util.*;
+
+  class ComparatorEx {
+    public static void main(String[] args) {
+      String[] strArr = {"cat", "Dog", "lion", "tiger"};
+
+      Arrays.sort(strArr); // String의 Comparable구현에 의한 정렬
+      System.out.println("strArr = " + Arrays.toString(strArr));
+
+      Arrays.sort(strArr, String.CASE_INSENSITIVE_ORDER); // 대소문자 구분 안함
+      System.out.println("strArr = " + Arrays.toString(strArr));
+
+      Arrays.sort(strArr, new Descending()); // 역순 정렬
+      System.out.println("strArr = " + Arrays.toString(strArr));
+    }
+  }
+
+  class Descending implements Comparator {
+    public int compare(Object o1, Object o2) {
+      if(o1 instanceof Comparable && o2 instanceof Comparable) {
+        Comparable c1 = (Comparable)o1;
+        Comparable c2 = (Comparable)o2;
+        return c2.compareTo(c1);
+      }
+
+      return -1;
+    }
+  }
+```
+
+String의 Comparable구현은 문자열이 사전 순으로 정렬되도록 작성되어 있다. 문자열의 오름차순은 공백, 숫자, 대문자, 소문자의 순으로 정렬되는 것을 의미한다. 즉, 문자의 유니코드의 순서가 작은 값에서 큰 값으로 정렬되는 것이다.
+
+`public static final Comparator CASE_INSENSITIVE_ORDER`라는 대소문자 구분없이 비교하는 Comparator를 상수의 형태로 제공한다.
+
+String의 기본 정렬을 반대로, 즉 내림차순으로 하는 것은 String에 구현된 `compareTo()`의 결과에 -1을 곱하거나 예제처럼 비교하는 객체의 위치를 바꿔서 `c2.compareTo(c1)`의 형태로 해도 된다.
+
+단 `compare()`의 매개변수가 Object타입이기 때문에 `compareTo()`를 바로 호출할 수 없다. 먼저 `Comparable`로 형변환을 해야 한다.
+
+### 1.8 HashSet
+
+`HashSet`은 Set 인터페이스를 구현한 가장 대표적인 컬렉션이며, Set 인터페이스의 특징대로 중복된 요소를 저장하지 않는다.
+
+새로운 요소를 추가할 때 `add`메서드나 `addAll`메서드를 사용하는데, 만일 `HashSet`에 이미 저장되어 있는 요소와 중복된 요소를 추가하고자 한다면 이 메서드들은 false를 반환해 중복된 요소라서 추가에 실패했다는 것을 알린다. 이러한 점을 이용해 컬렉션 내의 중복 요소들을 쉽게 제거할 수 있다.
+
+`HashSet`은 저장순서를 유지하지 않으므로 저장순서를 유지하고자 한다면 `LinkedHashSet`을 사용해야한다.
+
+```java
+  import java.util.*;
+
+  class HashSetEx {
+    public static void main(String[] args) {
+      Object[] objArr = {"1", new Integer(1), "2", "2", "3", "3", "4", "4", "4"};
+      Set set = new HashSet();
+
+      for(int i = 0; i < objArr.length; i++) {
+        set.add(objArr[i]); // HashSet에 objArr의 요소들을 저장한다.
+      }
+
+      // HashSet에 지정된 요소들을 출력한다.
+      System.out.println(set);
+    }
+  }
+```
+
+결과를 확인해보면 중복된 값은 저장되지 않는다. '1'이 두 번 출력되는데, 하나는 String인스턴스이고 하나는 Integer인스턴스로 서로 다른 객체이므로 중복으로 간주하지 않는다.
+
+`Set`을 구현한 컬렉션 클래스는 List를 구현한 컬렉션 클래스와 달리 순서를 유지하지 않기 때문에 저장한 순서와 다를 수 있다. 만일 중복을 제거하는 동시에 저장한 순서를 유지하고 싶다면 `LinkedHashSet`을 사용해야한다.
+
+### 1.9 TreeSet
+
+`TreeSet`은 이진 검색 트리(binary search tree)라는 자료구조의 형태로 데이터를 저장하는 컬렉션 클래스이다. 이진 검색 트리는 정렬, 검색, 범위검색(range search)에 높은 성능을 보이는 자료구조이며 `TreeSet`은 이진 검색 트리의 성능을 향상시킨 '레드-블랙 트리(Red-Black tree)'로 구현되어 있다.
+
+Set 인터페이스를 구현했으므로 <b>중복된 데이터의 저장을 허용하지 않으며 정렬된 위치에 저장하므로 저장순서를 유지하지 않는다.</b>
+
+이진 트리(binary tree)는 링크드 리스트처럼 여러 개의 노드(node)가 서로 연결된 구조로, 각 노드에 최대 2개의 노드를 연결할 수 있으며 '루트(root)'라고 불리는 하나의 노드에서 시작해 계속 확장할 수 있다.
+
+위 아래로 연결된 두 노드를 '부모-자식관계'에 있다고 하며 하나의 부모 노드는 최대 두 개의 자식 노드와 연결될 수 있다.
+
+이진 검색 트리(binary search tree)는 부모노드의 왼쪽에는 부모노드의 값보다 작은 값의 자식노드를 저장, 오른쪽에는 큰 값의 자식노드를 저장하는 이진 트리이다.
+
+첫 번째로 저장되는 값은 루트가 되고, 두 번째 값은 트리의 루트부터 시작해서 크기를 비교하면서 트리를 따라 내려간다. 이렇게 트리를 구성하면, 왼쪽 마지막 레벨이 가장 작은 값이 되고 오른쪽 마지막 레벨이 가장 큰 값이 된다.
+
+`TreeSet`에 저장되는 객체가 `Comparable`을 구현하던가, `Comparator`를 제공해서 객체를 비교할 방법을 알려줘야 한다. 그렇지 않으면 객체를 저장할 때 예외가 발생한다.
+
+트리는 데이터를 순차적으로 저장하는 것이 아니라 저장위치를 찾아서 저장해야하고, 삭제하는 경우 트리의 일부를 재구성해야하므로 링크드 리스트보다 데이터의 추가/삭제시간이 더 걸린다. 대신 검색과 정렬기능이 더 뛰어나다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>이진 검색 트리(binary search tree)는</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 모든 노드는 최대 두 개의 자식노드를 가질 수 있다.<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 왼쪽 자식노드의 값은 부모노드의 값보다 작고 오른쪽 자식노드의 값은 크다.<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 노드의 추가 삭제에 시간이 걸린다.(순차적으로 저장하지 않으므로)<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 검색(범위검색)과 정렬에 유리하다.<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; - 중복된 값을 저장하지 못한다.
+    </td>
+  </tr>   
+</table>
+
+### 1.10 HashMap과 Hashtable
+
+`Hashtable`과 `HashMap`의 관계는 Vector와 ArrayList의 관계와 같다.
