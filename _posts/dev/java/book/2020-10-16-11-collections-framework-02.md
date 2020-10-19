@@ -320,3 +320,66 @@ Set 인터페이스를 구현했으므로 <b>중복된 데이터의 저장을 �
 ### 1.10 HashMap과 Hashtable
 
 `Hashtable`과 `HashMap`의 관계는 Vector와 ArrayList의 관계와 같다.
+
+`HashMap`은 Map을 구현했으므로 Map의 특징, 키(key)와 값(value)을 묶어서 하나의 데이터(entry)로 저장한다는 특징을 갖는다. 그리고 해싱(hashing)을 사용하기 때문에 많은 양의 데이터를 검색하는데 뛰어난 성능을 보인다.
+
+```JAVA
+  public class HashMap extends AbstractMap implements Map, Cloneable, Serializabe {
+    transient Entry[] table;
+      ...
+    static class Entry implements Map.Entry {
+      final Object key;
+      Object value;
+        ...
+    }
+  }
+```
+
+`HashMap`은 `Entry`라는 내부 클래스를 정의하고, 다시 `Entry`타입의 배열을 선언하고 있다. 키(key)와 값(value)은 별개의 값이 아니라 서로 관련된 값이기 때문에 하나의 클래스로 정의해서 하나의 배열로 다루는 것이 데이터의 무결성(integrity)적인 측면에서 더 바람직하기 때문이다.
+
+|<center>비객체지향적인 코드|<center>객체지향적인 코드|
+|:---|:---|
+|Object[] key;<br/> Object[] value;|Entry[] table;<br/> class Entry {<br/> &nbsp;&nbsp;&nbsp; Object key;<br/> &nbsp;&nbsp;&nbsp; Object value;<br/>}|
+
+<span style="font-size:13px;">
+<b>| 참고 | Map.Entry는 Map인터페이스에 정의된 'static inner interface'이다.</b><br/>
+</span>  
+
+`HashMap`은 키와 값을 각각 Object타입으로 저장한다. 즉 (Object, Object)의 형태로 저장하기 때문에 어떠한 객체도 저장할 수 있지만 키는 주로 String을 대문자 또는 소문자로 통일해서 사용하곤 한다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>키(key)</b> &nbsp;&nbsp;&nbsp;&nbsp; 컬렉션 내의 키(key) 중에서 유일해야 한다.<br/>
+      <b>값(value)</b> &nbsp;&nbsp;&nbsp;&nbsp; 키(key)와 달리 데이터의 중복을 허용한다.
+    </td>
+  </tr>   
+</table>
+
+키는 저장된 값을 찾는데 사용되는 것이기 때문에 컬렉션 내에서 유일(unique)해야 한다. 즉, `HashMap`에 저장된 데이터를 하나의 키로 검색했을 때 결과가 단 하나만 있어야 함을 뜻한다.
+
+<p style="color:#a0adec"><b>해싱과 해시함수</b></p>
+
+해싱이란 해시함수(hash function)를 이용해서 데이터를 해시테이블(hash table)에 저장하고 검색하는 기법을 말한다. 해시함수는 데이터가 저장되어 있는 곳을 알려주기 때문에 다량의 데이터 중에서도 원하는 데이터를 빠르게 찾을 수 있다.
+
+해싱을 구현한 컬렉션 클래스는 `HashSet`, `HashMap`, `Hashtable` 등이 있다.
+
+해싱에서 사용하는 자료구조는 배열과 링크드 리스트의 조합으로 되어 있다. 저장할 데이터의 키를 해시함수에 넣으면 배열의 한 요소를 얻게 되고, 다시 그 곳에 연결되어 있는 링크드 리스트에 저장하게 된다.
+
+링크드 리스트는 검색에 불리한 자료구조이기 때문에 크기가 커질수록 검색속도가 떨어진다. 이는 하나의 서랍에 데이터의 수가 많을수록 검색에 시간이 더 걸리는 것과 같다. 배열은 배열의 크기가 커져도, 원하는 요소가 몇 번째에 있는지만 알면 공식에 의해 빠르게 원하는 값을 찾을 수 있다. 그래서 실생활과는 다르게, 하나의 서랍에 많은 데이터가 저장되어 있는 것보다 많은 서랍에 하나의 데이터만 저장되어 있는 형태가 더 빠른 검색결과를 얻는다.
+
+하나의 링크드 리스트(서랍)에 최소한의 데이터만 저장되려면, 저장될 데이터의 크기를 고려해서 `HashMap`의 크기를 적절하게 지정해주어야하고, 해시함수가 서로 다른 키에 대해서 중복된 해시코드(서랍위치)의 반환을 최소화해야 한다.
+
+`HashMap`과 같이 해싱을 구현한 컬렉션 클래스에서는 Object클래스에 정의된 `hashCode()`를 해시함수로 사용한다. Object클래스에 정의된 `hashCode()`는 객체의 주소를 이용하는 알고리즘으로 해시코드를 만들어 낸다.
+
+String클래스의 경우 Object로부터 상속받은 `hashCode()`를 오버라이딩해서 문자열의 내용으로 해시코드를 만들어 낸다. 그래서 서로 다른 String 인스턴스일지라도 같은 내용의 문자열을 가졌다면 `hashCode()`를 호출하면 같은 해시코드를 얻는다.
+
+`HashMap`에서도 서로 다른 두 객체에 대해 `equals()`로 비교한 결과가 true인 동시에 `hashCode()`의 반환값이 같아야 같은 객체로 인식한다. 이미 존재하는 키에 대한 값을 저장하면 기존의 값을 새로운 값으로 덮어쓴다. 따라서 새로운 클래스를 정의할 때 `equals()`를 오버라이딩해야 한다면 `hashCode()`도 같이 재정의해서 `equals()`의 결과가 true인 두 객체의 해시코드의 결과 값이 항상 같도록 해주어야 한다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 비교한 결과가 false이고 해시코드가 같은 경우 같은 링크드 리스트에 저장된 다른 두 데이터가 된다.</b><br/>
+</span>  
+
+### 1.11 TreeMap
+
+`TreeMap`은 이진 검색 트리의 형태로 키와 값의 쌍으로 이루어진 데이터를 저장한다. 그래서 검색과 정렬에 적합한 컬렉션 클래스이다.
