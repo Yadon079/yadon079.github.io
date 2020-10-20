@@ -383,3 +383,93 @@ String클래스의 경우 Object로부터 상속받은 `hashCode()`를 오버라
 ### 1.11 TreeMap
 
 `TreeMap`은 이진 검색 트리의 형태로 키와 값의 쌍으로 이루어진 데이터를 저장한다. 그래서 검색과 정렬에 적합한 컬렉션 클래스이다.
+
+검색에 관한 대부분의 경우에서 `HashMap`을 사용하는 것이 좋다. 단, 범위 검색이나 정렬이 필요한 경우에는 `TreeMap`을 사용하는 것이 좋다.
+
+### 1.12 Properties
+
+`Properties`는 `HashMap`의 구버전인 `Hashtable`을 상속받아 구현한 것으로, `Hashtable`은 키와 값을 (Object, Object)의 형태로 저장하는데 `Properties`는 (String, String)의 형태로 저장하는 보다 단순화된 컬렉션 클래스이다.
+
+주로 애플리케이션의 환경설정과 관련된 속성(property)을 저장하는데 사용되며 데이터를 파일로부터 읽고 쓰는 기능을 제공한다.
+
+### 1.13 Collections
+
+`Collections`는 컬렉션과 관련된 메서드를 제공한다. `fill()`, `copy()`, `sort()`, `binarySearch()` 등의 메서드는 `Arrays`에 포함된 메서드와 동일한 기능을 한다.
+
+<span style="font-size:13px;">
+<b>| 참고 | java.util.Collection은 인터페이스이고, java.util.Collections은 클래스이다.</b><br/>
+</span>  
+
+<p style="color:#a0adec"><b>컬렉션의 동기화</b></p>
+
+멀티 쓰레드(multi-thread) 프로그래밍에서는 하나의 객체를 여러 쓰레드가 동시에 접근할 수 있기 때문에 데이터의 일관성(consistency)을 유지하기 위해서는 공유되는 객체에 동기화(synchronization)가 필요하다.
+
+`Collections` 클래스에는 동기화 메서드를 제공하고 있으므로, 동기화가 필요할 때 해당하는 것을 사용하면 된다.
+
+```JAVA
+  static Collection synchronizedCollection(Collection c)
+  static List synchronizedList(List list)
+  static Set synchronizedSet(Set s)
+  static Map synchronizedMap(Map m)
+  static SortedSet synchronizedSortedSet(SortedSet s)
+  static SortedMap synchronizedSortedMap(SortedMap m)
+```
+
+다음과 같은 방법으로 사용할 수 있다.
+
+```JAVA
+  List syncList = Collections.synchronizedList(new ArrayList(...));
+```
+
+<p style="color:#a0adec"><b>변경불가 컬렉션 만들기</b></p>
+
+컬렉션의 저장된 데이터를 보호하기 위해 읽기전용으로 만들어야할 때가 있다. 주로 여러 쓰레드가 하나의 컬렉션을 공유하다가 데이터가 손상될 수 있는데 이 때 다음과 같은 메서드들을 이용하면 된다.
+
+```JAVA
+  static Collection unmodifiableCollection(Collection c)
+  static List unmodifiableList(List list)
+  static Set unmodifiableSet(Set s)
+  static Map unmodifiableMap(Map m)
+  static NavigableSet unmodifiableNavigableSet(NavigableSet s)
+  static SortedSet unmodifiableSortedSet(SortedSet s)
+  static NavigableMap unmodifiableNavigableMap(NavigableMap m)
+  static SortedMap unmodifiableSortedMap(SortedMap m)
+```
+
+<p style="color:#a0adec"><b>싱글톤 컬렉션 만들기</b></p>
+
+인스턴스를 new 연산자가 아닌 메서드를 통해서만 생성할 수 있게 함으로써 생성할 수 있는 인스턴스의 개수를 제한하는 기능을 제공하는 것이 `singleton`으로 시작하는 메서드이다.
+
+```JAVA
+  static List singletonList(Object o)
+  static Set singleton(Object o)
+  static Map singletonMap(Object key, Object value)
+```
+
+매개변수로 저장할 요소를 지정하면, 해당 요소를 저장하는 컬렉션을 반환한다. 반환된 컬렉션은 변경할 수 없다.
+
+<p style="color:#a0adec"><b>한 종류의 객체만 저장하는 컬렉션 만들기</b></p>
+
+컬렉션에 모든 종류의 객체를 저장할 수 있다는 것은 장점이자 단점이다. 대부분의 경우 한 종류의 객체를 저장하며, 컬렉션에 지정된 종류의 객체만 저장하도록 제한하고 싶을 때 사용하는 메서드들은 다음과 같다.
+
+```JAVA
+  static Collection checkedCollection(Collection c, Class type)
+  static List checkedList(List list, Class type)
+  static Set checkedSet(Set s, Class type)
+  static Map checkedMap(Map m, Class keyType, Class valueType)
+  static Queue checkedQueue(Queue queue, Class type)
+  static NavigableSet checkedNavigableSet(NavigableSet s, Class type)
+  static SortedSet checkedSortedSet(SortedSet s, Class type)
+  static NavigableMap checkedNavigableMap(NavigableMap m, Class keyType, Class valueType)
+  static SortedMap checkedSortedMap(SortedMap m, Class keyType, Class valueType)
+```
+
+다음과 같이 두 번째 매개변수에 저장할 객체의 클래스를 지정하면 된다.
+
+```JAVA
+  List list = new ArrayList();
+  List checkedList = checkedList(list, String.class); // String만 저장가능
+  checkedList.add("abc");
+```
+
+[위로](#컬렉션-프레임웍)
