@@ -1,0 +1,122 @@
+---
+layout: post
+date: 2020-10-27 10:17:00
+title: "지네릭스, 열거형, 애너테이션"
+description: "자바의 정석"
+subject: java의 정석
+category: [ java ]
+tags: [ java, generics, enumeration, annotation ]
+comments: true
+---
+
+# 지네릭스 열거형 애너테이션
+
+> 이 글은 남궁성님의 [자바의 정석 3/e](http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&ejkGb=KOR&barcode=9788994492032)을 기반으로 공부한 내용을 정리한 글입니다.
+
++ [지네릭스](#지네릭스-Generics)
++ [열거형](#열거형-enums)
++ [애너테이션](#애너테이션-annotation)
+
+## 지네릭스 Generics
+
+### 1.1 지네릭스란?
+
+지네릭스는 다양한 타입의 객체들을 다루는 메서드나 컬렉션 클래스에 컴파일 시의 타입 체크(compile-time type check)를 해주는 기능이다. 객체의 타입을 컴파일 시에 체크하기 때문에 객체의 타입 안정성을 높이고 형변환의 번거로움이 줄어든다.
+
+타입 안정성을 높인다는 것은 의도하지 않은 타입의 객체가 저장되는 것을 막고, 저장된 객체를 꺼내올 때 원래의 타입과 다른 타입으로 잘못 형변환되어 발생할 수 있는 오류를 줄여준다는 뜻이다.
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>지네릭스의 장점</b><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; 1. 타입 안정성을 제공한다.<br/>
+      &nbsp;&nbsp;&nbsp;&nbsp; 2. 타입체크와 형변환을 생략할 수 있어 코드가 간결해 진다.
+    </td>
+  </tr>   
+</table>
+
+### 1.2 지네릭 클래스의 선언
+
+지네릭 타입은 클래스와 메서드에 선언할 수 있다.
+
+```JAVA
+  class Box {
+    Object item;
+
+    void setItem(Object item) { this.item = item; }
+    Object getItem() { return item; }
+  }
+```
+
+위와 같은 클래스가 있을 때 지네릭 클래스로 변경하려면 클래스 옆에 `<T>`를 붙이면 된다. 그리고 `Object`를 모두 `T`로 바꾼다.
+
+```JAVA
+  class Box<T> {
+    T item;
+
+    void setItem(T item) { this.item = item; }
+    T getItem() { return item; }
+  }
+```
+
+클래스 옆의 `T`를 '타입 변수(type variable)'라고 하며, 'Type'의 첫 글자에서 따온 것이다. 타입 변수는 T가 아닌 다른 것을 사용해도 된다. ArrayList<E>의 경우, 'Element(요소)'의 첫 글자를 따서 사용했다. 타입 변수가 여러 개인 경우 콤마 ','를 구분자로 나열하면 된다. 글자만 다를 뿐 모두 '임의의 참조형 타입'을 의미한다.
+
+지네릭 클래스가 된 클래스의 객체를 생성할 때는 참조변수와 생성자에 타입 T 대신 사용될 실제 타입을 지정해주어야 한다.
+
+```JAVA
+  Box<String> b = new Box<String>(); // 타입 T 대신, 실제 타입을 지정
+  b.setItem(new Object()); // Error. String이외의 타입 지정 불가
+  b.setItem("ABC"); // OK. String타입이므로 가능
+  String item = b.getItem(); // 형변환 필요없음
+```
+
+타입 T 대신 String타입을 지정해줬으므로, 지네릭 클래스 Box<T>는 다음과 같다.
+
+```JAVA
+  class Box {
+    String item;
+
+    void setItem(String item) { this.item = item; }
+    String getItem() { return item; }
+  }
+```
+
+지네릭 클래스여도 예전 방식으로 객체를 생성할 수 있다. 하지만 지네릭 타입을 지정하지 않아 안전하지 않다는 경고가 발생한다. 타입 변수 T에 Object타입으로 지정하면, 타입을 지정하지 않은 것이 아닌 알고 적은 것이므로 경고는 발생하지 않는다.
+
+<p style="color:#a0adec"><b>지네릭스의 용어</b></p>
+
+<table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
+  <tr style="border:0">
+    <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
+      <b>Box<T></b> &nbsp;&nbsp;&nbsp;&nbsp; 지네릭 클래스. 'T의 Box' 또는 'T Box'라고 읽는다.<br/>
+      <b>T</b> &nbsp;&nbsp;&nbsp;&nbsp; 타입 변수 또는 타입 매개변수.(T는 타입 문자)<br/>
+      <b>Box</b> &nbsp;&nbsp;&nbsp;&nbsp; 원시 타입(raw type)
+    </td>
+  </tr>   
+</table>
+
+타입 매개변수에 타입을 지정하는 것을 '지네릭 타입 호출'이라고 하고, 지정된 타입을 '매개변수화된 타입(parameterized type)' 혹은 '대입된 타입'이라고 한다.
+
+<p style="color:#a0adec"><b>지네릭스의 제한</b></p>
+
+지네릭 클래스의 객체를 생성할 때, 객체별로 다른 타입을 지정하는 것은 괜찮다. 그러나 모든 객체에 대해 동일하게 동작해야하는 static멤버에는 타입 변수 T를 사용할 수 없다. T는 인스턴스변수로 간주되기 때문이다. static멤버는 대입된 타입의 종류에 관계없이 동일한 것이어야 한다.
+
+지네릭 타입의 배열을 생성하는 것도 허용되지 않는다. 지네릭 배열 타입의 참조변수를 선언하는 것은 가능하지만, `new T[10]`과 같이 배열을 생성하는 것은 안된다.
+
+생성할 수 없는 이유는 new연산자 때문인데, 이 연산자는 컴파일 시점에 타입 T가 무엇인지 정확히 알아야 한다. instanceof연산자도 같은 이유로 T를 피연산자로 사용할 수 없다.
+
+### 1.3 지네릭 클래스의 객체 생성과 사용
+
+```JAVA
+  class Box<T> {
+    ArrayList<T> list = new ArrayList<T>();
+
+    void add(T item) { list.add(item); }
+    T get(int i) { return list.get(i); }
+    ArrayList<T> getList() { return list; }
+    int size() { return list.size(); }
+    public String toString() { return list.toString(); }
+  }
+```
+
+위와 같은 지네릭 클래스가 정의되어 있을 때, 이 Box<T>의 객체에는 한 가지 종류, T타입의 객체만 저장할 수 있다.
