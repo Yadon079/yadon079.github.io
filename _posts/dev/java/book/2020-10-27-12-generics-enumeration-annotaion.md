@@ -88,7 +88,7 @@ comments: true
 <table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
-      <b>Box<T></b> &nbsp;&nbsp;&nbsp;&nbsp; 지네릭 클래스. 'T의 Box' 또는 'T Box'라고 읽는다.<br/>
+      <b>Box<\T></b> &nbsp;&nbsp;&nbsp;&nbsp; 지네릭 클래스. 'T의 Box' 또는 'T Box'라고 읽는다.<br/>
       <b>T</b> &nbsp;&nbsp;&nbsp;&nbsp; 타입 변수 또는 타입 매개변수.(T는 타입 문자)<br/>
       <b>Box</b> &nbsp;&nbsp;&nbsp;&nbsp; 원시 타입(raw type)<br/>
     </td>
