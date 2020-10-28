@@ -88,7 +88,7 @@ comments: true
 <table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
-      <b>Box<\T></b> &nbsp;&nbsp;&nbsp;&nbsp; 지네릭 클래스. 'T의 Box' 또는 'T Box'라고 읽는다.<br/>
+      <b>Box&lt;T&gt;</b> &nbsp;&nbsp;&nbsp;&nbsp; 지네릭 클래스. 'T의 Box' 또는 'T Box'라고 읽는다.<br/>
       <b>T</b> &nbsp;&nbsp;&nbsp;&nbsp; 타입 변수 또는 타입 매개변수.(T는 타입 문자)<br/>
       <b>Box</b> &nbsp;&nbsp;&nbsp;&nbsp; 원시 타입(raw type)<br/>
     </td>
@@ -146,9 +146,9 @@ Box<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타입
 <table style="width:100%; background-color:#3a3c42; border:0; margin-bottom:16px;">
   <tr style="border:0">
     <td style="border:0; padding:14px; padding-left:32px; padding-right:32px; font-size:14px; color:white">
-      <b><\? extends T></b> &nbsp;&nbsp;&nbsp;&nbsp; 와일드 카드의 상한 제한. T와 그 자손들만 가능<br/>
-      <b><\? super T></b> &nbsp;&nbsp;&nbsp;&nbsp; 와일드 카드의 하한 제한. T와 그 조상들만 가능<br/>
-      <b><\?></b> &nbsp;&nbsp;&nbsp;&nbsp; 제한 없음. 모든 타입이 가능. <\? extends Object>와 동일(raw type)
+      <b> &lt; ? extends T &gt; </b> &nbsp;&nbsp;&nbsp;&nbsp; 와일드 카드의 상한 제한. T와 그 자손들만 가능<br/>
+      <b> &lt; ? super T &gt; </b> &nbsp;&nbsp;&nbsp;&nbsp; 와일드 카드의 하한 제한. T와 그 조상들만 가능<br/>
+      <b> &lt; ? &gt; </b> &nbsp;&nbsp;&nbsp;&nbsp; 제한 없음. 모든 타입이 가능. &#60; ? extends Object &#62; 와 동일(raw type)
     </td>
   </tr>   
 </table>
