@@ -270,3 +270,5 @@ List\<T>의 요소가 Comparable인터페이스를 구현한 것이어야 한다
   GenEx<? extends Num> gen = null; // OK. 미확인 타입으로 형변환 경고
   GenEx<One> oneGen = (GenEx<One>)gen;
 ```
+
+### 1.8 지네릭 타입의 제거
