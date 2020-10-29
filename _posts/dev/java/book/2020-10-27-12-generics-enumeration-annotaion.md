@@ -59,7 +59,7 @@ comments: true
   }
 ```
 
-클래스 옆의 `T`를 '타입 변수(type variable)'라고 하며, 'Type'의 첫 글자에서 따온 것이다. 타입 변수는 T가 아닌 다른 것을 사용해도 된다. ArrayList<E>의 경우, 'Element(요소)'의 첫 글자를 따서 사용했다. 타입 변수가 여러 개인 경우 콤마 ','를 구분자로 나열하면 된다. 글자만 다를 뿐 모두 '임의의 참조형 타입'을 의미한다.
+클래스 옆의 `T`를 '타입 변수(type variable)'라고 하며, 'Type'의 첫 글자에서 따온 것이다. 타입 변수는 T가 아닌 다른 것을 사용해도 된다. ArrayList\<E>의 경우, 'Element(요소)'의 첫 글자를 따서 사용했다. 타입 변수가 여러 개인 경우 콤마 ','를 구분자로 나열하면 된다. 글자만 다를 뿐 모두 '임의의 참조형 타입'을 의미한다.
 
 지네릭 클래스가 된 클래스의 객체를 생성할 때는 참조변수와 생성자에 타입 T 대신 사용될 실제 타입을 지정해주어야 한다.
 
@@ -119,9 +119,9 @@ comments: true
   }
 ```
 
-위와 같은 지네릭 클래스가 정의되어 있을 때, 이 Box<T>의 객체에는 한 가지 종류, T타입의 객체만 저장할 수 있다.
+위와 같은 지네릭 클래스가 정의되어 있을 때, 이 Box\<T>의 객체에는 한 가지 종류, T타입의 객체만 저장할 수 있다.
 
-Box<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타입(매개변수화된 타입)이 일치해야 한다. 일치하지 않으면 에러가 발생한다. 두 타입이 상속관계에 있어도 마찬가지이다. 단, 두 지네릭 클래스 타입이 상속관계에 있고, 대입된 타입이 같은 것은 괜찮다.
+Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타입(매개변수화된 타입)이 일치해야 한다. 일치하지 않으면 에러가 발생한다. 두 타입이 상속관계에 있어도 마찬가지이다. 단, 두 지네릭 클래스 타입이 상속관계에 있고, 대입된 타입이 같은 것은 괜찮다.
 
 ### 1.4 제한된 지네릭 클래스
 
@@ -132,6 +132,12 @@ Box<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타입
 다형성에서 조상타입의 참조변수로 자손타입의 객체를 가리킬 수 있는 것처럼, 매개변수화된 타입의 자손 타입도 가능한 것이다. 타입 매개변수 T에 Object를 대입하면, 모든 종류의 객체를 저장할 수 있게 된다.
 
 클래스가 아니라 인터페이스를 구현해야 한다는 제약에도 'extends'를 사용한다. 'implements'를 사용하지 않는 다는 점을 주의해야 한다.
+
+클래스의 자손이면서 인터페이스도 구현해야한다면 '&' 기호로 연결하면 된다.
+
+```JAVA
+  class Example<T extends classname & interfacename> { ... }
+```
 
 ### 1.5 와일드 카드
 
@@ -152,3 +158,82 @@ Box<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타입
     </td>
   </tr>   
 </table>
+
+<span style="font-size:13px;">
+<b>| 참고 | 지네릭 클래스와 달리 와일드 카드에는 '&'를 사용할 수 없다.</b><br/>
+</span>  
+
+### 1.6 지네릭 메서드
+
+메서드의 선언부에 지네릭 타입이 선언된 메서드를 지네릭 메서드라 한다. `Collections.sort()`는 지네릭 메서드이며, 지네릭 타입의 선언 위치는 반환 타입 바로 앞이다.
+
+```JAVA
+  static <T> void sort(List<T> list, Comparator<? super T> c)
+```
+
+지네릭 클래스에 정의된 타입 매개변수와 지네릭 메서드에 정의된 타입 매개변수는 별개의 것이다. 같은 타입 문자 T를 사용해도 같은 것이 아니다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 지네릭 메서드는 지네릭 클래스가 아닌 클래스에도 정의될 수 있다.</b><br/>
+</span>  
+
+```JAVA
+  class GenericClass<T> {
+      ...
+    static <T> void sort(List<T> list, Comparator<? super T> c) {
+      ...
+    }
+  }
+```
+
+위 코드에서 지네릭 클래스에 선언된 타입 매개변수 T와 지네릭 메서드 sort()에 선언된 타입 매개변수 T는 타입 문자만 같고 서로 다른 것이다. sort()가 static메서드이므로 타입 매개변수를 사용할 수 없지만, 메서드에 지네릭 타입을 선언하고 사용하는 것은 가능하다.
+
+메서드에 선언된 지네릭 타입은 지역 변수를 선언한 것과 같다고 생각하면 된다. 이 타입 매개변수는 메서드 내에서만 지역적으로 사용될 것이므로 메서드가 static이건 아니건 상관이 없다.
+
+<span style="font-size:13px;">
+<b>| 참고 | 같은 이유로 내부 클래스에 선언된 타입 문자가 외부 클래스의 타입 문자와 같아도 구별될 수 있다.</b><br/>
+</span>  
+
+지네릭 메서드를 호출할 때는 타입 변수에 타입을 대입해야 한다.
+
+```JAVA
+  GenericClass<Exam> genericClass = new GenericClass<Exam>();
+    ...
+  System.out.println(Example.<Exam>genericMethod(genericClass));
+```
+
+대부분의 경우 컴파일러가 타입을 추정할 수 있기 때문에 생략할 수 있다.
+
+```JAVA
+  System.out.println(Example.genericMethod(genericClass)); // 대입된 타입 생략
+```
+
+주의해야 할 점은 지네릭 메서드를 호출할 때, 대입된 타입을 생략할 수 없는 경우에는 참조변수나 클래스 이름을 생략할 수 없다.
+
+```JAVA
+  System.out.println(<Exam>genericMethod(genericClass)); // Error. 클래스 이름 생략불가
+  System.out.println(this.<Exam>genericMethod(genericClass)); // OK
+  System.out.println(Example.<Exam>genericMethod(genericClass)); // OK
+```
+
+같은 클래스 내에 있는 멤버 간에는 참조변수나 클래스이름을 생략하고 메서드 이름만으로 호출이 가능하지만, 대입된 타입이 있을 때는 반드시 써줘야 한다.
+
+<p style="color:#a0adec"><b>복잡하게 선언된 지네릭 메서드 예시</b></p>
+
+Collectios클래스의 sort()인데 매개변수가 하나인 것이 있다.
+
+```JAVA
+  public static <T extends Comparable<? super T>> void sort(List<T> list)
+```
+
+매개변수로 지정한 List\<T>를 정렬하는 것인데 메서드에 선언된 지네릭 타입이 복잡하다. 이럴 때는 와일드 카드를 걷어낸다.
+
+```JAVA
+  public static <T extends Comparable<T>> void sort(List<T> list)
+```
+
+List\<T>의 요소가 Comparable인터페이스를 구현한 것이어야 한다는 뜻이다. 인터페이스라고 해서 'implements'를 사용하진 않는다.
+
+정리하면, '타입 T를 요소로 하는 List'를 매개변수로 허용하고, 'T'는 Comparable을 구현한 클래스이어야 하며(\<T extends Comparable>), 'T' 또는 그 조상의 타입을 비교하는 Comparable이어야한다는 것(Comparable\<? super T>)을 의미한다. 예를 들어, T가 Student이고, Person의 자손이라면, \<? super T>는 Student, Person, Object가 모두 가능하다.
+
+### 1.7 지네릭 타입의 형변환
