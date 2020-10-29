@@ -234,6 +234,39 @@ Collectios클래스의 sort()인데 매개변수가 하나인 것이 있다.
 
 List\<T>의 요소가 Comparable인터페이스를 구현한 것이어야 한다는 뜻이다. 인터페이스라고 해서 'implements'를 사용하진 않는다.
 
-정리하면, '타입 T를 요소로 하는 List'를 매개변수로 허용하고, 'T'는 Comparable을 구현한 클래스이어야 하며(\<T extends Comparable>), 'T' 또는 그 조상의 타입을 비교하는 Comparable이어야한다는 것(Comparable\<? super T>)을 의미한다. 예를 들어, T가 Student이고, Person의 자손이라면, \<? super T>는 Student, Person, Object가 모두 가능하다.
+정리하면, '타입 T를 요소로 하는 List'를 매개변수로 허용하고, 'T'는 Comparable을 구현한 클래스이어야 하며(`<T extends Comparable>`), 'T' 또는 그 조상의 타입을 비교하는 Comparable이어야한다는 것(`Comparable<? super T>`)을 의미한다. 예를 들어, T가 Student이고, Person의 자손이라면, `<? super T>`는 Student, Person, Object가 모두 가능하다.
 
 ### 1.7 지네릭 타입의 형변환
+
+지네릭 타입과 원시 타입(row type)간의 형변환은 항상 가능하다. 다만 경고가 발생한다. 반면에, 대입된 타입이 다른 지네릭 타입 간의 형변환은 대입된 타입이 Object일지라도 불가능하다.
+
+```java
+  // Gen<Object> objGen = (Gen<Object>)new Gen<String>();
+  Gen<Object> objGen = new Gen<String>(); // Error. 형변환 불가능
+```
+
+위 코드가 불가능하다는 것은 `Gen<String>`이 `Gen<Object>`로 형변환될 수 없다는 사실을 간접적으로 알려준다.
+
+한편, `Gen<String>`이 `Gen<? extends Object>`로 형변환이 된다.
+
+```java
+  Gen<? extends Object> wGen = new Gen<String>();
+```
+
+그래서 아래와 같이 메서드의 매개변수에 다형성이 적용될 수 있는 것이다.
+
+```java
+  // 매개변수로 GenEx<Num>, GenEx<One>, GenEx<Two> 등이 가능
+  static Exam genExam(GenEx<? extends Num> Gen) { ... }
+
+  GenEx<? extends One> gen = new GenEx<Num>(); // OK
+  GenEx<? extends One> gen = new GenEx<One>(); // OK
+  GenEx<? extends One> gen = new GenEx<Two>(); // OK
+```
+
+반대로의 형변환도 성립하지만, 확인되지 않은 형변환이라는 경고가 발생한다. `GenEx<? extends Num>`에 대입될 수 있는 타입이 여러 개인데, `GenEx<One>`를 제외한 다른 타입은 `GenEx<One>`으로 형변환될 수 없기 때문이다.
+
+```java
+  GenEx<? extends Num> gen = null; // OK. 미확인 타입으로 형변환 경고
+  GenEx<One> oneGen = (GenEx<One>)gen;
+```
