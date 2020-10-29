@@ -39,7 +39,7 @@ comments: true
 
 지네릭 타입은 클래스와 메서드에 선언할 수 있다.
 
-```JAVA
+```java
   class Box {
     Object item;
 
@@ -50,7 +50,7 @@ comments: true
 
 위와 같은 클래스가 있을 때 지네릭 클래스로 변경하려면 클래스 옆에 `<T>`를 붙이면 된다. 그리고 `Object`를 모두 `T`로 바꾼다.
 
-```JAVA
+```java
   class Box<T> {
     T item;
 
@@ -63,7 +63,7 @@ comments: true
 
 지네릭 클래스가 된 클래스의 객체를 생성할 때는 참조변수와 생성자에 타입 T 대신 사용될 실제 타입을 지정해주어야 한다.
 
-```JAVA
+```java
   Box<String> b = new Box<String>(); // 타입 T 대신, 실제 타입을 지정
   b.setItem(new Object()); // Error. String이외의 타입 지정 불가
   b.setItem("ABC"); // OK. String타입이므로 가능
@@ -72,7 +72,7 @@ comments: true
 
 타입 T 대신 String타입을 지정해줬으므로, 지네릭 클래스 Box<T>는 다음과 같다.
 
-```JAVA
+```java
   class Box {
     String item;
 
@@ -107,7 +107,7 @@ comments: true
 
 ### 1.3 지네릭 클래스의 객체 생성과 사용
 
-```JAVA
+```java
   class Box<T> {
     ArrayList<T> list = new ArrayList<T>();
 
@@ -135,7 +135,7 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 
 클래스의 자손이면서 인터페이스도 구현해야한다면 '&' 기호로 연결하면 된다.
 
-```JAVA
+```java
   class Example<T extends classname & interfacename> { ... }
 ```
 
@@ -167,7 +167,7 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 
 메서드의 선언부에 지네릭 타입이 선언된 메서드를 지네릭 메서드라 한다. `Collections.sort()`는 지네릭 메서드이며, 지네릭 타입의 선언 위치는 반환 타입 바로 앞이다.
 
-```JAVA
+```java
   static <T> void sort(List<T> list, Comparator<? super T> c)
 ```
 
@@ -177,7 +177,7 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 <b>| 참고 | 지네릭 메서드는 지네릭 클래스가 아닌 클래스에도 정의될 수 있다.</b><br/>
 </span>  
 
-```JAVA
+```java
   class GenericClass<T> {
       ...
     static <T> void sort(List<T> list, Comparator<? super T> c) {
@@ -196,7 +196,7 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 
 지네릭 메서드를 호출할 때는 타입 변수에 타입을 대입해야 한다.
 
-```JAVA
+```java
   GenericClass<Exam> genericClass = new GenericClass<Exam>();
     ...
   System.out.println(Example.<Exam>genericMethod(genericClass));
@@ -204,13 +204,13 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 
 대부분의 경우 컴파일러가 타입을 추정할 수 있기 때문에 생략할 수 있다.
 
-```JAVA
+```java
   System.out.println(Example.genericMethod(genericClass)); // 대입된 타입 생략
 ```
 
 주의해야 할 점은 지네릭 메서드를 호출할 때, 대입된 타입을 생략할 수 없는 경우에는 참조변수나 클래스 이름을 생략할 수 없다.
 
-```JAVA
+```java
   System.out.println(<Exam>genericMethod(genericClass)); // Error. 클래스 이름 생략불가
   System.out.println(this.<Exam>genericMethod(genericClass)); // OK
   System.out.println(Example.<Exam>genericMethod(genericClass)); // OK
@@ -222,13 +222,13 @@ Box\<T>의 객체를 생성할 때, 참조변수와 생성자에 대입된 타�
 
 Collectios클래스의 sort()인데 매개변수가 하나인 것이 있다.
 
-```JAVA
+```java
   public static <T extends Comparable<? super T>> void sort(List<T> list)
 ```
 
 매개변수로 지정한 List\<T>를 정렬하는 것인데 메서드에 선언된 지네릭 타입이 복잡하다. 이럴 때는 와일드 카드를 걷어낸다.
 
-```JAVA
+```java
   public static <T extends Comparable<T>> void sort(List<T> list)
 ```
 
