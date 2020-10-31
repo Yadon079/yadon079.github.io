@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
     {% include head.html %}
+    {% if page.use_math %}
+      {% include mathjax_support.html %}
+    {% endif %}
     <header>
         <div id="loading">
             <img id="loading-image" src="/assets/layout/loading.gif" alt="Loading..." />

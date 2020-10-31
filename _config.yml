@@ -25,6 +25,13 @@ sass:
   sass_dir:     _sass
   style:        :compressed
 
+# Conversion
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
+
 # Gems
 plugins:
   - jekyll-feed
