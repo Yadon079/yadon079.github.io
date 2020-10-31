@@ -6,8 +6,8 @@ description: "자료구조"
 subject: 자료구조
 category: [ data structure ]
 tags: [ data structure, algorithm ]
-comments: true
 use_math: true
+comments: true
 ---
 
 # 자료구조
