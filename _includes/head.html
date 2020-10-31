@@ -14,6 +14,9 @@
     <meta property="og:title" content="{{ site.title }}">
     <meta property="og:image" content="/assets/layout/default.png">
 {% endif %}
+{% if page.use_math %}
+  {% include mathjax_support.html %}
+{% endif %}
 <meta property="og:type" content="website">
 <meta property="og:url" content="{% if page.id %}{{ page.id | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}">
 <meta property="og:site_name" content="{{ site.title }}">
