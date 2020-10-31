@@ -26,8 +26,8 @@ sass:
   style:        :compressed
 
 # Conversion
-markdown: kramdown
-highlighter: rouge
+markdown:       kramdown
+highlighter:    rouge
 lsi: false
 excerpt_separator: "\n\n"
 incremental: false
