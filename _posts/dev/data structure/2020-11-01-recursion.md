@@ -61,7 +61,7 @@ $n! = n \times (n-1)!$
 
 피보나치 수열은 재귀적인 형태를 띠는 대표적인 수열이다. 피보나치 수열의 $n$번째 위치의 값을 반환하는 함수를 수학적으로 표현하면
 
-![fibonacci](/assets/img/ds/fibonacci.gif)
+$fib(n) =$ $\begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib(n-2) & .... \, otherwise \end{cases}$
 
 위의 수식을 코드로 옮겨적으면 다음과 같이 정의된다.
 
