@@ -63,7 +63,7 @@ $f(n) = \begin{cases} n \times f(n-1) & .... \; n \geq 1 \\\\ 1 & .... \; n=0 \e
 
 $fib(n) = \begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib(n-2) & .... \, otherwise \end{cases}$
 
-위의 수식을 코드로 옮겨적으면 다음과 같이 정의된다.
+이 된다. 위의 수식을 코드로 옮겨적으면 다음과 같이 정의된다.
 
 ```
   public int Fibo(int n) {
