@@ -41,7 +41,7 @@ $n! = n \times (n-1)!$
 
 정수 $n$팩토리얼은 정수 $n$과 $n-1$팩토리얼의 곱으로 표현할 수 있으므로, n팩토리얼 f(n)을 수식적으로 표현하면 다음과 같다.
 
-$f(n) = $ $\begin{cases} n \times f(n-1) &\text{.... } n \geq 1 \\ 1 &\text{.... } n = 0 \end{cases}$
+![factorial](/assets/img/ds/factorial.gif)
 
 팩토리얼의 식과 탈출 조건을 if~else문으로 표현하면 factorial 함수가 완성된다.
 
@@ -61,7 +61,7 @@ $f(n) = $ $\begin{cases} n \times f(n-1) &\text{.... } n \geq 1 \\ 1 &\text{....
 
 피보나치 수열은 재귀적인 형태를 띠는 대표적인 수열이다. 피보나치 수열의 $n$번째 위치의 값을 반환하는 함수를 수학적으로 표현하면
 
-\[fib(n) = \begin{cases} 0 & .... \, n=1 \\ 1 & .... \, n=2 \\ fib(n-1) + fib(n-2) & .... \, otherwise \end{cases}\]
+![fibonacci](/assets/img/ds/fibonacci.gif)
 
 위의 수식을 코드로 옮겨적으면 다음과 같이 정의된다.
 
