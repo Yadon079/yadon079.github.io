@@ -41,7 +41,7 @@ $n! = n \times (n-1)!$
 
 정수 $n$팩토리얼은 정수 $n$과 $n-1$팩토리얼의 곱으로 표현할 수 있으므로, n팩토리얼 f(n)을 수식적으로 표현하면 다음과 같다.
 
-$$\begin{cases} n \times f(n-1) &\text{.... } n \geq 1 \\ 1 &\text{.... } n = 0 \end{cases}$$
+$f(n) = $$\begin{cases} n \times f(n-1) &\text{.... } n \geq 1 \\ 1 &\text{.... } n = 0 \end{cases}$
 
 팩토리얼의 식과 탈출 조건을 if~else문으로 표현하면 factorial 함수가 완성된다.
 
