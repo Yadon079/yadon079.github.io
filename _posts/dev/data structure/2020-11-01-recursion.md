@@ -78,3 +78,29 @@ $fib(n) = \begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib
 ```
 
 ### 이진 탐색 알고리즘의 재귀적 구현
+
+이진 탐색 알고리즘은 두 번째 시도부터 탐색 대상을 찾을 때까지 동일한 패턴을 반복한다. 따라서 알고리즘 자체는 재귀적인 성격을 지니고 있다. 이진 탐색 알고리즘의 재귀적인 구현을 정리해보면 다음과 같다.
+
++ 탐색 범위의 중앙에 목표 값이 저장되었는지 확인
++ 저장되지 않았다면 탐색 범위를 반으로 줄여서 재탐색
++ 시작위치 값이 탐색 범위의 끝보다 커지면 탈출
+
+위의 세 가지 조건을 가지고 구현해보면 다음과 같다.
+
+```
+  public int BSearchRe(int arr[], int first, int last, int target) {
+    int mid;
+
+    if(first > last) return -1;  // 탐색 실패
+
+    mid = (first + last) / 2;
+
+    if(arr[mid] == target) {
+      return mid; // 탐색된 타겟의 인덱스 값 반환
+    } else if(target < arr[mid]) {
+      return BSearchRe(arr, first, mid - 1, target);
+    } else {
+      return BSearchRe(arr, mid + 1, last, target);
+    }
+  }
+```
