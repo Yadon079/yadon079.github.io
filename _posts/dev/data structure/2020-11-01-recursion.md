@@ -16,7 +16,7 @@ comments: true
 
 재귀함수란 함수 내에서 자기 자신을 다시 호출하는 함수를 의미한다.
 
-```
+```java
   void Recursive(void) {
     System.out.println("Recursive call!");
     Recursive();  // 자신을 다시 호출한다.
@@ -45,7 +45,7 @@ $f(n) = \begin{cases} n \times f(n-1) & .... \; n \geq 1 \\\\ 1 & .... \; n=0 \e
 
 팩토리얼의 식과 탈출 조건을 if~else문으로 표현하면 factorial 함수가 완성된다.
 
-```
+```java
   public int Factorial(int n) {
     if(n == 0) {
       return 1;
@@ -65,7 +65,7 @@ $fib(n) = \begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib
 
 이 된다. 위의 수식을 코드로 옮겨적으면 다음과 같이 정의된다.
 
-```
+```java
   public int Fibo(int n) {
     if(n == 1) {
       return 0;
@@ -87,7 +87,7 @@ $fib(n) = \begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib
 
 위의 세 가지 조건을 가지고 구현해보면 다음과 같다.
 
-```
+```java
   public int BSearchRe(int arr[], int first, int last, int target) {
     int mid;
 
@@ -105,4 +105,47 @@ $fib(n) = \begin{cases} 0 & .... \, n=1 \\\\ 1 & .... \, n=2 \\\\ fib(n-1) + fib
   }
 ```
 
-### 하노이 타워 : The Tower of Hanoi
+## 하노이 타워 : The Tower of Hanoi
+
+### 하노이 타워 문제의 이해
+
+하노이 타워 문제는 '하나의 막대에 쌓여 있는 원반을 다른 하나의 원반에 그대로 옮기는 방법'에 관한 것이다.
+
+![하노이 타워](/assets/img/ds/hanoitower.png)
+
+원반을 옮기는데 있어서 제약조건이 존재한다.
+
++ 원반은 한 번에 하나씩만 옮길 수 있다. 옮기는 과정에서 작은 원반 위에 큰 원반이 올 수 없다.
+
+원반을 옮기기 위해서는 'B'막대를 활용하여 'A'에 있는 원반들을 'C'로 옮겨야 한다. 원반이 3개 일 때는 비교적 해결하기가 쉽다. 원반의 개수가 늘어나도 방법은 동일하지만 같은 과정의 반복 횟수가 늘어난다.
+
+4개의 원반을 옮기는 과정을 생각해보면, 3개의 원반을 옮기는 과정이 먼저 시행된다는 것을 알 수 있다. 이러한 반복패턴을 살펴보면 다음과 같다.
+
+1. 작은 원반 $n-1$개를 A에서 B로 이동
+2. 큰 원반 1개를 A에서 C로 이동
+3. 작은 원반 $n-1$개를 B에서 C로 이동
+
+원반 $n$개를 이동하는 문제는 원반 $n-1$개를 이동하는 문제로 나눌 수 있고, $n-1$개를 이동하는 문제는 $n-2$개를 옮기는 문제로 나눌 수 있다.
+
+### 하노이 타워 문제의 해결
+
+위에서 찾은 과정을 정리해보면 다음과 같이 구성할 수 있다.
+
++ 작은 원반 $n-1$개(맨 아래의 원반 제외)를 A에서 B로 이동
++ 큰 원반(맨 아래의 원반) 1개를 A에서 C로 이동
++ 작은 원반 $n-1$개(첫 번째 과정에서 옮겨진 원반)를 B에서 C로 이동
+
+위 조건을 가지고 코드를 작성하면 다음과 같다.
+
+```java
+  // from에 꽂혀있는 num개의 원반을 by를 거쳐 to로 이동
+  public void HanoiTowerMove(int num, char from, char by, char to) {
+    if(num == 1) { // 원반 개수가 1일 때
+      System.out.println("원반 1을 " + from + "에서 " + to + "로 이동"); // A에서 C로
+    } else {
+      HanoiTowerMove(num - 1, from, to, by); // A에서 B로
+      System.out.println("원반 " + num + "을 " + from + "에서 " + to + "로 이동");
+      HanoiTowerMove(num - 1, by, from, to); // B에서 C로
+    }
+  }
+```
