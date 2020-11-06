@@ -3,9 +3,9 @@ layout: post
 date: 2020-09-03 13:20:00
 title: "코딩 테스트를 위한 알고리즘"
 description: "전략적 접근 및 Tip"
-subject: dev
-category: [ cs ]
-tags: [ cs, algorithm ]
+subject: blog
+category: [ etc ]
+tags: [ cs, algorithm, coding test ]
 comments: true
 ---
 
