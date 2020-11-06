@@ -9,7 +9,7 @@ tags: [ etc, post, dev contents ]
 comments: true
 ---
 
-> 이 글은 원문 [Mistake I Made When Learning to Code - and How to Avoid Them By Fredrik Strand Oseberg](https://www.freecodecamp.org/news/mistakes-i-made-when-learning-to-code-and-how-to-avoid-them/)과 이를 번역한 글 [코딩을 배울 때 했던 실수들. 그리고 그 실수들을 피하는 법.](https://medium.com/code-states/코딩을-배울-때-했던-실수들-그리고-그-실수들을-피하는-법-3497a80217ff)을 읽고 작성한 글입니다.
+> 이 글은 원문 [Mistakes I Made When Learning to Code - and How to Avoid Them By Fredrik Strand Oseberg](https://www.freecodecamp.org/news/mistakes-i-made-when-learning-to-code-and-how-to-avoid-them/)과 이를 번역한 글 [코딩을 배울 때 했던 실수들. 그리고 그 실수들을 피하는 법.](https://medium.com/code-states/코딩을-배울-때-했던-실수들-그리고-그-실수들을-피하는-법-3497a80217ff)을 읽고 작성한 글입니다.
 
 # 코딩을 배울 때 하기 쉬운 실수. 그리고 실수를 피하는 방법.
 
