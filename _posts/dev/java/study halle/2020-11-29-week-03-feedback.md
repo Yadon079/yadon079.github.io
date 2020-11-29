@@ -50,7 +50,7 @@ public class App {
 
 <img src="/assets/img/study/oneortwo.png" width="70%" align="center"><br/>
 
-결과를 보면 알 수 있듯이 두 개(||)일 때는 우측 피연산자를 검사하지 않고 한 개(|)일 때는 우측까지 검사한다.
+결과를 보면 알 수 있듯이 두 개 `||` 일 때는 우측 피연산자를 검사하지 않고 한 개 `|` 일 때는 우측까지 검사한다.
 
 ## Q. 가운데 값(mid value)을 구할 때 오버플로우를 막으려면?
 
