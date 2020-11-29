@@ -5,7 +5,7 @@ title: "2주차 피드백"
 description: "study halle"
 subject: live study
 category: [ java study halle ]
-tags: [ java, jvm, jdk, jre ]
+tags: [ java, data type, variable, array ]
 use_math: true
 comments: true
 ---
