@@ -12,17 +12,6 @@ comments: true
 
 > 해당 글을 [백기선 님의 자바 스터디 3주차 과제](https://github.com/whiteship/live-study/issues/3)를 공부하고 공유하기 위해서 작성되었습니다.
 
-# 피드백
-
-Java 13에서 기선님이 학습하길 원하셨던 것은 Switch Statement가 아니라 Switch Operator였다.  
-Switch라고 하길래 당연히 Switch Statement를 생각하고 조사하여 공부했고, 심지어 Java13에서 Switch Statement에 변경점이 있어서 이거구나! 했었다.
-
-다른 것을 조사하고 공부했지만 Java에 새로운 기능을 알게되어서 좋은 일이라고 긍정적으로 생각하고 Switch Operator에 대해 다시 학습해야겠다.
-
-또 몇 가지 재밌는 사용법을 보여주셨는데, 정말 생각지도 못했던 것들을 보여주셔서 놀랬다.
-
-ps) 몇 몇분들은 바이트코드까지 열어보면서 정말 열심히 학습하셨다. 나도 바이트 코드를 캡쳐하는 것까지는 안 하더라도 열어서 실행과정을 확인하는 정도는 해야겠다.
-
 # 추가 질문
 
 ## Q. 논리 연산자 두 개(&&)와 한 개(&)의 연산속도 차이는?
@@ -140,13 +129,6 @@ public class App {
 
 XOR `^`는 자기자신과 다를 경우 1을 반환한다. 중복되지 않는 숫자를 찾기에 좋은 비트 연산자이다.
 
-# 추가 학습
-
-## Switch Operator
-
-
-
 ---
 **Reference**
 + <https://github.com/yeGenieee/java-live-study/blob/main/%5B3%5DJava%20Live%20Study.md>
-+
