@@ -37,8 +37,12 @@ comments: true
 
 ## 오버라이딩 vs 오버로딩
 
-String[] String... << 가변인자
+
+## String[] String... << 가변인자
 
 
 ---
 **Reference**
++ <https://leemoono.tistory.com/20>
++ <https://blog.naver.com/swoh1227/222181505425>
++ <https://github.com/ByungJun25/study/tree/main/java/whiteship-study/6week>
