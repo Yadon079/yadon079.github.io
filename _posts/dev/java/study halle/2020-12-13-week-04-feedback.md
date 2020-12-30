@@ -40,3 +40,9 @@ comments: true
 # 추가 학습
 
 ## JUnit5는 왜 public을 생략해도 되는가?
+
+&nbsp;&nbsp;&nbsp;기본적으로 IDE를 통해 생성된 클래스는 public인데, JUnit5 버전에서는 자바의 reflection을 통해 처리해 default 클래스, default 메소드로도 테스트가 가능하게 업데이트가 되었다.
+
+---
+**Reference**
++ <https://sas-study.tistory.com/314>
