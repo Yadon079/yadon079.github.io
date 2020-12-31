@@ -117,14 +117,14 @@ comments: true
 
 ### 로딩(Loading)
 
-<img src="/assets/img/study/loading.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/loading.png" width="50%" align="center"><br/>
 
 로딩과정은 클래스 로더에 의해 이루어진다.  
 클래스 로더는 `Bootstrap`, `Extension`, `Application` 3가지가 있고, 각 클래스 로더는 상속관계를 가지고 있다. 부모가 수행하지 않은 로딩작업을 자식이 수행하는 방식인 <b>위임(delegation)</b>으로 작업을 진행한다.
 
 ### 연결(Linking)
 
-<img src="/assets/img/study/linking.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/linking.png" width="50%" align="center"><br/>
 
 클래스 파일의 바이트 코드를 검증하고, 정적변수의 메모리를 할당하는 과정이다.  
 
@@ -137,7 +137,7 @@ comments: true
 
 ### 초기화(initializing)
 
-<img src="/assets/img/study/initializing.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/initializing.png" width="50%" align="center"><br/>
 
 모든 정적변수가 자바 코드에 명시된 값으로 초기화된다. 정적블록이 실행된다.
 
