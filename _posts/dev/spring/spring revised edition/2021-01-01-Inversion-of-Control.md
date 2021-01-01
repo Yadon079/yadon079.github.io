@@ -22,7 +22,7 @@ Inversion of Control은 해석하면 제어권이 뒤바뀌었다는 말인데 �
 
 ## 일반적인 (의존성에 대한) 제어권: "내가 사용할 의존성은 내가 만든다."  
 
-```
+```java
     class OwnerController {
         private OwnerRepository repository = new OwnerRepository();
     }
@@ -63,6 +63,8 @@ IoC에서는 직접 관리하지 않는다. 위 코드를 보면 `OwnerControlle
 
 # 예시
 
+본문 코드
+
 ```java
    package org.springframework.samples.petclinic.sample;
 
@@ -79,6 +81,8 @@ IoC에서는 직접 관리하지 않는다. 위 코드를 보면 `OwnerControlle
       }
    }
 ```
+
+테스트 코드
 
 ```java
     package org.springframework.samples.petclinic.sample;
@@ -97,9 +101,7 @@ IoC에서는 직접 관리하지 않는다. 위 코드를 보면 `OwnerControlle
 
 `doSomething()`을 호출하면 `sampleRepository`에 객체가 설정되어 있지 않아 `nullPointException`이 된다. 하지만 실제론 발생할 수 없다.  
 
-`SampleController`라는 타입의 인스턴스를 생성하려면 생성자가 하나뿐이기 때문에 반드시 `SampleRepository`를 만들어 줄 수 밖에 없다.
-
-따라서 `SampleController`는 무조건 `SampleRepository` 있는 상태가 된다.
+`SampleController`라는 타입의 인스턴스를 생성하려면 생성자가 하나뿐이기 때문에 반드시 `SampleRepository`를 만들어 줄 수 밖에 없다. 따라서 `SampleController`는 무조건 `SampleRepository` 있는 상태가 된다.
 
 `sampleRepository`는 `SampleControllerTest`에서 생성자에 넣어주었다.
 
