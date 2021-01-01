@@ -107,4 +107,5 @@ IoC에서는 직접 관리하지 않는다. 위 코드를 보면 `OwnerControlle
 
 ---
 **Reference**
++ [예제로 배우는 스프링 입문 (개정판)](https://www.inflearn.com/course/spring_revised_edition/)
 + <https://martinfowler.com/articles/injection.html>
