@@ -60,8 +60,6 @@ cmd에서 자바 컴파일 또는 실행 시 명령어를 통해 임시로 지�
 
 클래스패스를 통해 클래스로더에게 어떤 클래스파일들을 메모리에 적재시킬지 알려준다.
 
-<img>
-
 <b>BootStrap Class Loader</b>  
 기본 클래스로더 중 최상위 클래스로더로, `jre/lib/rt.jar`에 담긴 JDK 클래스 파일을 로딩해준다. String 클래스나, Object 클래스를 사용할 수 있었던 이유가 바로 BootStrap Class Loader가 자동으로 메모리에 적재해주기 때문이다.
 
