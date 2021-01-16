@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-01-16 22:30:00
-title: "9주차 과제: 예외 처리."
+title: "9주차 피드백"
 description: "study halle"
 subject: live study
 category: [ java study halle ]
