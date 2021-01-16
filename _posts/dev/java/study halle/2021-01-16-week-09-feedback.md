@@ -35,10 +35,29 @@ Generally speaking, do not throw a RuntimeException or create a subclass of Runt
 Here's the bottom line guideline: If a client can reasonably be expected to recover from an exception, make it a checked exception. If a client cannot do anything to recover from the exception, make it an unchecked exception.
 ```
 
-
+# 예외 발생 시 롤백하지 않음? 이게 무슨 말인가!
 
 # 추가 학습
+
+# try-with-resource
+
+try-with-resource를 사용한 후에 finally를 추가해도 동작한다.
+
+왜 될까?
+
+사실 finally가 아니라 catch(Throwable e)블럭이 추가되기 때문이다!
+
+# 커스텀 예외를 만들 때 참고해야할 4가지
+
+
+
+# 예외처리의 비용
+
+
 
 ---
 **Reference**
 + <https://wisdom-and-record.tistory.com/46>
++ <https://catch-me-java.tistory.com/46>
++ <https://www.notion.so/3565a9689f714638af34125cbb8abbe8>
++ <https://leegicheol.github.io/whiteship-live-study/whiteship-live-study-09-exception-handling/>
