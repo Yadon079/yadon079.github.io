@@ -389,6 +389,97 @@ public static void main(String args[]) {
 
 # 예외처리 전략
 
+다양한 예외처리를 위한 문법을 사용하여 예외처리 전략에 따라 적용해 볼 수 있다.
+
+> 출처 : 토비의 스프링 3.1 Vol.1 4장 예외
+
+## 예외 복구
+
+예외 복구는 문제를 파악하고 해결하여 정상 상태로 돌려놓는 방법으로 어떤 예외로 발생하였을 때 다른 작업 흐름으로 자연스럽게 유도해주는 것이다.
+
+가장 대표적으로 try-catch-finally를 사용할 수 있다.
+
+```java
+private void printStr(String str) {
+    try {
+        System.out.println("str length : " + str.length());
+    } catch (NullPointerException e) {
+        System.out.println("str is null!");
+    }
+}
+
+printStr("hello"); // 5 (정상 케이스)
+printStr(null); // str is null! (예외 처리되어 다른 작업 흐름으로 이어짐)
+```
+
+##예외처리 회피
+
+예외처리 회피는 자신이 직접 예외처리하지 않고 호출하는 메소드로 전파시키는 방법이다.
+
+throws 문으로 예외를 회피하는 방법과 catch 블럭으로 일단 예외를 잡은 후에 로그를 남기고 다시 throw 하는 방법이 있다.
+
+```java
+// throws로 회피하기
+public void process() throws SQLException {
+    // jdbc 로직...
+}
+
+// catch 후 로그 남기고 다시 throw
+public void process2() throws SQLException {
+    try {
+        // jdbc 로직...
+    } catch (SQLException e) {
+        System.out.println(e.getMessage())
+        throw e;
+    }
+}
+```
+
+Unchecked Exception이라면 throws 없이 회피가 가능하다.
+
+## 예외 전환
+
+예외 전환은 예외 회피와 비슷하다고 볼 수 있지만 발생한 예외를 그대로 넘기지 않고 더 적절한 예외로 전환하여 던지는 특징이 있다.
+
+내부에서 발생한 예외가 모호하여 의미가 명확한 예외를 던지기 위해 전환할 수 있다.
+
+```java
+// 예외의 에러 코드에 따라 분기하여 예외 전환
+public void add(User user) throws DuplicateUserIdException, SQLException {
+    try {
+        // code ..
+    } catch (SQLException e) {
+        if (e.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY) {
+            throw new DuplicateUserIdException();
+        }
+
+        throw e;
+    }
+}
+```
+
+이렇게 예외를 전환할 때는 기존 예외를 담아서 중첩 예외로 만드는 것이 좋다.
+
+```java
+catch (SQLException e) {
+    throw new DuplicateUserIdException(e);
+}
+```
+
+예외를 처리하기 쉽게 포장하기 위해 전환할 수 있다.
+
+예를 들어 Checked Exception을 잡아서 Unchecked Exception으로 던져서 해당 메소드를 사용 하는 곳에서 일일히 에러 처리를 할 필요가 없다.
+
+```java
+private void process() {
+    try {
+        // code ...
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+
 # Anti 패턴. finally에 return문이 있는 경우
 
 + finally 안에서 return을 하는 경우에는 신중해야 한다.
