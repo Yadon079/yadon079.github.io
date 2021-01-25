@@ -232,6 +232,160 @@ CountDownLatch는 어떤 쓰레드가 다른 쓰레드에서 작업이 완료될
 
 정리하자면 CPU가 어떤 프로세스를 실행하고 있는 상태에서 interrupt에 의해 다음 우선 순위를 가진 프로세스가 실행되어야 할 때가 있다. 이 때 기존의 프로세스 정보들은 PCB에 저장하고 다음 프로세스의 정보를 가져와 작업하는 것을 컨텍스트 스위칭이라고 한다.
 
+# VisualVM
+
+VisualVM 같은 쓰레드 덤프 분석 툴을 이용해서 데드락 여부를 확인할 수 있다. 해당 쓰레드에서 잡고있는 lock에 대한 정보도 볼 수 있다.
+
++ heap dump
+  + 메모리의 스냅샷이 뜨는 것
++ thread dump
+  + 모든 쓰레드의 스냅샷이 뜨는 것
+
+# Executors - CompletableFuture
+
+## 고수준 (High-Level) Concurrency 프로그래밍
+
+- 쓰레드를 만들고 관리하는 작업을 애플리케이션에서 분리
+- **그런 기능을 Executors 에게 위임**
+
+## Executors가 하는 일
+
+- **쓰레드 만들기** : 애플리케이션이 사용할 쓰레드를 만들어 관리한다.
+- **쓰레드 관리** : 쓰레드 생명 주기를 관리한다.
+- **작업 처리 및 실행** : 쓰레드로 실행할 작업을 제공할 수 있는 API 를 제공한다.
+
+## 주요 인터페이스
+
+- **Executor** : execute(Runnable)
+- **ExecutorService** : Executor 상속 받은 인터페이스로
+    - Callable도 실행할 수 있으며
+    - executor를 종료 시키거나
+    - 여러 Callable을 동시에 실행하는 등의 기능을 제공한다.
+- **ScheduledExecutorService** : ExecutorService를 상속받은 인터페이스로
+    - 특정 시간 이후에 또는 주기적으로 작업을 실행할 수 있다.
+
+**우리는 Runnable 만 제공하고**
+
+그 이후 쓰레드와 관련한 기능은 Executor가 처리한다.는 개념이라고 볼 수 있다.
+
+### 예제코드로 알아보자
+
+**ExecutorService 사용**
+
+- .execute() 혹은 submit() 으로 Runnable을 실행할 수 있다.
+- 하단 코드에서 submit() (=execute()) 로 Runnable을 실행하면 쓰레드는
+
+```java
+package me.ssonsh.java8to11.completableFuture;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class App {
+    public static void main(String[] args) {
+        // Thread를 하나만 쓰는 Thread : newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        // executorService.execute(() -> System.out.println("Thread " + Thread.currentThread().getName()));
+        executorService.submit(() -> System.out.println("Thread " + Thread.currentThread().getName()));
+    }
+}
+```
+
+실행이 되고 종료되는 것이 아님을 볼 수 있다. (원하는 print를 찍고 나서도 실행중임)
+
+- executorService는 **다음 작업이 들어올 때 까지 계속 대기하고 있다.**
+
+<img src="/assets/img/study/Untitled.png" width="70%" align="center"><br/>
+
+→ 다음 작업을 기다리는 것이 아니라 종료 시키길 원한다면 .shutdown()을 통해 종료한다.
+
+**.shutdown() : 그래이스풀 셧다운으로 돌고있는 Thread가 모두 처리되고 아름답게 종료..**
+
+.shutdownNow() : 아무런 조건 상관없이 그 즉시 삭제
+
+```java
+executorService.shutdown();
+```
+
+**두개의 ThreadPool을 이용하여 작업을 요청해보자**
+
+- 두개의 ThreadPool : newFixedThreadPool(2);
+
+```java
+package me.ssonsh.java8to11.completableFuture;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class App {
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.submit(getRunnable("Hello"));
+        executorService.submit(getRunnable("Sson"));
+        executorService.submit(getRunnable("The"));
+        executorService.submit(getRunnable("Java"));
+        executorService.submit(getRunnable("Thread"));
+        executorService.shutdown();
+    }
+
+    private static Runnable getRunnable(String message) {
+        return () -> System.out.println(message + "|" + Thread.currentThread().getName());
+    }
+}
+```
+
+위 예제에서는 2개의 Thread Pool을 사용하고 , 5개의 작업을 submit() 하였다.
+
+**결과**
+
+→ 2개의 Thread를 이용하여 5개 일을 수행하였다.
+
+```java
+/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/bin/java -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=60459:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/charsets.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/cldrdata.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/dnsns.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/jaccess.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/jfxrt.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/localedata.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/nashorn.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/sunec.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/ext/zipfs.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/jce.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/jfr.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/jfxswt.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/jsse.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/management-agent.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/resources.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/jre/lib/rt.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/ant-javafx.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/dt.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/javafx-mx.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/jconsole.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/packager.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/sa-jdi.jar:/Users/sson/Library/Java/JavaVirtualMachines/corretto-1.8.0_275/Contents/Home/lib/tools.jar:/Users/sson/Dev/workspace/java8to11/target/classes:/Users/sson/.m2/repository/org/springframework/boot/spring-boot-starter/2.4.1/spring-boot-starter-2.4.1.jar:/Users/sson/.m2/repository/org/springframework/boot/spring-boot/2.4.1/spring-boot-2.4.1.jar:/Users/sson/.m2/repository/org/springframework/spring-context/5.3.2/spring-context-5.3.2.jar:/Users/sson/.m2/repository/org/springframework/spring-aop/5.3.2/spring-aop-5.3.2.jar:/Users/sson/.m2/repository/org/springframework/spring-beans/5.3.2/spring-beans-5.3.2.jar:/Users/sson/.m2/repository/org/springframework/spring-expression/5.3.2/spring-expression-5.3.2.jar:/Users/sson/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.4.1/spring-boot-autoconfigure-2.4.1.jar:/Users/sson/.m2/repository/org/springframework/boot/spring-boot-starter-logging/2.4.1/spring-boot-starter-logging-2.4.1.jar:/Users/sson/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar:/Users/sson/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar:/Users/sson/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.13.3/log4j-to-slf4j-2.13.3.jar:/Users/sson/.m2/repository/org/apache/logging/log4j/log4j-api/2.13.3/log4j-api-2.13.3.jar:/Users/sson/.m2/repository/org/slf4j/jul-to-slf4j/1.7.30/jul-to-slf4j-1.7.30.jar:/Users/sson/.m2/repository/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5.jar:/Users/sson/.m2/repository/org/springframework/spring-core/5.3.2/spring-core-5.3.2.jar:/Users/sson/.m2/repository/org/springframework/spring-jcl/5.3.2/spring-jcl-5.3.2.jar:/Users/sson/.m2/repository/org/yaml/snakeyaml/1.27/snakeyaml-1.27.jar:/Users/sson/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar me.ssonsh.java8to11.completableFuture.App
+Hello|pool-1-thread-1
+Sson|pool-1-thread-2
+The|pool-1-thread-2
+Java|pool-1-thread-2
+Thread|pool-1-thread-2
+
+Process finished with exit code 0
+```
+
+**ScheduledExecutorService 사용**
+
+- SchedulredExecutorService 는 ExecutorService를 확장한 것이다.
+- Delay
+- Period
+
+```java
+package me.ssonsh.java8to11.completableFuture;
+
+import ch.qos.logback.core.util.TimeUtil;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+public class App {
+    public static void main(String[] args) {
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+        // 1초 Delay를 가지고 2초 간격으로 getRunnable을 수행하라
+        executorService.scheduleAtFixedRate(getRunnable("Hello"), 1, 2, TimeUnit.SECONDS);
+
+    }
+
+    private static Runnable getRunnable(String message) {
+        return () -> System.out.println(message + "|" + Thread.currentThread().getName());
+    }
+}
+```
+
+→ 만약 executorService.shutdown(); 이 존재하였다면, 아무 동작도 하지 않을 것이다.
+
+→ Scheduled를 통해 수행되어야 하지만 shutdown()을 통해 interrupt 되면서 작업이 중단된다.
+
 ---
 
 # 무어의 법칙
