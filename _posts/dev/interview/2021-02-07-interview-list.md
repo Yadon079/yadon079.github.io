@@ -19,10 +19,10 @@ p.s. 답변에 대한 보다 자세한 내용을 알고 싶다면 자바 스터�
 
 ---
 
-1. [컴포넌트와 모듈의 차이](https://yadon079.github.io/2021/cs/interview-answer-1to20/#컴포넌트와-모듈의-차이)
+1. [컴포넌트와 모듈의 차이](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 2. [자바란 무엇인가](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 3. [자바의 구동원리](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-4. [JVM의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20/#jvm의-특징)
+4. [JVM의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 5. [객체지향과 절차지향의 차이점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 <br/>
 6. [객체지향 언어의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
