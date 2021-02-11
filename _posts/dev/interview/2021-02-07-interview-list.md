@@ -15,30 +15,32 @@ comments: true
 
 각 질문을 클릭하면 해당 답변이 작성된 게시글로 이동된다.
 
+p.s. 답변에 대한 보다 자세한 내용을 알고 싶다면 자바 스터디 포스팅들을 참고하면 된다.
+
 ---
 
-1. [컴포넌트와 모듈의 차이](https://yadon079.github.io/interview/)
-2. [자바란 무엇인가]()
-3. [자바의 구동원리]()
-4. [JVM의 특징]()
-5. [객체지향과 절차지향의 차이점]()
+1. [컴포넌트와 모듈의 차이](https://yadon079.github.io/2021/cs/interview-answer-1to20/#컴포넌트와-모듈의-차이)
+2. [자바란 무엇인가](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+3. [자바의 구동원리](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+4. [JVM의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20/#jvm의-특징)
+5. [객체지향과 절차지향의 차이점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 <br/>
-6. [객체지향 언어의 특징]()
-7. [상속과 구현의 차이점과 특징 및 장단점]()
-8. [오버라이딩과 오버로딩의 차이점과 특징]()
-9. [기본형 변수와 참조형 변수는 무엇이 있나?]()
-10. [스택 오버플로우가 왜 일어나는가?]()
+6. [객체지향 언어의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+7. [상속과 구현의 차이점과 특징 및 장단점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+8. [오버라이딩과 오버로딩의 차이점과 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+9. [기본형 변수와 참조형 변수는 무엇이 있나?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+10. [스택 오버플로우가 왜 일어나는가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 <br/>
-11. [메모리 누수가 무엇인가?]()
-12. [메모리 누수를 막기 위한 방법]()
-13. [Static에 대한 설명]()
-14. [싱글톤 패턴이 무엇인가? 디자인패턴이란?]()
-15. [익명클래스와 익명객체란?]()
+11. [메모리 누수가 무엇인가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+12. [메모리 누수를 막기 위한 방법](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+13. [Static에 대한 설명](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+14. [싱글톤 패턴이 무엇인가? 디자인패턴이란?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+15. [익명클래스와 익명객체란?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 <br/>
-16. [JAVA 문자열 검색]()
-17. [자료구조 특징, 장단점]()
-18. [스레드는 무엇이고 언제 쓰이는가?]()
-19. [멀티스레드와 스레드의 차이점]()
-20. [제네릭은 무엇인가?]()
+16. [JAVA 문자열 검색](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+17. [자료구조 특징, 장단점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+18. [스레드는 무엇이고 언제 쓰이는가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+19. [멀티스레드와 스레드의 차이점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+20. [제네릭은 무엇인가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 
 ---
