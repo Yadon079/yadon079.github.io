@@ -36,9 +36,33 @@ comments: true
 
 # 학습
 
-#
+# 애노테이션
 
-# 메타 애노테이션
+&nbsp;&nbsp;&nbsp;애노테이션은 주석이다. 무언가 동작을 하거나 작동하는 코드가 아니라 단지 표시를 해놓는 것이다.
+
+단순히 이 코드가 어떠한 동작을 한다고 알려주는 주석이기 때문에 다이나믹하게 움직이는 값, 즉 런타임 중에 알아내야 하는 값은 들어갈 수 없다. 컴파일러 수준에서 해석이 되거나 완전히 정적이여야 한다.
+
+```java
+package me.gracenam.study.week12;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    private static final String hello = "hello";
+
+    @GetMapping(hello)
+    public String hello() {
+        return "hello";
+    }
+}
+```
+
+위 코드에서 hello는 완전히 정적이다. 만약 여기서 final이 제거된다면 hello는 값이 바뀔 수 있게 되고 동적이기 때문에 hello는 더 이상 @GetMapping에 사용될 수 없다.
+
+# Java Reflection
 
 # 애노테이션 프로세서
 
