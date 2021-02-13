@@ -64,6 +64,9 @@ public class HelloController {
 
 # Java Reflection
 
+getAnnotations() : 상속받은 (@Inherit) 애노테이션까지 조회
+getDeclareAnnotations() : 자기 자신에만 붙어있는 애노테이션 조회
+
 # 애노테이션 프로세서
 
 
