@@ -44,9 +44,10 @@ p.s. 답변에 대한 보다 자세한 내용을 알고 싶다면 자바 스터�
   <summary>JVM의 특징</summary>
   <br/>
   <p>&nbsp;&nbsp;&nbsp;JVM은 Java Virtual Machine의 약자로 자바 가상머신을 뜻한다. 자바소스로부터 만들어진 바이너리 파일(.class)을 실행하기 위해 필요하다. 자바가 OS에 구애받지 않고 사용가능하게 만들어주는 이유이기도 하다. 또한 자동 메모리 관리 기법인 Garbage Collection을 수행한다.</p>
-
-  + JRE : 자바 실행환경. JVM으로 자바자프로그램을 동작시킬 때 필요한 파일들을 가지고 있다.
-  + JDK : Java 개발을 하기위해 필요한 환경. JDK에는 JRE가 포함되어 있다.
+  <p>
+  &#128073; JRE : 자바 실행환경. JVM으로 자바자프로그램을 동작시킬 때 필요한 파일들을 가지고 있다.<br/>
+  &#128073; JDK : Java 개발을 하기위해 필요한 환경. JDK에는 JRE가 포함되어 있다.
+  </p>
 </details>
 
 <details>
