@@ -28,28 +28,184 @@ p.s. 답변에 대한 보다 자세한 내용을 알고 싶다면 자바 스터�
   <p>&nbsp;&nbsp;&nbsp;컴포넌트는 소프트웨어 활동 단위를, 모듈은 구현 단위와 산출물을 중점으로 하고 있다.</p>
 </details>
 
+<details>
+  <summary>자바란 무엇인가</summary>
+  </br>
+  <p></p>
+</details>
 
-2. [자바란 무엇인가](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-3. [자바의 구동원리](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-4. [JVM의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-5. [객체지향과 절차지향의 차이점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
+<details>
+  <summary>자바의 구동원리</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>JVM의 특징</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>객체지향과 절차지향의 차이점</summary>
+  </br>
+  <p></p>
+</details>
+</br>
+
+<details>
+  <summary>객체지향 언어의 특징</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>상속과 구현의 차이점과 특징 및 장단점</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>오버라이딩과 오버로딩의 차이점과 특징</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>기본형 변수와 참조형 변수는 무엇이 있나?</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>스택 오버플로우가 왜 일어나는가?</summary>
+  </br>
+  <p></p>
+</details>
+</br>
+
+<details>
+  <summary>메모리 누수가 무엇인가?</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>메모리 누수를 막기 위한 방법</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>Static에 대한 설명</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>싱글톤 패턴이 무엇인가? 디자인 패턴이란?</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>익명 클래스와 익명 객체란?</summary>
+  </br>
+  <p></p>
+</details>
+</br>
+
+<details>
+  <summary>Java 문자열 검색</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>자료구조 특징, 장단점</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>쓰레드는 무엇이고 언제 쓰이는가?</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>멀티쓰레드와 쓰레드의 차이점</summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary>제네릭은 무엇인가?</summary>
+  </br>
+  <p></p>
+</details>
 <br/>
-6. [객체지향 언어의 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-7. [상속과 구현의 차이점과 특징 및 장단점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-8. [오버라이딩과 오버로딩의 차이점과 특징](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-9. [기본형 변수와 참조형 변수는 무엇이 있나?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-10. [스택 오버플로우가 왜 일어나는가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-<br/>
-11. [메모리 누수가 무엇인가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-12. [메모리 누수를 막기 위한 방법](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-13. [Static에 대한 설명](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-14. [싱글톤 패턴이 무엇인가? 디자인패턴이란?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-15. [익명클래스와 익명객체란?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-<br/>
-16. [JAVA 문자열 검색](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-17. [자료구조 특징, 장단점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-18. [스레드는 무엇이고 언제 쓰이는가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-19. [멀티스레드와 스레드의 차이점](https://yadon079.github.io/2021/cs/interview-answer-1to20)
-20. [제네릭은 무엇인가?](https://yadon079.github.io/2021/cs/interview-answer-1to20)
 
 ---
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+<br/>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+
+<details>
+  <summary></summary>
+  </br>
+  <p></p>
+</details>
+<br/>
