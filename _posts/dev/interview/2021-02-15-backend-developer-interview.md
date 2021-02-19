@@ -3,9 +3,9 @@ layout: post
 date: 2021-02-15 14:01:00
 title: "백엔드 개발자 면접 / 학습내용"
 description: "백엔드 면접"
-subject: dev
+subject: Interview
 category: [ cs ]
-tags: [ cs, algorithm ]
+tags: [ cs, interview, web, backend ]
 comments: true
 ---
 
