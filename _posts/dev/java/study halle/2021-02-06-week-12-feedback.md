@@ -108,9 +108,73 @@ public class HelloController {
 + MethodsFields
 + Annotations
 
-# DeclaredAnnotatios
+# DeclaredAnnotations
 
+&#9654; HelloController.java
 
+```java
+@Hello
+@RestController
+public class HelloController {
+
+    private String privateName;
+
+    private static final String hello = "hello";
+
+    @GetMapping(hello)
+    public String hello() {
+        return "hello";
+    }
+}
+```
+
+&#9654; Hello.java
+
+```java
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Hello {
+
+}
+```
+
+&#9654; MyHelloController.java
+
+```java
+public class MyHelloController extends HelloController {
+
+}
+```
+
+&#9654; HelloMain.java (그냥 annotations을 쓸 때)
+
+```java
+public class HelloMain {
+    public static void main(String[] args) {
+        Annotation[] annotations = MyHelloController.class
+                .getAnnotations();
+        for(Annotation annotation : annotations) {
+            System.out.println(annotation);
+        }
+    }
+}
+```
+
+&#9654; HelloMain.java (DeclaredAnnotations을 쓸 때)
+
+```java
+public class HelloMain {
+    public static void main(String[] args) {
+        Annotation[] annotations = MyHelloController.class
+                .getDeclaredAnnotations();
+        for(Annotation annotation : annotations) {
+            System.out.println(annotation);
+        }
+    }
+}
+```
+
+그냥 getAnnotations()를 사용하면 inherited가 출력되지만 getDeclaredAnnotations()를 사용하면 출력되지 않는다. private 하다는 말이 이러한 것이다.
 
 # javadoc
 
@@ -142,6 +206,36 @@ JavaDoc은 여러 Tag를 작성하여 문서를 완성한다. Java 코드에서 
 # 애노테이션 프로세서
 
 ## 그대, 자바의 ServiceLoader를 들어봤는가?
+
+&nbsp;&nbsp;&nbsp;ServiceLoader는 무엇인가!
+
+```java
+public interface HelloService {
+
+    String hello();
+
+}
+```
+
+이렇게 인터페이스가 있고 나는 이러한 인터페이스만 제공한다고 생각해보자. 구현체는 구글에서 만들 수도 있고, 네이버에서 만들 수도 있고, 카카오나 우형에서 만들 수도 있다. 제각각의 jar파일로 만들텐데, 인터페이스의 구현체를 내가 만들지 않고 jar파일만 바꾸면 해당 인터페이스 타입을 구현한 구현체의 인스턴스를 가져올 수 있는 방법이 바로 <b>ServiceLoader</b>이다.
+
+&nbsp;&nbsp;&nbsp;그렇다면 이 서비스 구현체들을 어떻게 찾을 것이냐? 인터페이스를 사용하는 구현체의 resources폴더에 `META-INF/services`를 만들고 그 안에 인터페이스의 풀패키지 경로를 이름으로 하는 파일을 만들어준다. 그리고 내용으로 구현체의 풀패키지 경로를 작성한다. 다 되었다면 패키징을 한 후 사용할 프로젝트에서 dependency로 추가해주자.
+
+자! 거의 다 왔다. 이렇게 추가해주면 직접 참조하지 않아도 사용할 수 있게 되는데, 이제 ServiceLoader를 이용하여 확인할 수 있다.
+
+```java
+public class HelloMain {
+    public static void main(String[] args) {
+        ServiceLoader<HelloService> loader = ServiceLoader.load(HelloService.class);
+
+        for(HelloService helloService : loader) {
+            System.out.println(helloService.hello());
+        }
+    }
+}
+```
+
+for문을 사용했기 때문에 jar파일이 여러 개라도 다 읽어올 수 있다.
 
 # 싱글 값 애노테이션
 
