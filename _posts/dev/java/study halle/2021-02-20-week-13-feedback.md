@@ -34,15 +34,23 @@ comments: true
 
 &nbsp;&nbsp;&nbsp;
 
-#
+# Buffer를 활용한 코드와 얼만큼의 성능 차이가 발생할까?
+
+&#9654; InputStream
+
+```java
+
+```
+
+&#9654; BufferedInputStream
+
+```java
+
+```
 
 ---
 
 # 학습
-
-# 성능 비교
-
-
 
 # 데코레이터 패턴
 
