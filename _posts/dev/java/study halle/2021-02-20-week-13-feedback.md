@@ -39,14 +39,75 @@ comments: true
 &#9654; InputStream
 
 ```java
+package week13;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        long start = System.currentTimeMillis();
+
+        FileInputStream fileInputStream = new FileInputStream("/Users/sunwoo/workspace/live-study/src/main/java/week13/test.txt");
+
+        int i = 0;
+        try {
+            while((i = fileInputStream.read()) != -1 ) {
+                System.out.write(i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileInputStream.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+        System.out.println("걸린 시간 : " + (System.currentTimeMillis() - start));
+    }
+}
 ```
 
 &#9654; BufferedInputStream
 
 ```java
+package week13;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        long start = System.currentTimeMillis();
+
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream("/Users/sunwoo/workspace/live-study/src/main/java/week13/test.txt"));
+
+        int i = 0;
+        try {
+            while((i = bufferedInputStream.read()) != -1 ) {
+                System.out.write(i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                bufferedInputStream.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+
+        System.out.println("걸린 시간 : " + (System.currentTimeMillis() - start));
+    }
+}
 ```
+
+불러온 파일의 크기가 작아서 비교가 제대로 되지 않았는데 크기가 큰 파일을 이용해서 비교해보면 Buffered가 확실히 성능이 뛰어나다는 것을 알 수 있다.
 
 ---
 
