@@ -704,41 +704,40 @@ public class App {
 ```java
 package week13;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 
-public class Client {
-    static SocketChannel socketChannel = null;
+public class Server {
+    static ServerSocketChannel serverSocketChannel = null;
 
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         try {
-            //SocketChannel을 생성하고 몇 가지 설정을 한다.
-            socketChannel = SocketChannel.open();
-            socketChannel.configureBlocking(true);
+            serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.configureBlocking(true);
+            serverSocketChannel.bind(new InetSocketAddress(10000));
 
-            //서버 연결
-            socketChannel.connect(new InetSocketAddress("localhost",10000));
+            while(true) {
+                SocketChannel socketChannel = serverSocketChannel.accept();
+                System.out.println("connected : " + socketChannel.getRemoteAddress());
 
-            Charset charset = Charset.forName("UTF-8");
+                //클라이언트로 부터 입/출력받기
+                Charset charset = Charset.forName("UTF-8");
 
-            //서버에 입출력
-            ByteBuffer byteBuffer = charset.encode("Hello Server !");
-            socketChannel.write(byteBuffer);
+                ByteBuffer byteBuffer = ByteBuffer.allocate(128);
+                socketChannel.read(byteBuffer);
+                byteBuffer.flip();
+                System.out.println("received Data : " + charset.decode(byteBuffer).toString());
 
-            byteBuffer = ByteBuffer.allocate(128);
-            socketChannel.read(byteBuffer);
-            byteBuffer.flip();
-            System.out.println("received Data : " + charset.decode(byteBuffer).toString());
-
-
-            //소켓닫기
-            if(socketChannel.isOpen()) {
-                socketChannel.close();
+                byteBuffer = charset.encode("hello, My Client !");
+                socketChannel.write(byteBuffer);
+                System.out.println("Sending Success");
             }
-
-        }catch(Exception e) {
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
