@@ -17,7 +17,7 @@ comments: true
 
 ## 컬렉션 프레임웍 Collections Framework
 
-[이전 편](/2020/java/11-collections-framework-02)
+[이전 편](/2020/java/11-collections-framework-01)
 
 ### 1.5 Iterator, ListIterator, Enumeration
 
