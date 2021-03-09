@@ -704,11 +704,11 @@ public class App {
 
 java.io에서는 File 클래스에서 경로와 파일을 다루는 기능이 모두 포함되어 있었는데 nio 부터 분리되었다. 또한, java.io.File 클래스와도 연동하여 사용할 수 있다.
 
-<details>
-  <summary>java.nio.file.Path 주요 메소드</summary>
-  <br/>
-  <p>생성자</p>
-<pre>
+&#9654; java.nio.file.Path 주요 메소드
+
++ 생성자
+
+```java
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -721,16 +721,16 @@ public class Test {
 				System.out.println("dir2 = " + dir2);
 		}
 }
-</pre>
-<p>java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고, 폴더 구조는 한번에 주든 나눠서 주든 동일하다.<br/>
-<br/>
-+ <code>String toString()</code> : 전체 경로 반환 (생략 가능)<br/>
+```
+
+java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고, 폴더 구조는 한번에 주든 나눠서 주든 동일하다.
+
++ `String toString()` : 전체 경로 반환 (생략 가능)
 + `Path getRoot()` : Root 주소를 가진 Path 객체 생성
 + `Path getParent()` : 부모 주소를 가진 Path 객체 생성
 + `Path getName(int index)` : 인덱스 번호에 해당하는 주소를 가진 Path 객체 생성 (루트 다음부터 인덱스 0)
 + `int getNameCount()` : 루트 주소 다음부터 몇 개의 계층으로 이루어져 있는지 반환
 + `Path normalize()` : 정규화된 경로를 가진 Path 객체 생성
-</p>
 
 ```java
 public class App {
@@ -758,13 +758,11 @@ public class App {
 }
 ```
 
-<p>
 + `Path resorve(String other)` : 매개변수로 받은 문자열을 가진 Path 객체 생성
 + `default File toFile()` : java.io.File 타입으로 변환 후 반환
 + `URI toUri()` : Path의 경로를 URI 객체로 변환 후 반환
-</p>
 
-<code>
+```java
 public class App {
 	public static void main(String[] args) {
 			Path dir = Paths.get("/home/sunwoo/temp/java/test.txt");
@@ -773,15 +771,123 @@ public class App {
 			System.out.println("dir2 = " + dir2);
 	}
 }
-</code>
+```
 
-</details>
-<details>
-<summary>java.nio.file.Files 주요 메소드</summary>
+&#9654; java.nio.file.Files 주요 메소드
 
-</details>
+모두 static 메소드로 이루어져있어 별도의 인스턴스 생성이 필요 없고, 파일 또는 폴더의 주소 정보를 가진 Path 클래스의 인스턴스를 매개변수로 메소드를 수행한다.
 
-<br/>
+- `boolean isDirectory(Path p)` : 폴더인지 아닌지 검사
+- `boolean exitsts(Path p)` : 파일이 실제 존재하는지 검사
+- `Path createDirectory(Path p)` : 디렉토리 생성
+- `Path createFile(Path p)` : 파일 생성 (해당 파일이 이미 존재하다면 예외 발생)
+
+```java
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class App {
+	public static void main(String[] args) {
+		File file = new File("/home/yesol/temp/java/test.txt");
+		Path dir = Paths.get("/home/yesol/temp");				// 주소 객체
+		Path file2 = Paths.get("/home/yesol/temp/java/test.txt"); // 파일명 객체
+		Path file3 = file.toPath();									// File -> Path 변환
+		File file4 = file2.toFile();								// Path -> File 변환
+
+		try {
+			// 해당 디렉토리 없으면 생성
+			if (!Files.isDirectory(dir)) {
+				Files.createDirectories(dir);
+			}
+
+			// 해당 파일 없으면 생성
+			if (!Files.exists(file2)) {
+				Files.createFile(file2);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+- Enum StandardCopyOption
+  - `copy`, `move` 와 같은 메소드 사용시 옵션을 사용할 수 있는 기본 라이브러리의 Enum 클래스
+  - 옵션은 여러개를 동시에 지정 가능
+    - ATOMIC_MOVE
+      - `move` 전용
+      - 파일 이동 중 어떠한 방해가 생기더라도 이동 작업을 끝까지 보장
+      - 어떤 프로세스가 중단(interrupt)를 내려도 이를 무시하고 이동을 완료한 뒤 대응
+    - COPY_ATTRIBUTES
+      - 모든 파일 속성(File Attributes) 복사
+    - REPLACE_EXISTING
+      - Dest 파일이 이미 존재하면 파일의 내용을 복사해서 덮어씀
+  - 사용
+    - `long copy(Path source, Path dest.CopyOption)`
+      - source 파일을 dest 경로로 복사
+        - 동일 파일 있으면 예외 발생
+        - 옵션 지정하여 덮어쓰기 등 가능
+
+```java
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+public class App {
+	public static void main(String[] args) {
+		Path file = Paths.get("/home/yesol/temp/java/test.txt");
+		Path file2 = Paths.get("/home/yesol/temp/java/sample.txt");
+
+		try {
+			if (!Files.exists(file2)) {
+				Files.copy(file, file2);        // file2가 없으면 file을 복사해서 file2를 새로 생성
+			}
+
+			// 없으면 복사해서 만들고, 이미 있으면 내용을 덮어씀
+			Files.copy(file, file2, StandardCopyOption.REPLACE_EXISTING);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+
+- `Path move(Path source, Path dest.CopyOption)`
+  - source 파일을 dest 경로로 이동
+  - source 파일이 없거나 dest 파일이 이미 존재하면 예외 발생
+  - 두 경로가 동일하다면 source 파일의 이름을 dest로 변경
+  - dest 파일이 있더라도 덮어쓰기하는등 CopyOption 사용 가능
+
+```java
+public static void main(String[] args) {
+		Path file = Paths.get("/home/yesol/temp/java/test.txt");
+		Path file2 = Paths.get("/home/yesol/temp/java/sample.txt");
+
+		try {
+			/*
+				file(source)가 있고 file2와 경로 같으면 -> file2로 이름 변경
+				file(source)가 있고 file2와 경로 다르면 -> file2 경로로 이동
+				file(source)가 없거나 file2(dest)가 이미 있으면 -> 예외 발생
+			 */
+			if (!Files.exists(file2)) {
+				Files.move(file, file2);
+			}
+
+			// 이미 존재하면 지우고 file(source)의 이름 변경
+			Files.move(file, file2, StandardCopyOption.REPLACE_EXISTING);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+```
+
 👉🏼 채널 생성 (**Channel**)
 
 + java.io의 단방향 스트림과 달리 **양방향 통로**
