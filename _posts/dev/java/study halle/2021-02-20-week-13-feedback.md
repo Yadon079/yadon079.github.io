@@ -691,7 +691,98 @@ public class App {
 
 # 바이트버퍼
 
+### java.nio
 
+- 양방향 **Channel 방식**을 사용해 통로가 하나만 있으면 외부 데이터와 입출력 연동이 가능하다.
+- 기본적으로 **버퍼(Buffer)**를 사용해 속도를 높였다
+    - 커널 버퍼를 직접 사용하여 입출력 속도 향상도 가능하다
+- **비동기 지원**
+- **Non-Blocking** 지원
+
+👉🏼 Java.nio.Path / Java.nio.Files 클래스
+
+java.io에서는 File 클래스에서 경로와 파일을 다루는 기능이 모두 포함되어 있었는데 nio 부터 분리되었다. 또한, java.io.File 클래스와도 연동하여 사용할 수 있다.
+
+<details>
+  <summary>java.nio.file.Path 주요 메소드</summary>
+  <br/>
+  <p>
+
++ 생성자
+
+```java
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class Test {
+
+		public static void main(String[] args) {
+				Path dir1 = Paths.get("/home/sunwoo/temp/java/test.txt");
+				Path dir2 = Paths.get("/home", "sunwoo", "temp", "java", "test.txt");
+				System.out.println("dir1 = " + dir1);
+				System.out.println("dir2 = " + dir2);
+		}
+}
+```
+</p>
+<p>
+java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고, 폴더 구조는 한번에 주든 나눠서 주든 동일하다.
+
++ `String toString()` : 전체 경로 반환 (생략 가능)
++ `Path getRoot()` : Root 주소를 가진 Path 객체 생성
++ `Path getParent()` : 부모 주소를 가진 Path 객체 생성
++ `Path getName(int index)` : 인덱스 번호에 해당하는 주소를 가진 Path 객체 생성 (루트 다음부터 인덱스 0)
++ `int getNameCount()` : 루트 주소 다음부터 몇 개의 계층으로 이루어져 있는지 반환
++ `Path normalize()` : 정규화된 경로를 가진 Path 객체 생성
+</p>
+
+```java
+public class App {
+	public static void main(String[] args) {
+		Path dir1 = Paths.get("/home/yesol/temp/java/test.txt");
+		System.out.println("전체 경로 : " + dir1);
+
+		Path root = dir1.getRoot();
+		System.out.println("root = " + root);
+
+		Path parent = dir1.getParent();
+		System.out.println("parent = " + parent);
+
+		System.out.println("dir1.getNameCount() = " + dir1.getNameCount());
+
+		Path name = dir1.getName(0);
+		System.out.println("name = " + name);
+
+		Path name2 = dir1.getName(1);
+		System.out.println("name2 = " + name2);
+
+		Path normal = dir1.normalize();
+		System.out.println("normal = " + normal);
+	}
+}
+```
+
+<p>
++ `Path resorve(String other)` : 매개변수로 받은 문자열을 가진 Path 객체 생성
++ `default File toFile()` : java.io.File 타입으로 변환 후 반환
++ `URI toUri()` : Path의 경로를 URI 객체로 변환 후 반환
+</p>
+
+```java
+public class App {
+	public static void main(String[] args) {
+			Path dir = Paths.get("/home/sunwoo/temp/java/test.txt");
+			Path dir2 = dir.resolve("/home/");
+
+			System.out.println("dir2 = " + dir2);
+	}
+}
+```
+
+</details>
+- java.nio.file.Files 주요 메소드
+
+👉🏼 채널 생성 (**Channel**)
 
 ---
 
