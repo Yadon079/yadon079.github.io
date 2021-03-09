@@ -81,9 +81,49 @@ Integer는 Number의 서브타입이기 때문에 BoundTypeSample와 같은 선�
 
 # Erasure
 
+&nbsp;&nbsp;&nbsp;제네릭에 대해 공부하다보면 한 가지 특이한 점을 알 수 있다. 바로 타입 파라미터에 primitive 타입을 사용하지 않았다는 것이다.
+
+물론 primitive 타입도 타입인데, <b>타입으로 사용하지 못한다는게 이상하다</b>는 생각이 들 것이다. 결론부터 말하자면 <b>타입 소거(type Erasure)</b>때문이다.
+
+
+`List<Integer>`를 예시로 살펴보자.
+
+```java
+package generic;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Feedback01 {
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+    }
+
+}
+```
+
+위 코드의 바이트 코드를 살펴보면 ArrayList가 생성될 때 타입 정보가 없다는 것을 발견할 수 있다. 여기서 재밌는 점(?)은 제네릭을 사용하지 않고 raw type으로 ArrayList를 생성해도 똑같은 바이트 코드를 볼 수 있다! 그리고 내부에서 타입 파라미터를 사용할 경우 Object 타입으로 취급하여 처리한다.
+
+이것을 타입 소거(type Erasure)라고 한다. 타입 소거는 제네릭 타입이 특정 타입으로 제한되어 있을 경우 해당 타입에 맞춰 컴파일 시 타입 변경이 발생하고 타입 제한이 없을 경우 Object 타입으로 변경된다.
+
+## 왜 이렇게 만들었을까?
+
+&nbsp;&nbsp;&nbsp;바로 <b>하위 호환성</b>을 지키기 위해서이다.
+
+제네릭을 사용하더라도 하위 버전에서도 동일하게 동작을 해야한다. primitive 타입을 사용하지 못하는 것도 바로 이 기본 타입은 Object 클래스를 상속받고 있지 않기 때문이다. 그래서 기본 타입 자료형을 사용하기 위해서는 Wrapper 클래스를 사용해야 한다.
+
+Wrapper 클래스를 사용할 경우 Boxing과 Unboxing을 명시적으로 사용할 수도 있지만 암묵적으로도 사용할 수 있으니 구현 자체에는 크게 신경쓰지 않아도 된다.
+
+다시 돌아와서 제네릭과 관련하여 한 가지 더 생각해 볼 부분이 있다.
+
 # 제네릭 주의 사항
 
+
+
 # 브릿지 메서드
+
+
 
 ---
 
