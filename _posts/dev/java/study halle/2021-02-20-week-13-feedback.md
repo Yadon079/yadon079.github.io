@@ -630,6 +630,7 @@ public UserInfo implements Serializable {
 | 버퍼 크기 | 작음 | 큼(큰 데이터 처리 시 유리) |
 | 입출력 성능 | 낮음 | 높음(입출력이 빈번할 때 유리) |
 
+<br/>
 &#9654; 성능 비교
 
 ```java
@@ -706,11 +707,8 @@ java.io에서는 File 클래스에서 경로와 파일을 다루는 기능이 �
 <details>
   <summary>java.nio.file.Path 주요 메소드</summary>
   <br/>
-  <p>
-
-+ 생성자
-
-```java
+  <p>생성자</p>
+<pre>
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -723,12 +721,10 @@ public class Test {
 				System.out.println("dir2 = " + dir2);
 		}
 }
-```
-</p>
-<p>
-java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고, 폴더 구조는 한번에 주든 나눠서 주든 동일하다.
-
-+ `String toString()` : 전체 경로 반환 (생략 가능)
+</pre>
+<p>java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고, 폴더 구조는 한번에 주든 나눠서 주든 동일하다.<br/>
+<br/>
++ <code>String toString()</code> : 전체 경로 반환 (생략 가능)<br/>
 + `Path getRoot()` : Root 주소를 가진 Path 객체 생성
 + `Path getParent()` : 부모 주소를 가진 Path 객체 생성
 + `Path getName(int index)` : 인덱스 번호에 해당하는 주소를 가진 Path 객체 생성 (루트 다음부터 인덱스 0)
@@ -768,7 +764,7 @@ public class App {
 + `URI toUri()` : Path의 경로를 URI 객체로 변환 후 반환
 </p>
 
-```java
+<code>
 public class App {
 	public static void main(String[] args) {
 			Path dir = Paths.get("/home/sunwoo/temp/java/test.txt");
@@ -777,7 +773,7 @@ public class App {
 			System.out.println("dir2 = " + dir2);
 	}
 }
-```
+</code>
 
 </details>
 <details>
@@ -785,6 +781,7 @@ public class App {
 
 </details>
 
+<br/>
 👉🏼 채널 생성 (**Channel**)
 
 + java.io의 단방향 스트림과 달리 **양방향 통로**
