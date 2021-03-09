@@ -780,9 +780,151 @@ public class App {
 ```
 
 </details>
-- java.nio.file.Files 주요 메소드
+<details>
+<summary>java.nio.file.Files 주요 메소드</summary>
+
+</details>
 
 👉🏼 채널 생성 (**Channel**)
+
++ java.io의 단방향 스트림과 달리 **양방향 통로**
+  + 하나의 채널만 열어두면 **입출력을 동시에 진행**할 수 있음
++ 하드웨어, 장비, 파일, 네트워크 소켓 등과 입출력 작업을 수행할 수 있는 통로
++ 기존 스트림 방식 대비 **속도가 빠름**
++ **non-blocking 방식을 지원**하여 자원 사용의 효율성 상승
+  + non-blocking : 스레드가 입출력 작업을 할 때 쓰레드를 멈추지 않고 여러 입출력 작업을 동시에 할 수 있도록 하는 것
+
+👉🏼java.nio.Buffer 인터페이스 상속받는 Buffer 클래스
+
+<img src="/assets/img/study/week13fb03.png" width="70%" align="center"><br/>
+
+**커널 버퍼란 운영체제가 관리하는 메모리 영역에 생성되는 버퍼 공간**으로, 자바는 외부데이터를 가져올때 OS의 메모리 버퍼에 먼저 담았다가 JVM 내의 버퍼에 한번 더 옮겨줘야 하기 때문에 시스템 메모리를 직접 다루는 C언어에 비해 입출력이 느리다. 이러한 단점을 개선하기 위해 나온 ByteBuffer 클래스의 `allocateDirect()` 메소드를 사용하면 커널 버퍼를 사용할 수 있다. 그 외로 만들어지는 버퍼는 모두 JVM 내에 생성되는 버퍼이다.
+
+이 메소드는 내부적으로는 C언어를 호출해 시스템 메모리 영역을 사용하는 것이라 입출력 속도 자체는 빠르지만 내부적인 과정이 복잡해 버퍼 공간을 생성하고 해제하는 속도가 느려진다. 그러므로 커널 버퍼 사용은 한번 만들어서 오래 사용해야 할 때 사용하는 것이 좋다.
+
+✏️ java.nio 사용법 정리
+
+1. 채널(Channel) 생성
+  - 정적(static)메소드 이용
+    + `open(Path p, Option)`
+  - java.io 클래스에서 제공하는 인스턴스 메소드 사용
+    + `getChannel()`
+
+&#9654; StandardOpenOption
+
+    - 채널 생성 옵션을 가진 기본 라이브러리 Enum 클래스
+    - `open()` 메소드를 이용한 채널 인스턴스 생성 시 옵션은 **중복**으로 여러개 넣어 줄 수 있음
+
+2. 버퍼(Buffer) 생성
+  - 정적(static)메소드 이용
+    - 커널 버퍼
+      - ByteBuffer 클래스의 `allocateDirect(int capacity)`에서만 가능
+    - 일반 버퍼
+      - `allocate(int capacity)`
+  - 자주 만들었다 지웠다 하는 버퍼 → 일반 버퍼 생성, 반대는 커널 버퍼 생성하는 것이 효율적
+  - 채널은 파일 입출력을 버퍼에 하기 때문에, 실제 채널 메소드로 **입출력을 해주는 메소드는 버퍼에다가 출력하고 버퍼에서 가져오는 작업**이다.
+
+&#9654; Capacity, Position, Limit, mark
+
+  - **Capacity** : 버퍼의 전체 크기 즉, 버퍼의 최대 데이터 개수(메모리 크기)를 나타낸다. 인덱스 값이 아니라 수량임
+  - **Position**: 현재 버퍼를 쓰거나 읽을 위치, 인덱스 값이기 때문에 0부터 시작하며 lilmit보다 큰 값을 가질 수 없다. (만약 position과 limit값이 같아지면 더 이상 데이터를 쓰거나 읽을 수 없다는 의미)
+  - **Limit**: 버퍼에서 읽거나 쓸 수 있는 위치의 한계를 나타낸다. 이 값은 capacity보다 작거나 같은 값을 가진다. 최초에 버퍼를 만들었을 때는 capacity와 같은 값을 가진다.
+  - **Mark :** `reset()` 메소드를 실행했을 때 돌아오는 위치를 지정하는 인덱스를 `mark()` 메소드로 지정할 수 있다. 반드시 position 이하의 값으로 지정해주어야 한다.
+  position이나 limit의 값이 mark 값보다 작은 경우 mark 값은 자동 제거된다. mark가 없는 상태에서 `reset()` 을 호출하면 InvalidMarkException 발생
+  - $0 <= mark <= position <= limit <= capacity$
+  - 실제 버퍼를 읽고 쓰는 범위는 **전체(Capacity) 중 Position - Limit** 의 범위
+  <img src="/assets/img/study/week13fb02.png" width="70%" align="center"><br/>
+
+3. java.nio 파일 출력 및 Charset 클래스
+  - 1 번 2번을 완료하면 (파일과 채널을 생성하고, 읽고 쓸 수 있는 버퍼 생성 완료) 파일을 읽고 쓸 수 있는 상태가 됨.
+  - 그러나, 외부의 문자 데이터를 주고받을 때는 서로 다른 인코딩 타입을 사용할 수 있는 문제가 있음.
+    - 예를들어,
+      - 자바는 문자 인코딩 타입으로 유니코드 사용하는데 윈도우 메모장은 에 있는 파일을 읽어오는 경우 (윈도우 메모장-ANSI 코드)
+      - 2byte 이상으로 이루어진 한글같은 경우
+    - FileInputStream(바이트스트림)은 한글과 같은 다중 바이트 문자는 깨져서 나오고, 문자 스트림으로 파일을 읽어오면 내부로직에서 ANSI 코드를 유니코드로 변환하여 가져오기 때문에 문자를 제대로 읽을 수 있다.
+  - nio 에서 **문자 스트림 역할을 해 주는 클래스가 java.nio.Charset 클래스**이다.
+  - 사용법
+    - Charset 클래스의 인스턴스 생성
+      - `Charset.forName("타입")` : 유니코드↔ 직접입력한 타입간 변환을 해 주는 객체 생성
+      - `Charset.defaultCharset()` : 유니코드 ↔ OS 인코딩 타입 간 변환을 해 주는 객체 생성
+    - `buffer = charset.encode(str);` : 위에서 생성한 객체의 타입으로 인코딩해서 버퍼에 넣어줌
+
+**※ 파일 포인터의 위치를 자유 자재로 움직일 수 있으려면 RandomAccessFile 클래스로 파일을 열어줘야 한다.**
+
+<img src="/assets/img/study/week13fb04.png" width="70%" align="center"><br/>
+
+동일 채널을 사용해 출력한 파일에서 다시 읽어오는 작업을 수행하려면 java.io.RandomAccessFile 클래스로 파일을 연 뒤, 채널을 생성해주면 된다.
+
+- `getChannel()` : java.io에서 연 파일에 채널 통로를 생성
+
+```java
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+
+public class App {
+    public static void main(String[] args) {
+
+        File f = new File("C:\\Users\\jjang\\Desktop\\study\\java.txt");
+        RandomAccessFile file = null;
+
+        // 채널 열기
+        try {
+            /* 파일 쓰기 */
+            file = new RandomAccessFile(f, "rw");
+            FileChannel channel = file.getChannel();
+
+            // Capacity가 10인 버퍼 생성
+            ByteBuffer buffer = ByteBuffer.allocate(100);
+
+            // 인코딩 타입 변환을 위한 Charset 객체 생성
+            String str = "nio test!";
+            Charset charset = Charset.defaultCharset();
+            // 문자열 ANSI로 인코딩해서 버퍼에 넣어줌
+            buffer = charset.encode(str);
+
+            // 버퍼 내용 파일에다 쓰기
+            channel.write(buffer);
+
+            /* 파일 읽기 */
+            String inputStr = "";
+            file.seek(0);       // 파일 포인터를 처음으로 옮김
+            file.write((byte) 'N');  // 소문자 n을 대문자로 변경
+            file.seek(8);       // 마지막 글자 !위치로 이동
+            file.write((byte) '$'); // !를 $로 변경
+            file.seek(0);
+            buffer.clear();         // 버퍼 초기화
+
+            channel.read(buffer);   // 파일 내용 읽어서 버퍼에 저장
+            buffer.flip();          // 버퍼의 Position과 Limit을 내용 범위로 변경
+            inputStr = charset.decode(buffer).toString();
+            System.out.println(inputStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+}
+```
+
+- RandomAccessFile인스턴스.`seek(long index)` : 파일 포인터를 index로 옮김
+- RandomAccessFile인스턴스.`write(byte b)` : 현재 파일 포인터 위치에 내용을 덮어씀
+  - **파일 쓰기를 하면 파일 포인터의 위치가 자동으로 이동하므로 주의해야 한다.**
+- Buffer인스턴스.`clear()` : Position, Limit의 위치를 초기화 (Position = 0, Limit=Capacity)
+- Channel 인스턴스.`read(buffer)` : 현재 Position - Limit 의 크기만큼 파일을 읽어서 버퍼에 저장
+- Buffer인스턴스.`flip()` : 버퍼의 Limit을 현재 Position 위치로 이동시키고 Position 위치를 0으로 이동시킴
+  - Position - Limit의 범위는 내용이 있는 범위만 가지게 됨
+  - clear()를 사용하면 버퍼의 남는 공간만큼 공백으로 출력됨
+- Charset인스턴스`.decode(buffer)` : 버퍼의 내용을 디코딩해서 문자열로 변환
 
 ---
 
