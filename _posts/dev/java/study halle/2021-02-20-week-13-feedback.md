@@ -735,7 +735,7 @@ java.nio.file.Paths 클래스의 `get()` static 메소드를 통해 생성하고
 ```java
 public class App {
 	public static void main(String[] args) {
-		Path dir1 = Paths.get("/home/yesol/temp/java/test.txt");
+		Path dir1 = Paths.get("/home/sunwoo/temp/java/test.txt");
 		System.out.println("전체 경로 : " + dir1);
 
 		Path root = dir1.getRoot();
@@ -791,9 +791,9 @@ import java.nio.file.Paths;
 
 public class App {
 	public static void main(String[] args) {
-		File file = new File("/home/yesol/temp/java/test.txt");
-		Path dir = Paths.get("/home/yesol/temp");				// 주소 객체
-		Path file2 = Paths.get("/home/yesol/temp/java/test.txt"); // 파일명 객체
+		File file = new File("/home/sunwoo/temp/java/test.txt");
+		Path dir = Paths.get("/home/sunwoo/temp");				// 주소 객체
+		Path file2 = Paths.get("/home/sunwoo/temp/java/test.txt"); // 파일명 객체
 		Path file3 = file.toPath();									// File -> Path 변환
 		File file4 = file2.toFile();								// Path -> File 변환
 
@@ -840,8 +840,8 @@ import java.nio.file.StandardCopyOption;
 
 public class App {
 	public static void main(String[] args) {
-		Path file = Paths.get("/home/yesol/temp/java/test.txt");
-		Path file2 = Paths.get("/home/yesol/temp/java/sample.txt");
+		Path file = Paths.get("/home/sunwoo/temp/java/test.txt");
+		Path file2 = Paths.get("/home/sunwoo/temp/java/sample.txt");
 
 		try {
 			if (!Files.exists(file2)) {
@@ -866,8 +866,8 @@ public class App {
 
 ```java
 public static void main(String[] args) {
-		Path file = Paths.get("/home/yesol/temp/java/test.txt");
-		Path file2 = Paths.get("/home/yesol/temp/java/sample.txt");
+		Path file = Paths.get("/home/sunwoo/temp/java/test.txt");
+		Path file2 = Paths.get("/home/sunwoo/temp/java/sample.txt");
 
 		try {
 			/*
@@ -971,7 +971,7 @@ import java.nio.charset.Charset;
 public class App {
     public static void main(String[] args) {
 
-        File f = new File("C:\\Users\\jjang\\Desktop\\study\\java.txt");
+        File f = new File("C:\\Users\\sunwoo\\Desktop\\study\\java.txt");
         RandomAccessFile file = null;
 
         // 채널 열기
