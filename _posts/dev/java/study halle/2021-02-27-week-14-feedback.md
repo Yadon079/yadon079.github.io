@@ -99,9 +99,11 @@ public class Play <T> {
 
 `doSomething` 메소드의 파라미터로 `Play<? super LoL>`을 선언하였다. `<? super LoL>`은 Lower Bounded이고 따라서 LoL클래스의 상위타입을 받겠다는 의미이다. LoL 클래스를 살펴보면 `RankGame`이라는 인터페이스를 가지고 있고 인터페이스가 넘어오는 것을 확인할 수 있다.
 
-한 가지 의문이 생길 수 있는데, 클래스 제네릭 선언 시에 extends는 가능한데 super는 불가능하다. 왜 그럴까? 
+한 가지 의문이 생길 수 있는데, 클래스 제네릭 선언 시에 extends는 가능한데 super는 불가능하다. 왜 그럴까?
 
 # Erasure 챕터에서 컴파일러가 브릿지 패턴을 생성한다고 하는데, 바이트코드에는 나오지 않습니다. 확인하는 방법이 혹시 있을까요?
+
+
 
 ---
 
@@ -332,10 +334,6 @@ public class Example {
     public void print(Set<Integer> intSet) { }
 }
 ```
-
-# 브릿지 메서드
-
-
 
 ---
 

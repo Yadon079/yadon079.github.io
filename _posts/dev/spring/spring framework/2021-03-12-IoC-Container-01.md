@@ -13,10 +13,7 @@ comments: true
 [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)을 공부하고 정리하는 포스트입니다.
 
 ---
-
-# IoC 컨테이너
-
-## IoC란?
+# IoC란?
 
 &nbsp;&nbsp;&nbsp;Inversion of Control의 약자로 의존 관계 주입(Dependency Injection)이라고도 하며, 어떠한 객체가 사용하는 의존 객체를 직접 만들어 사용하는 것이 아니라, 주입 받아 사용하는 방법을 말한다.
 
@@ -101,6 +98,8 @@ public class BookServiceTest {
 초기에는 빈(Bean, 컨테이너 내부에 들어있는 객체)과 컨테이너에 대한 설계를 할 때 Xml이 대세였지만, 구글 주스(Google Gucie)가 처음 선보인 Annotation기반의 Dependency Injection을 지원하기 시작했다.
 
 현재는 `@Service`, `@Repository`, `@Autowired`와 같은 Annotation을 사용해 객체를 빈으로 등록할 수도 있고, 빈에 등록이 되어있는 객체를 손쉽게 주입받아 사용할 수 있다.
+
+---
 
 # IoC 컨테이너
 
