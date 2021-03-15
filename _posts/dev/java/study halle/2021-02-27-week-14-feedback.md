@@ -26,9 +26,80 @@ comments: true
 
 # Under bounded는 인터페이스도 지원이 되는가?
 
-```java
+## 와일드 카드 종류
 
+### Unbounded WildCard
+
+Unbounded WildCard는 `List<?>`와 같은 형태로 물음표만 가지고 정의된다. 내부적으로 Object로 정의되어서 사용하고 있는 모든 타입의 인자를 받을 수 있다. 타입 파라미터에 의존하지 않는 메소드만 사용하거나 Object 메소드에서 제공하는 기능으로 충분한 경우 사용하게 된다.
+
+### Upper Bounded WildCard
+
+Upper Bounded WildCard는 `List<? extends Foo>`의 형태로 사용한다. 특정 클래스의 자식 클래스만 인자로 받는다. 임의의 Foo 클래스를 상속받는 어떤 클래스가 와도 되지만 Foo에 정의된 기능만 사용할 수 있다.
+
+### Lower Bounded WildCard
+
+`List<? super Foo>`의 형태로 사용되며 특정클래스의 부모 클래스만 인자로 받는다. 즉, Upper와 반대다.
+
+&nbsp;&nbsp;&nbsp;다시 질문으로 돌아와서 클래스 뿐만 아니라 인터페이스도 지원이 가능한가?
+
+답은 가능하다. 이다. 예제를 통해서 살펴보자.
+
+&#9654; Game.java
+
+```java
+package generic;
+
+public class Game { }
 ```
+
+&#9654; RankGame.java
+
+```java
+package generic;
+
+public interface RankGame { }
+```
+
+&#9654; LoL.java
+
+```java
+package generic;
+
+public class LoL extends Game implements RankGame { }
+```
+
+&#9654; WoW.java
+
+```java
+package generic;
+
+public class WoW extends Game { }
+```
+
+&#9654; Play.java
+
+```java
+package generic;
+
+public class Play <T> {
+
+    public static void main(String[] args) {
+        Play<?> lolPlay = new Play<>();
+        lolPlay.doSomething(new Play<LoL>());
+        lolPlay.doSomething(new Play<Game>());
+        lolPlay.doSomething(new Play<RankGame>());
+    }
+
+    public void doSomething(Play<? super LoL> play) {
+        System.out.println(play);
+    }
+
+}
+```
+
+`doSomething` 메소드의 파라미터로 `Play<? super LoL>`을 선언하였다. `<? super LoL>`은 Lower Bounded이고 따라서 LoL클래스의 상위타입을 받겠다는 의미이다. LoL 클래스를 살펴보면 `RankGame`이라는 인터페이스를 가지고 있고 인터페이스가 넘어오는 것을 확인할 수 있다.
+
+한 가지 의문이 생길 수 있는데, 클래스 제네릭 선언 시에 extends는 가능한데 super는 불가능하다. 왜 그럴까? 
 
 # Erasure 챕터에서 컴파일러가 브릿지 패턴을 생성한다고 하는데, 바이트코드에는 나오지 않습니다. 확인하는 방법이 혹시 있을까요?
 
