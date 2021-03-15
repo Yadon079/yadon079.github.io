@@ -144,7 +144,123 @@ static 키워드를 사용하면 클래스 이름으로 접근하며 객체를 �
 
 # 제네릭 주의 사항
 
++ primitive type을 타입 인자로 사용할 수 없다.
 
+&#9654; 잘못된 코드 예시
+
+```java
+Pair<int, char> p = new Pair<>(8, 'a');
+```
+
++ 타입 매개변수로 인스턴스를 생성할 수 없다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+public static <E> void test(List<E> list) {
+    E elem = new E(); // 컴파일 오류
+    list.add(elem);
+}
+```
+
++ 타입 매개변수는 정적 필드로 사용할 수 없다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+public class Test<T> {
+    public static T test; // 컴파일 오류
+}
+```
+
++ 제네릭 타입에 캐스팅 또는 instanceof를 사용할 수 없다. 단, 와일드 카드를 사용하면 가능하다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+public static<E> void test(List<E> list) {
+    if(list instanceof ArrayList<Integer>) { // 컴파일 오류
+        ...
+    }
+}
+```
+
+&#9654; 와일드 카드
+
+```java
+public static void test(List<?> list) {
+    if(list instanceof ArrayList<?>) {  // OK.
+        ...
+    }
+}
+```
+
+```java
+public static void main(String[] args) {
+    List<Integer> list = new ArrayList<>();
+
+    List<Number> ln = (List<Number>) list; // 컴파일 오류
+    ArrayList<Integer> list2 = (ArrayList<Integer>) list; // OK.
+}
+```
+
++ 제네릭 타입의 배열을 생성할 수 없다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+List<Integer>[] arr = new List<Integer>[2]; // 컴파일 오류
+```
+
++ 제네릭 클래스는 `Throwable` 클래스를 직접 또는 간접적으로 상속받을 수 없다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+// 간접 상속
+class MathException<T> extends Exception { ... } // 컴파일 오류
+
+// 직접 상속
+class QueueFullException<T> extends Throwable { ... } // 컴파일 오류
+```
+
++ 제네릭 메소드의 타입 매개변수의 객체를 catch 할 수 없다. 단, throw는 가능하다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+public static <T extends Exception, J> void execute(List<J> jobs) {
+    try {
+        for(J job : jobs)
+          ...
+    } catch (T e) { // 컴파일 오류
+        ...
+    }
+}
+```
+
+&#9654; throw 예시
+
+```java
+class Parser<T extends Exception> {
+    public void parse(File file) throws T { // OK.
+        ...
+    }
+}
+```
+
++ 타입 Erasure 단계 후 동일한 서명을 가지게 되는 메서드 오버로딩은 불가능하다.
+
+&#9654; 잘못된 코드 예시
+
+```java
+public class Example {
+    // 타입 Erasure 후에는 print(Set)으로 동일하기 때문에 오버로딩 불가
+    // 컴파일 오류
+    public void print(Set<String> strSet) { }
+    public void print(Set<Integer> intSet) { }
+}
+```
 
 # 브릿지 메서드
 
