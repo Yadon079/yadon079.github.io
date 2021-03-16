@@ -335,9 +335,79 @@ public class Example {
 }
 ```
 
----
+# 브릿지 메서드
 
+&nbsp;&nbsp;&nbsp;제네릭 클래스를 상속받거나 제네릭 인터페이스를 구현하는 클래스 또는 인터페이스를 컴파일 할 때, 컴파일러는 타입 Erasure 프로세스의 일부로 <b>브릿지 메서드</b>라는 합성 메서드를 만들어야 할 수도 있다. 일반적으로 브릿지 메서드를 생각할 필요는 없지만 stack trace에 나타나는 경우 당황할 수도 있기 때문에 알아두도록 하자.
 
+예시를 통해서 살펴보자. 다음은 코드는 각각 제네릭 클래스 WitchPot과 그를 상속받는 FrogPot이다.
+
+&#9654; WitchPot.java
+
+```java
+public class WitchPot<T> {
+
+    private T material;
+
+    public WitchPot(T material) {
+       this.material = material;
+    }
+
+    public void set(T material) {
+      this.material = material;
+    }
+
+}
+```
+
+&#9654; ForgPot.java
+
+```java
+public class FrogPot extends WitchPot<Material> {
+
+    public FrogPot(Material material) {
+        super(material);
+    }
+
+    @Override
+    public void set(Material material) {
+        super.set(material)
+    }
+
+}
+```
+
+아무런 문제 없이 컴파일되어 Erasure 단계를 지났을 경우 아래와 같은 바이트코드가 예상된다.
+
+```java
+public class WitchPot {
+    private Object material;
+
+    public WitchPot(Object material) {
+        this.material = material;
+    }
+
+    public void set(Object material) {
+        this.material = material;
+    }
+}
+```
+
+```java
+public class FrogPot extends WitchPot{
+
+    public FrogPot(Material material) {
+        super(material);
+    }
+
+    public void set(Material material) {
+        super.set(material);
+    }
+}
+```
+
+여기서 문제는 Erasure 단계 후에 WitchPot에서 상속받은 FrogPot의 `set(Material material)`메서드는 WitchPot의 `set(Object material)`메서드와 다른 파라미터 타입을 가진다. 이것은 ProgPot의 set메서드는 WitchPot의 set메서드를 오버라이딩을 하지 않는다.
+
+이러한 것을 해결하기 위해 컴파일러는 브릿지 메서드를 생성한다. 브릿지 메서드는 이름처럼 다리 역할을 하는데 위의 예제 경우 Object로 받은 객체를 Material로 캐스팅한 뒤 다시 본래의 set(Material material)메서드를 호출하는 식이다.
 
 ---
 **Reference**
