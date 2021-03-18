@@ -271,5 +271,15 @@ public class BookService {
 빈이 만들어질 때 라이프사이클 콜백에 해당하는 `@PostConstruct` 애노테이션이 붙어있는 메서드가 호출되도록 했다. 이처럼 다양한 인터페이스를 활용해서 부가적인 기능들을 만들어 낼 수 있다.
 
 ---
+
+# ApplicationContext
+
+&nbsp;&nbsp;&nbsp;`BeanFactory`와 함께 IoC 컨테이너에서 중요한 또 다른 인터페이스가 있다. 바로 `ApplicationContext`로 실질적으로 가장 많이 사용하게 될 `BeanFactory`이다.
+
+`ApplicationContext`도 결국 `BeanFactory`를 상속받았고 IoC 컨테이너로서의 기능을 가지고 있으면서도 추가적인 기능을 가지고 있다.
+
+`BeanFactory`에 비해 다양한 기능을 가지고 있는 인터페이스라고 생각하면 된다.
+
+---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
