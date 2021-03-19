@@ -100,7 +100,6 @@ public class BookService {
 package me.gracenam.springapplicationcontext;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
@@ -245,8 +244,124 @@ public class ApplicationConfig {
 }
 ```
 
+`@Configuration`이라는 애노테이션을 통해서 이 파일은 빈 설정 파일이라는 것을 알려준다. 그리고 `@Bean` 애노테이션을 사용해 빈으로 등록한다.
 
+```java
+@Bean
+public BookRepository bookRepository() {
+    return new BookRepository();
+}
+```
 
+빈으로 등록하는 코드를 보면 빈의 id(`bookRepository()`), 타입(`BookRepository`) 그리고 실제 그 객체(`new BookRepository()`)까지 모두 있는 굉장히 유연한 빈 설정이 가능하다.
+
+```java
+@Bean
+public BookService bookService() {
+    BookService bookService = new BookService();
+    bookService.setBookRepository(bookRepository());
+    return bookService;
+}
+```
+
+`BookService` 같은 경우 Setter가 있었으니까 의존성 주입을 직접 해줄 수 있다. 이 때 의존성 주입에 필요한 메서드를 위 코드처럼 호출해서 가져올 수도 있고, 또는 메서드 파라미터로 주입받을 수도 있다.
+
+```java
+@Bean
+public BookService bookService(BookRepository bookRepository) {
+    BookService bookService = new BookService();
+    bookService.setBookRepository(bookRepository);
+    return bookService;
+}
+```
+
+이렇게 메서드 파라미터로 주입받은 것을 사용해서 주입을 할 수도 있다.
+
+&nbsp;&nbsp;&nbsp;Java 설정 파일로 만든 것은 ApplicationContext로 사용하는 방법을 보자.
+
+```java
+package me.gracenam.springapplicationcontext;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.Arrays;
+
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+        String[] beanDefinitionNames = context.getBeanDefinitionNames();
+        System.out.println(Arrays.toString(beanDefinitionNames));
+        BookService bookService = (BookService) context.getBean("bookService");
+        System.out.println(bookService.bookRepository != null);
+    }
+
+}
+```
+
+Xml 설정 파일을 사용할 떄는 `ClassPathXmlApplicationContext`를 사용하여 설정파일을 읽어와 사용했었다.
+
+자바 설정 파일에서는 `AnnotationConfigApplicationContext`에 설정 파일 클래스(`ApplicationConfig.class`)를 넘겨주면 이 클래스를 빈 설정으로 사용한다.
+
+&nbsp;&nbsp;&nbsp;처음 Xml 설정 파일을 만들 때 빈을 일일히 등록하다가 Component Scan을 사용해서 보다 간편하게 빈 등록을 할 수 있었다.
+
+자바 설정 파일을 만들 때도 마찬가지로 간단하게 등록하는 방법이 있다. 바로 `@ComponentScan` 애노테이션이다.
+
+```java
+package me.gracenam.springapplicationcontext;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan
+public class ApplicationConfig {
+
+}
+```
+
+`@ComponentScan` 애노테이션에는 두 가지가 있는데 첫 번째는 <b>basePackages</b>이다. basePackages에는 문자열을 입력해 줘야한다.
+
+```java
+@ComponentScan(basePackages = "me.gracenam.springapplicationcontext.")
+```
+
+요즘은 ide가 좋기 때문에 타이핑 없이 쉽게 작성할 수 있다. 하지만 타입세이프티 문제가 있다.
+
+두 번째는 <b>basePackageClasses</b>이다. 이 방법은 조금 더 타입세이프한데 클래스가 위치한 곳, 애플리케이션이 위치한 곳부터 Component Scan을 하기 떄문이다.
+
+```java
+@ComponentScan(basePackageClasses = DemoApplication.class)
+```
+
+`DemoApplication.class`이 위치한 곳부터 모든 클래스에 붙어있는 애노테이션을 찾아서 해당 클래스들을 빈으로 등록하라는 의미이다.
+
+---
+
+# SpringBootApplication
+
+Component Scan을 통해 빈 등록은 쉬워졌는데 `ApplicationContext`은 매번 만들어야 할까?
+
+물론 이것도 스프링이 알아서 처리해준다. 이것은 부트에서 제공하는 기능이다.
+
+```java
+package me.gracenam.springapplicationcontext;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+
+    }
+
+}
+```
+
+`@SpringBootApplication` 애노테이션 내에 `@ComponentScan`과 `@Configuration`이 들어있기 때문에 이렇게 만들 경우 Xml설정 파일과 자바 설정 파일은 필요가 없다.
 
 ---
 **Reference**
