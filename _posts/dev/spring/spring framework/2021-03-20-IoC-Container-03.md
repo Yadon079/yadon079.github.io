@@ -16,6 +16,7 @@ comments: true
 
 # @Autowire
 
+`BookService`와 `BookRepository`가 있다.
 
 
 
