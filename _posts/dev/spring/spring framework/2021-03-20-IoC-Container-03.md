@@ -289,6 +289,31 @@ public class BookService {
 
 &nbsp;&nbsp;&nbsp;Qualifier는 Primary와 마찬가지로 사용할 의존 객체를 선택할 수 있도록 해주는 애노테이션이다. Primary가 우선순위를 부여해서 주입할 수 있도록 만든다면, Qualifier는 대상을 직접 지정할 수 있다.
 
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookService {
+
+    @Autowired @Qualifier("graceBookRepository")
+    BookRepository bookRepository;
+
+    public void printBookRepository() {
+        System.out.println(bookRepository.getClass());
+    }
+
+}
+```
+
+Qualifier는 뒤에 사용하고자 하는 빈의 이름을 작성하면 된다. 이 때 빈의 이름은 클래스 이름의 스몰케이스이다. 여기서는 `GraceBookRepository` 클래스의 스몰케이스인 `graceBookRepository`가 되겠다.
+
+> `@Qualifier`를 사용하는 것보다는 `@Primary`를 사용하는 것이 더 TypeSafety하기 때문에 `@Primary`를 사용하는 것을 추천한다.
+
+<span style="font-size:16pt"><b>&#9654; 해당하는 타입의 빈 모두 주입 받기</b></span>
 
 ---
 **Reference**
