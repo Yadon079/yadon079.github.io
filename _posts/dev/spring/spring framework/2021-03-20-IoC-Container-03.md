@@ -342,6 +342,75 @@ List를 활용하여 들어오는 빈들을 모두 저장할 경우 간단하게
 
 이렇게 세 가지의 방법을 봤는데 그 중에서 `@Primary`를 사용하는 것을 추천한다. 그 이유는 가장 TypeSafety하기 때문이다.
 
+## 동작 원리
+
+&nbsp;&nbsp;&nbsp;Autowired라는 애노테이션만 추가했을 뿐인데 자동적으로 빈에 등록이 되고 의존성 주입이 된다. 과연 Autowired는 어떻게 동작을 하는 것일까?
+
+바로 <b>BeanPostProcessor</b>라는 라이프 사이클 인터페이스의 구현체 <b>AutowiredAnnotationBeanPostProcessor</b>에 의해서 동작하는 것이다.
+
+빈이 만들어지고 빈의 인스턴스가 생성되고 난 후 <b>Initialization(초기화)</b>이라는 라이프 사이클이 동작한다. <b>BeanPostProcessor</b>는 Initialization 라이프 사이클 이전, 이후에 필요한 부가적인 작업을 할 수 있는 라이프 사이클 콜백이다.
+
+그렇다면 Initialization은 무엇이며 어떻게 사용할까? 빈의 Initialization은 <b>의존성이 주입 끝난 시점에 실행</b>되는 메서드인 초기화 메서드를 말한다.
+
+&#9654; @PostConstruct
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+
+@Service
+public class BookService {
+
+    @Autowired
+    BookRepository mybookRepository;
+
+    public void printBookRepository() {
+        System.out.println(mybookRepository.getClass());
+    }
+
+    @PostConstruct
+    public void setUp() {
+
+    }
+
+}
+```
+
+이렇게 메소드를 생성한 후 `@PostConstruct`를 붙인 다음 해야할 일을 작성할 수도 있고
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookService implements InitializingBean {
+
+    @Autowired
+    BookRepository mybookRepository;
+
+    public void printBookRepository() {
+        System.out.println(mybookRepository.getClass());
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
+    }
+}
+```
+
+아주 오래된 인터페이스인 `InitializingBean` 인터페이스를 구현하면 나오는 메소드인 `afterPropertiesSet`을 사용할 수도 있다.
+
+이러한 Initialization 라이프 사이클 <b>이전</b>에 AutowiredAnnotationBeanPostProcessor가 동작을 해서 Autowired라는 애노테이션을 처리해 주는 것이다. 즉, 해당하는 빈을 찾아서 주입을 해준다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
++ <https://devlog-wjdrbs96.tistory.com/166>
