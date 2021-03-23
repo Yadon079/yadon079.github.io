@@ -410,6 +410,10 @@ public class BookService implements InitializingBean {
 
 이러한 Initialization 라이프 사이클 <b>이전</b>에 AutowiredAnnotationBeanPostProcessor가 동작을 해서 Autowired라는 애노테이션을 처리해 주는 것이다. 즉, 해당하는 빈을 찾아서 주입을 해준다.
 
+## AutowiredAnnotationBeanPostProcessor의 동작 원리
+
+&nbsp;&nbsp;&nbsp;BeanFactory가 BeanPostProcessor에 등록되어 있는 빈을 찾는다. AutowiredAnnotationBeanPostProcessor가 바로 그 중에 하나이고 AutowiredAnnotationBeanPostProcessor를 찾아서 다른 일반적인 빈들에게 BeanPostProcessor에 있는 애노테이션을 처리하는 로직을 적용하는 것이다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
