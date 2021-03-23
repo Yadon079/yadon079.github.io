@@ -414,6 +414,8 @@ public class BookService implements InitializingBean {
 
 &nbsp;&nbsp;&nbsp;BeanFactory가 BeanPostProcessor에 등록되어 있는 빈을 찾는다. AutowiredAnnotationBeanPostProcessor가 바로 그 중에 하나이고 AutowiredAnnotationBeanPostProcessor를 찾아서 다른 일반적인 빈들에게 BeanPostProcessor에 있는 애노테이션을 처리하는 로직을 적용하는 것이다.
 
+즉, AutowiredAnnotationBeanPostProcessor도 빈으로 등록되어 있다는 것이다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
