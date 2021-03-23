@@ -315,6 +315,33 @@ Qualifier는 뒤에 사용하고자 하는 빈의 이름을 작성하면 된다.
 
 <span style="font-size:16pt"><b>&#9654; 해당하는 타입의 빈 모두 주입 받기</b></span>
 
+&nbsp;&nbsp;&nbsp;해당하는 타입의 빈을 모두 주입받는 방법은 간단하다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class BookService {
+
+    @Autowired
+    List<BookRepository> bookRepositories;
+
+    public void printBookRepository() {
+        this.bookRepositories.forEach(System.out::println);
+    }
+
+}
+```
+
+List를 활용하여 들어오는 빈들을 모두 저장할 경우 간단하게 해결할 수 있다.
+
+이렇게 세 가지의 방법을 봤는데 그 중에서 `@Primary`를 사용하는 것을 추천한다. 그 이유는 가장 TypeSafety하기 때문이다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
