@@ -14,7 +14,7 @@ comments: true
 
 ---
 
-# @Component
+# @Component와 @ComponentScan
 
 &nbsp;&nbsp;&nbsp;`@Service`나 `@Repository` 같은 애노테이션을 사용해서 빈으로 등록을 할 수 있다. 여기서 한 가지 궁금증이 생긴다. 어떻게 빈으로 등록을 할 수 있는 것일까?
 
@@ -24,7 +24,11 @@ comments: true
 
 ComponentScan을 붙이고 있는 Configuration, `@SpringBootApplication`이 붙은 클래스가 시작지점이 되고 같은 패키지 내에 있는 모든 클래스부터 패키지 이하의 다른 패키지에 있는 것들까지 모두 스캔한다. 하지만, 이 패키지 밖에 있는 것은 Component Scan이 되지 않는다.
 
-# Component Scan
+## Filter
+
+&nbsp;&nbsp;&nbsp;Component Scan에 있어서 중요한 특징 중 하나가 바로 Filter이다. Component Scan을 한다고해서 모든 애노테이션들을 다 빈으로 등록해주는 것은 아니다.
+
+Filter라는 옵션으로 걸러지게 되는데, 기본적으로 `TypeExcludeFilter`와 `AutoConfigurationExcludeFilter` 두 가지가 적용되어 있다.
 
 
 ---
