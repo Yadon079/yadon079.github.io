@@ -10,6 +10,10 @@ use_math: true
 comments: true
 ---
 
+[스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)을 공부하고 정리하는 포스트입니다.
+
+---
+
 # 빈의 스코프
 
 ```java
