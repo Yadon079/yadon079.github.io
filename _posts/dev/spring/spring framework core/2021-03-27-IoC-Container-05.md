@@ -80,7 +80,7 @@ Single 클래스와 Proto 클래스 모두 빈으로 등록하고 Single 클래�
 
 이제 각각을 출력했을 때 어떻게 출력이 되는지 확인하기 위해 AppRunner 클래스에 run 메소드를 만들어서 찍어보겠다. 첫 번째 proto는 AppRunner가 주입받은 proto이고 두 번째는 Single이 참조하고 있는 proto인데 이 두 인스턴스가 같을 것이다.
 
-<img><br/>
+<img src="/assets/img/study/scope01.png" width="70%" align="center"><br/>
 
 같은 값이 출력되는 것을 확인할 수 있다. 이렇게 애플리케이션 전체에서 오직 해당 빈의 인스턴스 하나만 사용하는 것이 싱글톤이다.
 
@@ -127,7 +127,7 @@ public class AppRunner implements ApplicationRunner {
 }
 ```
 
-<img>
+<img src="/assets/img/study/scope02.png" width="70%" align="center"><br/>
 
 ```java
 package me.gracenam.demospring51;
@@ -167,7 +167,7 @@ public class AppRunner implements ApplicationRunner {
 }
 ```
 
-<img>
+<img src="/assets/img/study/scope03.png" width="70%" align="center"><br/>
 
 ```java
 package me.gracenam.demospring51;
@@ -181,7 +181,7 @@ public class Proto {
 }
 ```
 
-<img>
+<img src="/assets/img/study/scope04.png" width="70%" align="center"><br/>
 
 
 
