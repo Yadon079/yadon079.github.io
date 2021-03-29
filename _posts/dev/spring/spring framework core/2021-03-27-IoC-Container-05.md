@@ -231,11 +231,12 @@ public class AppRunner implements ApplicationRunner {
 
 ## 업데이트하는 방법
 
+<span style="font-size:16pt"><b>&#9654; scoped-proxy</b></span>
+
+
 &nbsp;&nbsp;&nbsp;이것을 해결하는 방법은 여러가지가 있는 그 중에 사용하기는 쉽지만 이해하기는 조금 어려운 방법은 `proxyMode`를 설정해주는 것이다.
 
 <b>proxyMode</b>는 기본값이 `ScopedProxyMode.Default`로 되어있고 이 옵션은 프록시를 사용하지 않는다는 것이다. 지금 사용하는 예제에서는 interface가 아닌 class이기 때문에 `ScopedProxyMode.TARGET_CLASS`를 사용하고 이 경우 CG 라이브러리[^cglib]를 사용한 다이나믹 프록시[^dynamicproxy]가 적용이 된다.
-
-
 
 ```java
 package me.gracenam.demospring51;
@@ -251,6 +252,79 @@ public class Proto {
 
 <img src="/assets/img/study/scope04.png" width="70%" align="center"><br/>
 
+놀랍게도 매번 다르게 출력이 된다! 과연 어떻게 동작을 했기에 이게 가능한걸까?
+
+&nbsp;&nbsp;&nbsp;`proxyMode`를 쓴다는 것은 프록시를 쓴다는 것이고 `Proto` 클래스를 프록시로 감싸라고 알려주는 것이다. 그 중에서도 `ScopedProxyMode.TARGET_CLASS`, 클래스 기반의 프록시로 빈을 감싸서 다른 빈들이 이 빈을 사용할 때 감싼 프록시 빈을 쓰게해라고 설정한 것이다.
+
+왜 프록시로 감싸야할까? 싱글톤 인스턴스들이 프로토타입 스코프의 빈을 직접 참조하면 안되기 때문이다. 프로토타입을 매번 새로운 인스턴스로 바꿔줘야 하는데 직접 참조하게 되면 바꿔줄 여지가 없다. 따라서 매번 바뀌줄 수 있는 프록시로 감싸도록 하는 것이다.
+
+Single에서 주입받은 Proto는 사실 프록시 빈인 셈이다.
+
+<img src="/assets/img/study/scope05.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; Object-Provider</b></span>
+
+&nbsp;&nbsp;&nbsp;Scoped-Proxy가 복잡하고 성능에도 영향을 주는 것 같다고 느낀다면 Object-Provider를 사용해보자.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component @Scope(value = "prototype")
+public class Proto {
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Single {
+
+    @Autowired
+    private ObjectProvider<Proto> proto;
+
+    public Proto getProto() {
+        return proto.getIfAvailable();
+    }
+}
+```
+
+이것도 마찬가지로 오브젝트가 바뀌어서 출력될 것이다. 하지만 이 방법의 경우 소스코드를 직접 건드려야서 코드 자체에 스프링 소스가 들어가버리기 떄문이다.
+
+## 싱글톤 객체 사용 시 주의할 점
+
+&nbsp;&nbsp;&nbsp;싱글톤 객체는 프로퍼티가 공유가 된다. 예를 들어, value라는 값이 들어 있고 그 값을 여러 곳에서 막 고쳐 쓴다고 생각해보자.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Single {
+
+    @Autowired
+    private Proto proto;
+
+    int value = 0;
+
+    public Proto getProto() {
+        return proto;
+    }
+}
+```
+
+value의 값이 쓰레드 세이프, 즉 안정적이라고 보장 받을 수 없다. 멀티 쓰레드 환경에서는 값이 마구잡이로 바뀔텐데 A라는 쓰레드와 B라는 쓰레드에서 바꾼 값이 서로 다를 경우 문제가 발생할 수 있다. A와 B 모두 같은 곳을 바라보는데 A에서 1로 바꿨는데 B에서 2로 바꾼 경우 A가 읽어서 출력하면 2가 나올 수 있는 것이다.
+
+그리고 이 모든 싱글톤 스코프의 빈들은 ApplicationContext를 만들 때 만들도록 되어있어 초기 구동 시 약간의 시간이 걸린다는 단점이 있다.
 
 ---
 **Reference**
