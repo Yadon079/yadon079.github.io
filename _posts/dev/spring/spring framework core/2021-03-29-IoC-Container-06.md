@@ -20,7 +20,7 @@ comments: true
 
 # 프로파일
 
-&nbsp;&nbsp;&nbsp;프로파일은 빈들을 묶은 빈들의 그룹 또는 어떠한 환경이라고 할 수 있다.
+&nbsp;&nbsp;&nbsp;프로파일은 빈들을 묶은 빈들의 그룹 또는 어떠한 환경이라고 할 수 있다. 그렇다면 왜 빈들을 묶어서 <b>환경</b>을 만들어주는걸까?
 
 테스트 환경에서 어떠한 빈들을 사용하겠다, 실제 프로덕션에서는 이러한 빈들을 쓰겠다고 스테이징을 한다. 이처럼 각각의 환경에 따라 다른 빈을 써야하는 경우나 특정 환경에서만 어떠한 빈을 등록해야하는 경우와 같은 요구사항을 충족시키기 위해 프로파일 기능이 추가된 것이다.
 
@@ -59,7 +59,13 @@ public class AppRunner implements ApplicationRunner {
 
 예제를 실행해보면 `getActiveProfiles`은 비어있고, `getDefaultProfiles`은 <b>default</b>라는 이름의 프로파일이 적용되어 있다.
 
-<img><br/>
+<img src="/assets/img/study/profile01.png" width="70%" align="center"><br/>
+
+default라는 이름의 프로파일은 특별히 설정하지 않아도 항상 적용되는 기본 프로파일이다.
+
+## 프로파일 정의하는 법
+
+<span style="font-size:16pt"><b>&#9654; Configuration 클래스를 통한 정의</b></span>
 
 
 
