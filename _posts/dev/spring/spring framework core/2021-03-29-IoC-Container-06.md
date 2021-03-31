@@ -213,7 +213,9 @@ public class TestBookRepository implements BookRepository {
 
 # 프로퍼티 Properties
 
-&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;프로퍼티는 다양한 방법으로 정의할 수 있는 설정값을 말한다. Environment에서 제공하는 기능은 애플리케이션에 등록된 프로퍼티에 접근할 수 있는 기능으로 프로퍼티 소스 설정과 프로퍼티 값을 가져올 수 있다.
+
+프로퍼티에 접근을 할 때 계층형으로 접근을 하는데 이 말인 즉슨 프로퍼티에 우선순위가 존재하다는 것이다.
 
 ---
 **Reference**
