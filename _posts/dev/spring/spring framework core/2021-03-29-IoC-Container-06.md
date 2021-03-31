@@ -5,7 +5,7 @@ title: "IoC 컨테이너 6부"
 description: "스프링 프레임워크 핵심 기술"
 subject: Spring framework
 category: [ spring ]
-tags: [ spring, IoC, profile, property ]
+tags: [ spring, IoC, profile, properties ]
 use_math: true
 comments: true
 ---
@@ -16,9 +16,9 @@ comments: true
 
 # Environment
 
-&nbsp;&nbsp;&nbsp;Environment는 ApplicationContext의 기능 중 하나로 `EnvironmentCapable`이라는 인터페이스를 상속받은 것이다. `EnvironmentCapable`이 제공하는 기능이 두 가지가 있는데 바로 프로파일(Profile)과 프로퍼티(Property)이다.
+&nbsp;&nbsp;&nbsp;Environment는 ApplicationContext의 기능 중 하나로 `EnvironmentCapable`이라는 인터페이스를 상속받은 것이다. `EnvironmentCapable`이 제공하는 기능이 두 가지가 있는데 바로 프로파일(Profile)과 프로퍼티(Properties)이다.
 
-# 프로파일
+# 프로파일 Profile
 
 &nbsp;&nbsp;&nbsp;프로파일은 빈들을 묶은 빈들의 그룹 또는 어떠한 환경이라고 할 수 있다. 그렇다면 왜 빈들을 묶어서 <b>환경</b>을 만들어주는걸까?
 
@@ -65,9 +65,155 @@ default라는 이름의 프로파일은 특별히 설정하지 않아도 항상 
 
 ## 프로파일 정의하는 법
 
-<span style="font-size:16pt"><b>&#9654; Configuration 클래스를 통한 정의</b></span>
+<span style="font-size:16pt"><b>&#9654; 클래스에 정의</b></span>
 
+&nbsp;&nbsp;&nbsp;프로파일을 정의하는 첫번째 방법은 프로파일이 정의되어 있는 Configuration 클래스를 만드는 것이다.
 
+```java
+package me.gracenam.demospring51;
+
+public interface BookRepository {
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+public class TestBookRepository implements BookRepository {
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Configuration
+@Profile("test")
+public class TestConfiguration {
+
+    @Bean
+    public BookRepository bookRepository() {
+        return new TestBookRepository();
+    }
+
+}
+```
+
+&nbsp;&nbsp;&nbsp;위의 빈 설정 파일은 <b>'test'</b> 프로파일 일 때만 사용이 되는 빈 설정 파일이다. test라는 프로파일로 애플리케이션을 실행하기 전까지 이 빈 설정 파일이 적용되지 않는다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    ApplicationContext ctx;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        Environment environment = ctx.getEnvironment();
+        System.out.println(Arrays.toString(environment.getActiveProfiles()));
+        System.out.println(Arrays.toString(environment.getDefaultProfiles()));
+    }
+}
+```
+
+애플리케이션에서 `BookRepository`를 주입받아 실행해보아도 당연히 에러가 발생한다. test 프로파일로 실행하지 않았기 때문에 `BookRepository`가 빈으로 등록되지 않은 것이다.
+
+<img src="/assets/img/study/profile02.png" width="70%" aling="center"><br/>
+
+그렇다면 이것을 해결하기 위해서는 프로파일을 지정해주면 된다. 프로파일을 지정하는 방법은 IntelliJ로 설명하겠다.
+
+<img src="/assets/img/study/profile03.png" width="70%" align="center"><br/>
+
+기본적인 방법은 VM options(1번)에 `-Dspring.profiles.avtive="test"`라고 입력하면 된다. 또는 간단하게 Active profiles(2번) 옵션에 test라고 적어주면 된다.
+
+test 프로파일을 지정해준 뒤 다시 실행해보면 아래와 같이 정상적으로 동작하는 것을 볼 수 있다.
+
+<img src="/assets/img/study/profile04.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; 빈에 정의</b></span>
+
+&nbsp;&nbsp;&nbsp;프로파일을 정의하는 또 다른 방법은 빈에 정의하는 것이다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Configuration
+public class TestConfiguration {
+
+    @Bean
+    @Profile("test")
+    public BookRepository bookRepository() {
+        return new TestBookRepository();
+    }
+
+}
+```
+
+하지만 이 경우 일일히 다 설정을 해줘야해서 매우 불편하니 권장하지 않는다.
+
+<span style="font-size:16pt"><b>&#9654; ComponentScan 대상에 정의</b></span>
+
+&nbsp;&nbsp;&nbsp;ComponentScan으로 등록되는 빈에도 프로파일을 지정할 수 있다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Profile("test")
+public class TestBookRepository implements BookRepository {
+}
+```
+
+## 프로파일 표현식
+
+&nbsp;&nbsp;&nbsp;프로파일을 지정할 때 표현식을 사용할 수 있다. 사용할 수 있는 표현식은 3가지 인데
+
++ !(not)
++ &(and)
++ |(or)
+
+로 다음과 같이 사용할 수 있다. 이런 식으로 사용이 가능하다는 정도만 알아두자.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Profile("!prod & test")
+public class TestBookRepository implements BookRepository {
+}
+```
+
+# 프로퍼티 Properties
+
+&nbsp;&nbsp;&nbsp;
 
 ---
 **Reference**
