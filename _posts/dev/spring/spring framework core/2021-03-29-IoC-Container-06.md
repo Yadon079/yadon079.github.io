@@ -215,7 +215,122 @@ public class TestBookRepository implements BookRepository {
 
 &nbsp;&nbsp;&nbsp;프로퍼티는 다양한 방법으로 정의할 수 있는 설정값을 말한다. Environment에서 제공하는 기능은 애플리케이션에 등록된 프로퍼티에 접근할 수 있는 기능으로 프로퍼티 소스 설정과 프로퍼티 값을 가져올 수 있다.
 
-프로퍼티에 접근을 할 때 계층형으로 접근을 하는데 이 말인 즉슨 프로퍼티에 우선순위가 존재하다는 것이다.
+프로퍼티에 접근을 할 때 계층형으로 접근을 하는데 여기서 계층형의 의미는 프로퍼티에 우선순위가 존재하다는 것이다. 프로퍼티의 우선순위는 다음과 같다.
+
+&#9654; 프로퍼티 우선순위
+
++ ServletConfig 매개변수
++ ServletContext 매개변수
++ JNDI (java:comp/env/)
++ JVM 시스템 프로퍼티 (-Dkey="value")
++ JVM 시스템 환경 변수 (운영 체제 환경 변수)
+
+예제를 통해서 좀 더 자세히 알아보자.
+
+&#9654; VM options를 사용하는 방법(JVM 시스템 프로퍼티로 넘기는 법)
+
+&nbsp;&nbsp;&nbsp;먼저, VM options에 값으로 `-Dapp.name=spring5`를 입력한다. 그리고 난 후 app.name을 출력해보면 spring5가 출력된다.
+
+<img src="/assets/img/study/property01.png" width="70%" align="center"><br/>
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    ApplicationContext ctx;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        Environment environment = ctx.getEnvironment();
+        System.out.println(environment.getProperty("app.name"));
+    }
+}
+```
+
+<img src="/assets/img/study/property02.png" width="70%" align="center"><br/>
+
+&#9654; properties 파일을 생성하는 방법(프로퍼티 소스로 넣는 법)
+
+&nbsp;&nbsp;&nbsp;좀 더 체계적으로 값을 전달하고 싶은 경우 properties 파일을 사용하면 된다. resource 폴더 아래에 <b>app.properties</b> 파일을 하나 만든 후 아래와 같은 내용을 입력해 준다.
+
+```
+app.about=spring
+```
+
+그리고 이 프로퍼티 파일을 사용하기 위해 Configuration이 들어있는 클래스에서 `@PropertySource`라는 애노테이션을 사용해서 클래스 패스에 프로퍼티 파일을 놓겠다고 선언해 준다. 이제 프로퍼티 소스를 통해서 Environment에 들어가면 꺼내서 쓸 수 있다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+
+@SpringBootApplication
+@PropertySource("classpath:/app.properties")
+public class Demospring51Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Demospring51Application.class, args);
+    }
+
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    ApplicationContext ctx;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        Environment environment = ctx.getEnvironment();
+        System.out.println(environment.getProperty("app.name"));
+        System.out.println(environment.getProperty("app.about"));
+    }
+}
+```
+
+<img src="/assets/img/study/property03.png" width="70%" align="center"><br/>
+
+그렇다면 둘 중에 어떤 것이 우선순위가 더 높을까? 프로퍼티 소스로 넣은게 높을까 JVM 시스템 프로퍼티에 넘겨준게 높을까?
+
+VM options와 프로퍼티 파일 모두 `app.name`을 사용한 후 출력을 해보면 다음과 같은 결과를 얻을 수 있다.
+
+<img src="/assets/img/study/property04.png" width="70%" align="center"><br/>
+
+이유는 프로퍼티가 hierarchical(계층적)이기 때문이다.
 
 ---
 **Reference**
