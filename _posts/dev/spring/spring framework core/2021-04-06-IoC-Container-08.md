@@ -163,6 +163,73 @@ public class MyEventHandler {
 
 대신 누구한테 이 Event를 전달해야하는지 스프링이 알아야 하므로 빈으로는 등록이 되어야 한다. Event를 처리하는 메서드 위에 `@EventListener`라는 애노테이션을 추가해 준다. 메서드 이름은 자유롭게 바꿀 수 있다.
 
+&nbsp;&nbsp;&nbsp;여러 개의 EventHanlder가 있는 경우를 살펴보자.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AnotherHandler {
+
+    @EventListener
+    public void handler(MyEvent myEvent) {
+        System.out.println("Another : " + myEvent.getData());
+    }
+
+}
+```
+
+AnotherHandler를 추가해주었는데, 두 Handler 모두 실행된다. 이 때 순차적으로 실행이 되는데, 여기서 순차적이라는 말은 "순서"는 알 수가 없지만 하나가 실행된 후에 다른 하나가 실행된다는 말이다. 동시에 다른 쓰레드에서 실행이 되는 것이 아니다.
+
+쓰레드를 찍어서 확인해보자.
+
+&#9654; MyEventHandler
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyEventHandler {
+
+    @EventListener
+    public void handle(MyEvent event) {
+        System.out.println(Thread.currentThread().toString());
+        System.out.println("이벤트를 받았다! 데이터는 " + event.getData());
+    }
+
+}
+```
+
+&#9654; AnotherHandler
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AnotherHandler {
+
+    @EventListener
+    public void handler(MyEvent myEvent) {
+        System.out.println(Thread.currentThread().toString());
+        System.out.println("Another : " + myEvent.getData());
+    }
+
+}
+```
+
+<img src="/assets/img/study/event02.png" widht="70%" align="center"><br/>
+
+둘 모두 main 쓰레드인 것을 확인할 수 있고, 이 떄의 순서는 랜덤인지 아니면 어떠한 순서를 보장하는지는 알 수 없다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
