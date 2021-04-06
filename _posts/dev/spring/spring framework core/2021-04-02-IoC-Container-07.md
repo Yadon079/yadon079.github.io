@@ -75,8 +75,80 @@ public class AppRunner implements ApplicationRunner {
 
 기본 국가가 한국이기 때문에 default 출력은 한글로 출력되고 영어로 지정해준 것은 영어로 출력된 것을 확인할 수 있다.
 
-이렇게 스프링 부트를 사용한다면 별다른 설정 없이 properties 파일을 사용하여 쉽게 MessageSource를 사용할 수 있다.
+이렇게 스프링 부트를 사용한다면 별다른 설정 없이 properties 파일을 사용하여 쉽게 MessageSource를 사용할 수 있다. `ResourceBundleMessageSource`가 빈으로 등록이 되어있어서 <b>messages</b>라는 번들을 읽고 동작을 하기 때문이다. 부트를 사용하지 않는다면 빈으로 직접 등록을 해주어야 한다.
 
+## ReloadableResourceBundleMessageSource
+
+&nbsp;&nbsp;&nbsp;리로딩 기능이 있는 메세지 소스를 활용해보자. `ReloadableResourceBundleMessageSource`의 객체를 사용해서 메세지 프로퍼티가 갱신되면 바뀐 내용을 읽어올 수 있다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
+@SpringBootApplication
+@PropertySource("classpath:/app.properties")
+public class Demospring51Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Demospring51Application.class, args);
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        var messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(3);
+        return messageSource;
+    }
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
+
+import java.util.Locale;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    MessageSource messageSource;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        while(true) {
+            System.out.println(messageSource.getMessage("greeting", new String[]{"grace"}, Locale.US));
+            System.out.println(messageSource.getMessage("greeting", new String[]{"grace"}, Locale.getDefault()));
+            Thread.sleep(1000l);
+        }
+    }
+}
+```
+
+반복문을 활용해서 메세지 내용이 계속 출력되게 한 후 중간에 properties의 내용을 바꾼 후 빌드해주었다.
+
+&#9654; messages.properties
+
+```
+greeting=안녕 반갑습니다 {0}
+```
+
+<img src="/assets/img/study/msgsrc04.png" width="70%" align="center"><br/>
+
+이처럼 파일을 수정하면 수정한 내용이 바로 적용되는 것을 확인할 수 있다.
 
 ---
 **Reference**
