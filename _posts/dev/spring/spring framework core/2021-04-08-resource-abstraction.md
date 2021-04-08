@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2021-04-07 20:58:00
-title: "IoC 컨테이너 9부"
+date: 2021-04-08 17:54:00
+title: "Resource 추상화"
 description: "스프링 프레임워크 핵심 기술"
 subject: Spring framework
 category: [ spring ]
