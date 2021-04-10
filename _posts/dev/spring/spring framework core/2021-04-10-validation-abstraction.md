@@ -22,6 +22,8 @@ comments: true
 
 또한, 구현체 중 하나로 Bean Validation[^bv] 1.0과 1.1, 2.0 까지 지원하기 때문에 Bean Validation이 제공하는 여러 Validation용 애노테이션을 사용해서 객체의 데이터를 검증할 수 있다.
 
+## Validatior
+
 
 
 ---

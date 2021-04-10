@@ -114,7 +114,7 @@ public class AppRunner implements ApplicationRunner {
 
 ## interface Resource
 
-> https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/Resource.html
+> <https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/io/Resource.html>
 
 ```java
 //
