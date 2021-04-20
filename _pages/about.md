@@ -5,19 +5,31 @@ author: "SunwooHan"
 permalink: /about/
 ---
 
-> Who am I
+## About me
 
-백앤드, 서버 개발자 지망생 **한선우** 입니다.
+<div class="pull-left">
+  <span style="font-size:18pt"><b>Who am I?</b></span>
+</div>
 
-매일 꾸준히 글을 올리는게 목표입니다.
+<div class="pull-right">
+  <li>반갑습니다! 백앤드, 서버 개발자 지망생 한선우입니다.</li>
+  <li>성장하는 즐거움을 알고 있고, 개발자로 성장하는 즐거움을 알아가고 있습니다.</li>
+  <li>꾸준함이 성장의 원동력이 될 수 있다고 생각하기에 1일1커밋 운동을 하고 있습니다.</li>
+  <li>커피와 새로운 지식을 배우는 것을 좋아합니다.</li>
+</div>
+<br/>
 
-## Contect Me
+<div class="pull-left">
+  <span style="font-size:18pt"><b>Contact</b></span>
+</div>
 
-<i class="fab fa-github" aria-hidden="true" style="font-size:24px"> [Github](https://github.com/yadon079)</i>
+<div class="pull-right">
+  <li>E-mail | thankowl777@kakao.com</li>
+  <li>Github | https://github.com/yadon079</li>
+</div>
 
-<i class="fa fa-envelope" aria-hidden="true" style="font-size:22px"> [Email](mailto:thankowl777@kakao.com)</i>
 
-## 프로젝트 리스트
+## Skills
 
 > empty
 
