@@ -208,6 +208,8 @@ public class EventController {
 
 <img src="/assets/img/study/pe02.png" width="70%" align="center"><br/>
 
+&nbsp;&nbsp;&nbsp;이러한 방법은 사실 빈으로 등록하기도 위험하고 구현 방법 자체도 복잡하다. 이를 해결하기 위해서 스프링 3.0 부터는 데이터 바인딩과 관련된 인터페이스와 기능이 추가되었다.
+
 ---
 **Reference**
 + [스프링 프레임워크 핵심기술](https://www.inflearn.com/course/spring-framework_core/dashboard)
