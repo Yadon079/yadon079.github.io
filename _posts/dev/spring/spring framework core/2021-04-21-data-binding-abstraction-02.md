@@ -209,9 +209,99 @@ public class WebConfig implements WebMvcConfigurer {
 
 DefaultFormattionConversionService의 구조를 살펴보면 알 수 있듯이 FormatterRegistry가 ConverterRegistry를 상속받고 있다. Converter는 ConverterRegistry가 필요하고 Formatter는 FormatterRegistry가 필요한데 FormatterRegistry에서 Converter를 쓸 수 있었던 이유가 바로 이 때문이다.
 
+```java
+package me.gracenam.demospring51;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.stereotype.Component;
 
+@Component
+public class AppRunner implements ApplicationRunner {
 
+    @Autowired
+    ConversionService conversionService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        System.out.println(conversionService.getClass());
+    }
+}
+```
+
+DefaultFormattionConversionService가 ConversionService의 역할도 한다고 했으니 이를 확인해보기 위해 AppRunner를 만들어서 실행해보자.
+
+<img src="/assets/img/study/cf03.png" width="70%" align="center"><br/>
+
+생각과 달리 DefaultFormattionConversionService가 아닌 WebConversionService가 출력되었다. 왜 그런것일까?
+
+&nbsp;&nbsp;&nbsp;<b>WebConversionService</b>는 스프링 부트가 제공해주는 서비스이다. 이 클래스는 DefaultFormattionConversionService를 상속해서 만든 것으로 조금 더 많은 기능을 가지고 있다.
+
+---
+
+# WebConversionService (Spring Boot)
+
+&nbsp;&nbsp;&nbsp;스프링 부트를 사용할 경우 WebConversionService가 Formatter와 Converter를 자동으로 등록해준다. 즉, WebConfig와 같은 클래스 파일을 만들어서 스프링 웹 MVC 설정을 할 필요가 없다는 뜻이다.
+
+Converter나 Formatter가 빈으로 등록이 되어 있다면 스프링 부트가 자동으로 ConversionService에 등록을 해준다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+public class EventConverter{
+
+    @Component
+    public static class StringToEventConverter implements Converter<String, Event> {
+
+        @Override
+        public Event convert(String source) {
+            return new Event(Integer.parseInt(source));
+        }
+    }
+
+    @Component
+    public static class EventToStringConverter implements Converter<Event, String> {
+
+        @Override
+        public String convert(Event source) {
+            return source.getId().toString();
+        }
+    }
+
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.format.Formatter;
+import org.springframework.stereotype.Component;
+
+import java.text.ParseException;
+import java.util.Locale;
+
+@Component
+public class EventFormatter implements Formatter<Event> {
+
+    @Override
+    public Event parse(String text, Locale locale) throws ParseException {
+        return new Event(Integer.parseInt(text));
+    }
+
+    @Override
+    public String print(Event object, Locale locale) {
+        return object.getId().toString();
+    }
+
+}
+```
+
+이렇게 Converter와 Formatter를 빈으로 등록한 후 실행해서 확인해보면 잘 동작하는 것을 볼 수 있다.
 
 ---
 **Reference**
