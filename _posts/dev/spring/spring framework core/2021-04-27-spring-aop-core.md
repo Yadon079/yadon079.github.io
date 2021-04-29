@@ -93,10 +93,232 @@ comments: true
 
 Proxy 객체는 기존의 타겟 객체(Real Subject)를 참조하고 있다. Proxy 객체와 Real Subject의 타입은 같고, Proxy는 원래 해야 할 일을 가지고 있는 Real Subject를 감싸서 Client의 요청을 처리한다.
 
-&nbsp;&nbsp;&nbsp;왜? 이렇게 해서 패턴을 사용하는 걸까? 그 이유는 <b>기존 코드의 변경 없이 접근 제어 또는 부가 기능 추가</b>를 위해서다.
+### 왜? 이렇게 해서 패턴을 사용하는 걸까?
+그 이유는 <b>기존 코드의 변경 없이 접근 제어 또는 부가 기능 추가</b>를 위해서다.
+
+&#9654; AppRunner.java
 
 ```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    EventService eventService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        eventService.createEvent();
+        eventService.publishEvent();
+    }
+
+}
 ```
+
+&#9654; EventService.java
+
+```java
+package me.gracenam.demospring51;
+
+public interface EventService {
+
+    void createEvent();
+
+    void publishEvent();
+
+}
+```
+
+&#9654; SimpleEventService.java
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class SimpleEventService implements EventService {
+
+    @Override
+    public void createEvent() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Created an event");
+    }
+
+    @Override
+    public void publishEvent() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Published an event");
+    }
+
+}
+```
+
+&nbsp;&nbsp;&nbsp;AppRunner는 Client, EventService는 Subject, SimpleEventService는 Real Subject라고 할 수 있다.
+
+EventService 인터페이스를 상속받은 SimpleEventService에 실질적인 동작 코드가 작성되어 있고 AppRunner를 통해서 실행이 된다.
+
+&nbsp;&nbsp;&nbsp;이제 Proxy로 <b>SimpleEventService(Real Subject)와 AppRunner(Client)를 건들이지 않고 성능을 테스트할 수 있는 기능</b>을 추가해보자.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class SimpleEventService implements EventService {
+
+    @Override
+    public void createEvent() {
+        long begin = System.currentTimeMillis();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Created an event");
+
+        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    @Override
+    public void publishEvent() {
+        long begin = System.currentTimeMillis();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Published an event");
+
+        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    public void deleteEvent() {
+        System.out.println("Delete an event");
+    }
+
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+public interface EventService {
+
+    void createEvent();
+
+    void publishEvent();
+
+    void deleteEvent();
+
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    EventService eventService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        eventService.createEvent();
+        eventService.publishEvent();
+        eventService.deleteEvent();
+    }
+
+}
+```
+
+<img src="/assets/img/study/aop03.png" width="70%" aling="center"><br/>
+
+&nbsp;&nbsp;&nbsp;먼저, 프로그램의 성능을 테스트 하는 코드를 추가했다. 시작 시간과 종료 시간을 구해서 동작하는데 걸리는 시간을 출력하도록 했는데, 두 개만 측정하고 하나는 측정하지 않도록 했다. 위 코드처럼 작성할 경우에는 기존의 코드를 건드리게 된다.
+
+기존의 코드를 건드리지 않고 하는 방법이 바로 프록시 패턴을 사용하는 것이다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
+@Primary
+@Service
+public class ProxySEService implements EventService {
+
+    @Autowired
+    SimpleEventService simpleEventService;
+
+    @Override
+    public void createEvent() {
+        long begin = System.currentTimeMillis();
+        simpleEventService.createEvent();
+        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    @Override
+    public void publishEvent() {
+        long begin = System.currentTimeMillis();
+        simpleEventService.publishEvent();
+        System.out.println(System.currentTimeMillis() - begin);
+    }
+
+    @Override
+    public void deleteEvent() {
+        simpleEventService.deleteEvent();
+    }
+}
+```
+
+`@Primary`는 같은 타입의 빈이 여러가지일 때 그 중 하나를 선택하여 사용하는 애노테이션이다.
+
+`@Autowired`는 이론적으로 인터페이스 타입의 빈을 받는 것이 추천된다. 하지만 여기서 Proxy의 경우 Real Subject의 빈을 주입받아서 사용해야하기 떄문에 해당 타입인 SimpleEventService를 명시해주면 주입받아 사용할 수 있다. 또는 EventService 타입을 받지만 빈의 이름(simpleEventService)에 기반해서 주입받아도 상관은 없다.
+
+성능을 테스트하고 싶은 두 개에만 코드를 추가했다. 이렇게 코드를 완성하면 Proxy가 Real Subject를 가지고 있고, Real Subject에 일을 위임해서 대신 처리하고, 부가적인 기능들은 가지고 있다.
+
+Client는 `@Autowired`로 EventService를 주입받지만 `@Primary`로 등록된 빈을 가져다 쓰게 될 것이다.
+
+<img src="/assets/img/study/aop04.png" width="70%" aling="center"><br/>
+
+실행해보면 마찬가지로 실행된 시간이 찍히는 것을 확인할 수 있다.
+
+&nbsp;&nbsp;&nbsp;이렇게 Proxy를 사용해서 만들면 원래의 Client와 Real Subject의 코드를 건드리지 않고 부가기능을 추가할 수 있었다. 하지만 Proxy에 중복코드가 생기고, Proxy 클래스를 만드는데 생기는 비용과 수고가 발생한다는 문제가 있다.
+
+만일 Proxy를 여러 클래스, 여러 메소드에 적용시켜야 한다고 생각해보자. 매번 프록시 클래스를 작성해야하고, 또 작성한 프록시 클래스 내에서 중복이 발생할 것이다.
+
+&nbsp;&nbsp;&nbsp;위 예제에서는 Proxy를 클래스로 만들어서 사용했지만, 동적으로 Proxy 객체를 만드는 방법이 있다. 여기서 동적이란, 런타임, 즉 애플리케이션이 동작하는 중에 동적으로 어떤 객체의 Proxy 객체를 만드는 것을 말한다.
+
+스프링 IoC 컨테이너가 제공하는 기반 시설과 Dynamic 프록시를 사용해서 여러 복잡한 문제(중복 코드, 매번 Proxy를 생성 등등)를 해결할 수 있다. 이것이 바로 <b>Spring AOP</b>이다.
+
+# @AOP
+
+
 
 ---
 **Reference**
