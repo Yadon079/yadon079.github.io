@@ -89,7 +89,14 @@ comments: true
 
 <img src="/assets/img/study/aop02.png" width="70%" align="center"><br/>
 
+&nbsp;&nbsp;&nbsp;프록시 패턴에는 <b>interface</b>가 존재하고 <b>Client</b>는 이 interface 타입으로 Proxy 객체를 사용하게 된다.
 
+Proxy 객체는 기존의 타겟 객체(Real Subject)를 참조하고 있다. Proxy 객체와 Real Subject의 타입은 같고, Proxy는 원래 해야 할 일을 가지고 있는 Real Subject를 감싸서 Client의 요청을 처리한다.
+
+&nbsp;&nbsp;&nbsp;왜? 이렇게 해서 패턴을 사용하는 걸까? 그 이유는 <b>기존 코드의 변경 없이 접근 제어 또는 부가 기능 추가</b>를 위해서다.
+
+```java
+```
 
 ---
 **Reference**
