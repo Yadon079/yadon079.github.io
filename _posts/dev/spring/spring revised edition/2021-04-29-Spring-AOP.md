@@ -87,6 +87,7 @@ comments: true
 
 ## 프록시 패턴
 
+<img src="/assets/img/study/aop02.png" width="70%" align="center"><br/>
 
 
 
