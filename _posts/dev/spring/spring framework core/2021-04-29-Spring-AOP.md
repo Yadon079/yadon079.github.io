@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2021-04-27 08:00:00
+date: 2021-04-29 08:00:00
 title: "스프링 AOP : 개념, 프록시 기반 AOP, @AOP"
 description: "스프링 프레임워크 핵심 기술"
 subject: Spring framework
