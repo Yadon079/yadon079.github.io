@@ -1,11 +1,11 @@
 ---
 layout: post
 date: 2021-04-27 08:00:00
-title: "스프링 AOP : 개념"
+title: "스프링 AOP"
 description: "스프링 프레임워크 핵심 기술"
 subject: Spring framework
 category: [ spring ]
-tags: [ spring, IoC, AOP ]
+tags: [ spring, IoC, AOP, Proxy, @AOP ]
 use_math: true
 comments: true
 ---
@@ -74,6 +74,12 @@ comments: true
 <span style="font-size:16pt"><b>&#9654; 런타임에 적용</b></span>
 
 &nbsp;&nbsp;&nbsp;스프링 AOP가 사용하는 방법. A 클래스 타입의 Bean을 만들 때 A 타입의 Proxy Bean[^2]을 만들어 Proxy Bean이 Aspect 코드를 추가하여 동작.
+
+# 프록시 기반 AOP
+
+## 스프링 AOP 특징
+
+
 
 ---
 **Reference**
