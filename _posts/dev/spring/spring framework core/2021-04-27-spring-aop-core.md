@@ -318,7 +318,143 @@ Client는 `@Autowired`로 EventService를 주입받지만 `@Primary`로 등록�
 
 # @AOP
 
+&nbsp;&nbsp;&nbsp;스프링 애노테이션 기반의 AOP를 살펴보자.
 
+먼저, `@AOP`를 사용하기 위해서 의존성을 추가한다.
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+이제 Aspect를 나타내는 클래스를 생성한다.
+
+```java
+package me.gracenam.demospring51;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+public class PerfAspect {
+
+    @Around("execution(* me.gracenam..*.EventService.*(..))")
+    public Object logPerf(ProceedingJoinPoint pjp) throws Throwable {
+        long begin = System.currentTimeMillis();
+        Object retVal = pjp.proceed();
+        System.out.println(System.currentTimeMillis() - begin);
+        return retVal;
+    }
+
+}
+```
+
+`@Aspect` 애노테이션으로 이 클래스가 Aspect 클래스임을 알려준다. `@Component` 애노테이션을 사용해서 빈으로 등록하는데 이는 애노테이션 기반의 스프링 IoC를 사용하기 때문에 Component Scan을 통해서 빈 등록을 하기 때문이다.
+
+두 가지 정보가 필요한데 <b>해야할 일</b>과 <b>어디에 적용할 것인가</b>이다. 해야할 일은 <b>Advice</b>, 어디에 적용할 것인가는 <b>Point Cut</b>에 해당하고 이 두 가지를 정의해야 한다.
+
+`ProceedingJoinPoint`, PJP는 Advice가 적용되는 대상이다. 즉, Advice가 적용되는 `createEvent`, `publishEvent`와 같은 메서드 자체라고 보면 된다. method invocation과 비슷한 개념이다.
+
+시간을 측정하고 걸린 시간을 출력해주는 기능을 추가하면 Advice가 완성이 된다. 완성된 Advice는 Around Advice라고 해서 `@Around` 애노테이션을 붙여준다. 그리고 value에 Point Cut 이름을 주거나 직접 정의할 수도 있다.
+
+`execution`은 Point Cut 표현식인데 이 표현식을 사용해서 어디에 적용할 지를 정의할 수 있다. `* me.gracenam..*.EventService.*(..)`는 me.gracenam 패키지 밑에 있는 모든 클래스 중 EventService에 있는 모든 메소드에 Advice를 적용하라고 정의한 것이다. 만일 `EventService`를 `*`로 변경하면 여러 클래스에 적용할 수 있다.
+
+<img src="/assets/img/study/aop05.png" width="70%" aling="center"><br/>
+
+&nbsp;&nbsp;&nbsp;하지만 이렇게 할 경우에는 적용하고 싶지 않은 메서드에도 적용이 될 수 있다. 그럴 땐 execution을 사용하는 대신 애노테이션으로 적용하면 원하는 곳에만 적용할 수 있다.
+
+```java
+package me.gracenam.demospring51;
+
+import java.lang.annotation.*;
+
+@Documented
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.CLASS)
+public @interface PerfLogging {
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
+
+@Component
+@Aspect
+public class PerfAspect {
+
+    @Around("@annotation(PerfLogging)")
+    public Object logPerf(ProceedingJoinPoint pjp) throws Throwable {
+        long begin = System.currentTimeMillis();
+        Object retVal = pjp.proceed();
+        System.out.println(System.currentTimeMillis() - begin);
+        return retVal;
+    }
+
+}
+```
+
+```java
+package me.gracenam.demospring51;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class SimpleEventService implements EventService {
+
+    @PerfLogging
+    @Override
+    public void createEvent() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Created an event");
+    }
+
+    @PerfLogging
+    @Override
+    public void publishEvent() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Published an event");
+    }
+
+    public void deleteEvent() {
+        System.out.println("Delete an event");
+    }
+
+}
+```
+
+애노테이션을 만들 때 한 가지 주의해야 할 점은 `RetentionPolicy`를 Class 이상으로 주어야 한다. 이 `RetentionPolicy`라는 것은 기본 값이 Class인데 <b>이 애노테이션 정보를 얼마나 유지할 것인가</b>를 말하는 것이다. 즉, 기본 값이 Class라는 것은 '.class 파일까지 유지하겠다'라는 말이다.
+
+Aspect에서는 `execution` 대신 `@annotation`이라는 표현식으로 PerfLogging이라는 애노테이션이 달린 곳에 적용되도록 지정했다.
+
+<img src="/assets/img/study/aop06.png" width="70%" aling="center"><br/>
+
+## 그 외
+
+예제에서는 @Around를 통해서 타겟 메서드의 Aspect 실행 시점을 지정했지만 다른 어노테이션들도 있다.
+
++ @Before (이전) : 어드바이스 타겟 메소드가 호출되기 전에 어드바이스 기능을 수행
++ @After (이후) : 타겟 메소드의 결과에 관계없이(즉 성공, 예외 관계없이) 타겟 메소드가 완료 되면 어드바이스 기능을 수행
++ @AfterReturning (정상적 반환 이후)타겟 메소드가 성공적으로 결과값을 반환 후에 어드바이스 기능을 수행
++ @AfterThrowing (예외 발생 이후) : 타겟 메소드가 수행 중 예외를 던지게 되면 어드바이스 기능을 수행
++ @Around (메소드 실행 전후) : 어드바이스가 타겟 메소드를 감싸서 타겟 메소드 호출전과 후에 어드바이스 기능을 수행
 
 ---
 **Reference**
