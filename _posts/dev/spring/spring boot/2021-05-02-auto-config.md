@@ -18,6 +18,8 @@ comments: true
 
 ## 자동 설정 이해
 
+
+
 ---
 **Reference**
 + [스프링 부트 개념과 활용](https://inf.run/Xny5)

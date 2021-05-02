@@ -37,9 +37,9 @@ comments: true
 
 &nbsp;&nbsp;&nbsp;부트를 작성하는 방법은 공식 문서에서도 제공을 해준다.
 
-1. [spring.io](https://spring.io)에서 Projects - Spring Boot 선택
-2. LEARN의 Documentaion에서 Reference Doc.을 선택
-3. Getting Started - 3.Installing Spring Boot - 3.1 Installation Instructions for the Java Developer 선택
+&#49;. [spring.io](https://spring.io)에서 Projects - Spring Boot 선택
+&#50;. LEARN의 Documentaion에서 Reference Doc.을 선택
+&#51;. Getting Started - 3.Installing Spring Boot - 3.1 Installation Instructions for the Java Developer 선택
 
 이 후 Maven과 Gradle 중 선택하여 설치를 하면된다.
 
@@ -49,17 +49,17 @@ p.s. 요즘은 IDE가 좋아서 알아서 다 설정을 해준다...
 
 <img src="/assets/img/study/boot01.png" width="70%" align="center"><br/>
 
-1. 새 프로젝트 생성에서 원하는 빌드 도구(Maven or Gradle)를 선택한다. (익숙한 maven을 선택했다.)
+&#49;. 새 프로젝트 생성에서 원하는 빌드 도구(Maven or Gradle)를 선택한다. (익숙한 maven을 선택했다.)
 
 <img src="/assets/img/study/boot02.png" width="70%" align="center"><br/>
 
-2. groupId와 artifactId를 정한 후 생성한다. 보통 프로젝트명은 artifactId와 동일하다.
+&#50;. groupId와 artifactId를 정한 후 생성한다. 보통 프로젝트명은 artifactId와 동일하다.
 
 <img src="/assets/img/study/boot03.png" width="70%" align="center"><br/>
 
-3. 짜잔! 위와 같이 나온다면 부트 생성이 완료된 것이다.
+&#51;. 짜잔! 위와 같이 나온다면 부트 생성이 완료된 것이다.
 
-4. pom.xml에 아래 코드들을 추가해준다.
+&#52;. pom.xml에 아래 코드들을 추가해준다.
 
 ```
     <parent>
@@ -91,8 +91,8 @@ p.s. 요즘은 IDE가 좋아서 알아서 다 설정을 해준다...
     </build>
 ```
 
-5. java 아래에 패키지를 하나 만들고(me.gracenam) 메인 클래스(Application.java)를 생성한다.
-6. Application 클래스에 `@SpringBootApplication` 애노테이션을 추가하고 메인 메서드를 생성한 후 실행해서 아래와 같이 출력된다면 기본적인 애플리케이션 생성에 성공한 것이다.
+&#53;. java 아래에 패키지를 하나 만들고(me.gracenam) 메인 클래스(Application.java)를 생성한다.
+&#54;. Application 클래스에 `@SpringBootApplication` 애노테이션을 추가하고 메인 메서드를 생성한 후 실행해서 아래와 같이 출력된다면 기본적인 애플리케이션 생성에 성공한 것이다.
 
 <img src="/assets/img/study/boot04.png" width="70%" align="center"><br/>
 
