@@ -4,7 +4,7 @@ date: 2021-05-02 16:00:00
 title: "스프링 부트 원리 : 자동 설정"
 description: "스프링 부트 개념과 활용"
 subject: Spring Boot
-category: [ spring ]
+category: [ spring boot ]
 tags: [ spring, boot, EnableAutoConfiguration ]
 use_math: true
 comments: true

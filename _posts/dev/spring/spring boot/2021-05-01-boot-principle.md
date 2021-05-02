@@ -4,7 +4,7 @@ date: 2021-05-01 18:00:00
 title: "스프링 부트 원리 : 의존성"
 description: "스프링 부트 개념과 활용"
 subject: Spring Boot
-category: [ spring ]
+category: [ spring boot ]
 tags: [ spring, boot, dependency ]
 use_math: true
 comments: true
