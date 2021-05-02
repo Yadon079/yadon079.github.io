@@ -37,9 +37,9 @@ comments: true
 
 &nbsp;&nbsp;&nbsp;부트를 작성하는 방법은 공식 문서에서도 제공을 해준다.
 
-&#49;. [spring.io](https://spring.io)에서 Projects - Spring Boot 선택
-&#50;. LEARN의 Documentaion에서 Reference Doc.을 선택
-&#51;. Getting Started - 3.Installing Spring Boot - 3.1 Installation Instructions for the Java Developer 선택
+1. [spring.io](https://spring.io)에서 Projects - Spring Boot 선택
+2. LEARN의 Documentaion에서 Reference Doc.을 선택
+3. Getting Started - 3.Installing Spring Boot - 3.1 Installation Instructions for the Java Developer 선택
 
 이 후 Maven과 Gradle 중 선택하여 설치를 하면된다.
 
