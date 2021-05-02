@@ -47,15 +47,15 @@ p.s. 요즘은 IDE가 좋아서 알아서 다 설정을 해준다...
 
 &#9654; <b>IntelliJ</b>
 
-<img src="/assets/img/study/boot01.png" width="70%" aling="center"><br/>
+<img src="/assets/img/study/boot01.png" width="70%" align="center"><br/>
 
 1. 새 프로젝트 생성에서 원하는 빌드 도구(Maven or Gradle)를 선택한다. (익숙한 maven을 선택했다.)
 
-<img src="/assets/img/study/boot02.png" width="70%" aling="center"><br/>
+<img src="/assets/img/study/boot02.png" width="70%" align="center"><br/>
 
 2. groupId와 artifactId를 정한 후 생성한다. 보통 프로젝트명은 artifactId와 동일하다.
 
-<img src="/assets/img/study/boot03.png" width="70%" aling="center"><br/>
+<img src="/assets/img/study/boot03.png" width="70%" align="center"><br/>
 
 3. 짜잔! 위와 같이 나온다면 부트 생성이 완료된 것이다.
 
@@ -94,7 +94,7 @@ p.s. 요즘은 IDE가 좋아서 알아서 다 설정을 해준다...
 5. java 아래에 패키지를 하나 만들고(me.gracenam) 메인 클래스(Application.java)를 생성한다.
 6. Application 클래스에 `@SpringBootApplication` 애노테이션을 추가하고 메인 메서드를 생성한 후 실행해서 아래와 같이 출력된다면 기본적인 애플리케이션 생성에 성공한 것이다.
 
-<img src="/assets/img/study/boot04.png" width="70%" aling="center"><br/>
+<img src="/assets/img/study/boot04.png" width="70%" align="center"><br/>
 
 &#128161; IntelliJ 얼티밋 버전을 사용한다면 IDE에서 제공하는 Spring Initializr를 사용해서 바로 생성할 수 있다. 의존성 주입도 자동으로 해준다!
 
