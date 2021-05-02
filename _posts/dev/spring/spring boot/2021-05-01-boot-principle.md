@@ -42,9 +42,11 @@ pom에서 지원하지 않는 의존성의 경우 버전을 명시해야하지�
 
 ### Without the parent POM
 
-&nbsp;&nbsp;&nbsp;작성한 프로젝트에 그 프로젝트 만의 상속 구조가 있어서 parent 선언을 못 하는 경우가 있을 수 있다. 그럴 때는 2가지 방법이 있다. 예를 들어 A라는 프로젝트를 만들고 그 프로젝트의 parent로 B를 넣어두었다고 해보자.
+&nbsp;&nbsp;&nbsp;작성한 프로젝트에 그 프로젝트 만의 상속 구조가 있어서 parent 선언을 못 하는 경우가 있을 수 있다. 그럴 때는 2가지 방법이 있다.  
+예를 들어 A라는 프로젝트를 만들고 그 프로젝트의 parent로 B를 넣어두었다고 해보자.
 
-첫 번째 방법은 A 프로젝트의 parent에 넣어놓은 B 프로젝트의 parent로 `spring-boot-starter-parent`를 넣는 것이다. 그렇게하면 넘어와서 의존성 관리를 받을 수 있다.
+첫 번째 방법은 A 프로젝트의 parent에 넣어놓은 B 프로젝트의 parent로 `spring-boot-starter-parent`를 넣는 것이다.  
+그렇게하면 넘어와서 의존성 관리를 받을 수 있다.
 
 두 번째 방법은 parent가 고정이 되어서 바꿀 수 없을 경우, `dependencyManagement`라는 element를 사용해서 `spring-boot-dependencies`를 직접 넣어주면 된다.
 
@@ -69,7 +71,8 @@ pom에서 지원하지 않는 의존성의 경우 버전을 명시해야하지�
 
 <span style="font-size:16pt"><b>&#9654; 의존성을 추가하는 방법(관리 해주는 의존성)</b></span>
 
-&nbsp;&nbsp;&nbsp;Spring Data JPA를 추가해보자. 현재 dependencies에는 아래와 같이 두 개의 의존성만 들어 있다.
+&nbsp;&nbsp;&nbsp;Spring Data JPA를 추가해보자.  
+현재 dependencies에는 아래와 같이 두 개의 의존성만 들어 있다.
 
 <img src="/assets/img/study/depen01.png" width="70%" align="center"><br/>
 
@@ -82,7 +85,8 @@ pom에서 지원하지 않는 의존성의 경우 버전을 명시해야하지�
     </dependency>
 ```
 
-`dependencyManagement`가 적용되고 있다면 버전은 따로 작성하지 않아도 된다. IntelliJ의 경우 아래 사진의 박스와 같은 표시가 뜬다면 `dependencyManagement`가 적용되고 있는 것이다.
+`dependencyManagement`가 적용되고 있다면 버전은 따로 작성하지 않아도 된다.  
+IntelliJ의 경우 아래 사진의 박스와 같은 표시가 뜬다면 `dependencyManagement`가 적용되고 있는 것이다.
 
 <img src="/assets/img/study/depen02.png" width="70%" align="center"><br/>
 
