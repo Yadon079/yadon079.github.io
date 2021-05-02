@@ -1,11 +1,11 @@
 ---
 layout: post
 date: 2021-05-01 18:00:00
-title: "스프링 부트 시작하기"
+title: "스프링 부트 원리 : 의존성"
 description: "스프링 부트 개념과 활용"
 subject: Spring Boot
 category: [ spring ]
-tags: [ spring, boot, intro ]
+tags: [ spring, boot, dependency ]
 use_math: true
 comments: true
 ---
