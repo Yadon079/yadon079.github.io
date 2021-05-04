@@ -264,9 +264,155 @@ public class SampleRunner implements ApplicationRunner {
 
 정상적으로 출력이 되는 것을 확인할 수 있다.
 
+<span style="font-size:16pt"><b>&#9654; @ConditionalOnMissingBean</b></span>
+
+&nbsp;&nbsp;&nbsp;설정 파일에 있는 빈이 주입되어서 정상적으로 출력되는 것을 확인했는데, 여기에는 한 가지 문제점이 있다.  
+<b>Application</b>에 Sample 메소드를 만들어서 빈으로 등록해보자.
+
+```java
+package me.gracenam;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication application = new SpringApplication(Application.class);
+        application.setWebApplicationType(WebApplicationType.NONE);
+        application.run(args);
+    }
+
+    @Bean
+    public Sample sample() {
+        Sample sample = new Sample();
+        sample.setName("Another");
+        sample.setHowLong(100);
+        return sample;
+    }
+
+}
+```
+
+sample의 이름을 Another로 바꾸고 HowLong을 100으로 변경하였다. 이렇게 한 후에 출력하면 어떤 값이 출력이 될까?
+
+<img src="/assets/img/study/autoconfig10.png" width="70%" align="center"><br/>
+
+자동설정에 있는 빈이 그대로 출력이 된다! 이유는 스프링 부트에서 빈을 등록할 때 두 가지 과정이 있다고 했는데 ComponentScan으로 빈을 등록하는 과정이 먼저 이루어진다. 그 다음에 AutoConfiguration으로 빈이 등록되면서 ComponentScan으로 등록되었던 빈을 덮어쓴 것이다.
+
+&nbsp;&nbsp;&nbsp;이것을 해결하는 방법은 `@ConditionalOnMissingBean`을 사용하면 된다. 자동 설정 파일에 있는 빈에 ConditionalOnMissingBean을 추가해주면 이 타입(Sample)의 빈이 없으면 빈으로 등록하게 된다.
+
+```java
+package me.gracenam;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SampleConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public Sample sample() {
+        Sample sample = new Sample();
+        sample.setHowLong(5);
+        sample.setName("Text");
+        return sample;
+    }
+
+}
+```
+
+즉, Application에 Sample타입의 빈이 있으므로 AutoConfiguration에서는 빈을 등록하지 않게된다.  
+자동 설정 파일을 다시 install한 후 Application을 refresh하고 실행하면 다음과 같이 결과가 나오는 것을 볼 수 있다.
+
+<img src="/assets/img/study/autoconfig11.png" width="70%" align="center"><br/>
+
 <span style="font-size:16pt"><b>&#9654; @ConfigurationProperties</b></span>
 
+&nbsp;&nbsp;&nbsp;직접 정의한 빈이 우선 시 되어 등록되는 것은 좋지만 문제가 있다. 단순히 값만 바꾸고 싶은데 장황하게 빈 설정을 해야한다는 것이다.  
 
+빈 재정의를 하지 않고 심플하게 하고 싶을 때는 <b>application.properties</b>를 활용하여 변경할 수 있다.
+
+```
+sample.name = samplename
+sample.how-long = 50
+```
+
+application.properties에 원하는 값을 정의하고 난 후에 이 properties를 사용할 수 있게 해주는 클래스를 자동 설정 프로젝트(starter)에 만들어야 한다.
+
+```java
+package me.gracenam;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties("sample")
+public class SampleProperties {
+
+    private String name;
+
+    private int howLong;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHowLong() {
+        return howLong;
+    }
+
+    public void setHowLong(int howLong) {
+        this.howLong = howLong;
+    }
+}
+```
+
+이렇게 작성하면 알람이 뜨는데 아래의 의존성을 추가해주면 해결이 된다.
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-configuration-processor</artifactId>
+</dependency>
+```
+
+이제 Application에서 빈을 정의하지 않고 실행하게 되면 ComponentScan으로 등록되는 빈이 없기 때문에 AutoConfiguration으로 빈을 등록하게 되고 이 때, properties를 참조해서 값을 가져오도록 만든다.
+
+```java
+package me.gracenam;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@EnableConfigurationProperties(SampleProperties.class)
+public class SampleConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public Sample sample(SampleProperties properties) {
+        Sample sample = new Sample();
+        sample.setHowLong(properties.getHowLong());
+        sample.setName(properties.getName());
+        return sample;
+    }
+
+}
+```
+
+이렇게 하면 AutoConfiguration은 application.properties에서 값을 가져와서 빈을 등록하게 된다. 자동설정 프로젝트를 install한 다음(install을 해야 로컬에 있는 jar 파일이 변경된다!) Application을 실행하면 결과를 확인할 수 있다.
+
+<img src="/assets/img/study/autoconfig12.png" width="70%" align="center"><br/>
 
 ---
 **Reference**
