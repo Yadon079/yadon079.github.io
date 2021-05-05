@@ -149,6 +149,119 @@ DispatcherServletAutoConfiguration을 살펴보면 Http 서블릿을 상속해�
 
 ## 내장 웹 서버 응용
 
+<span style="font-size:16pt"><b>&#9654; 다른 서블릿 컨테이너로 변경</b></span>
+
+&nbsp;&nbsp;&nbsp;서블릿 애플리케이션(서블릿 기반 웹 MVC 애플리케이션)을 개발할 때 기본적으로 톰캣을 사용하게 된다. 그 이유는 자동 설정에 의해 의존성으로 톰캣이 들어있기 때문이다.  
+`ConditionalOnClass`에 의해서 톰캣용 자동 설정 파일이 읽어지고 톰캣을 만들게 되고 톰캣을 쓰게 된다.
+
+그렇다면 다른 웹 서버를 사용하고 싶다면 어떻게 해야하는가? [공식 문서](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-embedded-web-servers.html)를 참조해가면서 해보도록 하자.
+
+우선 다른 웹 서버를 쓰려면 현재 들어와있는 웹 서버인 <b>Spring-Boot-Starter-Tomcat</b>을 제거해야 한다.
+
+```
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+  <exclusions>
+    <exclusion>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+```
+
+<b>exclusions</b>은 선언된 의존성을 배제하는 것으로 우리가 사용하는 톰캣은 스프링 부트 스타터에 포함되어 있기 때문에 `spring-boot-starter-tomcat`을 배제하였다. 기본으로 제공하는 것이 톰캣이기 때문 배제당하는 것은 항상 톰캣이다.  
+만일 톰캣을 제외하고 아무런 서버도 추가해주지 않는다면 웹 애플리케이션으로 뜨지않고 그냥 애플리케이션으로 동작하고 끝난다.
+
+&nbsp;&nbsp;&nbsp;이제 새로운 의존성으로 우리가 사용하고 싶은 서블릿 컨테이너의 의존성을 가져와보자. 이것도 톰캣과 마찬가지로 스프링 부트 스타터를 통해서 주입받는다. 예를 들어서 jetty를 넣어보자.
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+```
+
+의존성을 주입한 후에 확인해보면 기존에 있던 톰캣이 사라지고 jetty가 추가된 것을 확인할 수 있다.
+
+<img src="/assets/img/study/serv06.png" width="70%" align="center"><br/>
+
+이 상태에서 실행을 해보면 톰캣이 아니라 jetty로 실행이 되는 것을 확인할 수 있다.
+
+<img src="/assets/img/study/serv07.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; 웹 서버 사용하지 않기</b></span>
+
+&nbsp;&nbsp;&nbsp;기본적으로 의존성에 웹 관련 기술이 들어와있으면 스프링 부트는 웹 애플리케이션으로 만들려고 시도한다.  
+코드를 작성하여 의존성이 있지만 애플리케이션으로 동작하도록 하는 방법이 있었다. `WebApplicationType`을 <b>NONE</b>으로 지정하여 애플리케이션으로 동작하고 끝나도록 했었다.
+
+```java
+SpringApplication application = new SpringApplication(Application.class);
+application.setWebApplicationType(WebApplicationType.NONE);
+application.run(args);
+```
+
+이번에는 properties를 사용하는 방법인데, 기존의 방법과 마찬가지로 웹 애플리케이션의 타입을 변경하여 논 웹 애플리케이션으로 동작하도록 하는 것이다.  
+resources 아래에 application.properties에 아래와 같이 작성하면된다.
+
+```
+spring.main.web-application-type=none
+```
+
+그리고 실행을 하면 서버가 사용하지 않고(None Web) 애플리케이션으로 실행되고 끝난다.
+
+<img src="/assets/img/study/serv08.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; 포트</b></span>
+
+&nbsp;&nbsp;&nbsp;마찬가지로 포트도 변경할 수 있다. application.properties에 아래와 같이 작성하면 포트가 변경된 채로 실행되는 것을 확인할 수 있다.
+
+```
+server.port=7070
+```
+
+<img src="/assets/img/study/serv09.png" width="70%" align="center"><br/>
+
+&nbsp;&nbsp;&nbsp;랜덤 포트를 사용하는 방법도 있는데 <b>값으로 0을 주면</b> 포트 중에서 사용할 수 있는 포트를 찾아서 실행하게 된다. (이 때 나타나는 포트는 로그를 보지않는 이상 알 수 없다.)
+
+```
+server.port=0
+```
+
+<<img src="/assets/img/study/serv10.png" width="70%" align="center"><br/>
+
+&nbsp;&nbsp;&nbsp;이렇게 랜덤하게 설정되거나 혹은 지정해 준 포트를 애플리케이션에서는 어떻게 쓸 것이냐 혹은 찾을 것이냐에 대해 알아보자. 공식문서에서 추천하는 방법으로 <b>ApplicationListener\<ServletWebServerInitializedEvent></b>를 소개하고 있다.
+
+EventListener의 역할을 할 빈이 필요하므로 클래스를 하나 생성한다.
+
+```java
+package me.gracenam;
+
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.boot.web.servlet.context.ServletWebServerInitializedEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class PortListener implements ApplicationListener<ServletWebServerInitializedEvent> {
+
+    @Override
+    public void onApplicationEvent(ServletWebServerInitializedEvent servletWebServerInitializedEvent) {
+        ServletWebServerApplicationContext applicationContext = servletWebServerInitializedEvent.getApplicationContext();
+        System.out.println(applicationContext.getWebServer().getPort());
+    }
+
+}
+```
+
+먼저 Event에서 WebApplicationContext를 꺼낸다. 이렇게 꺼낸 applicationContext는 ServletWebServerApplicationContext이기 때문에 웹 서버를 알 수 있고 웹 서버를 통해서 포트를 알 수 있다.  
+이렇게 한 후 실행해보면 서버가 실행되고 콜백이 실행되면서 서버 포트가 찍히고 그 다음 바로 로그에 찍히는 것이 같은 것을 확인할 수 있다.
+
+<img src="/assets/img/study/serv11.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; HTTPS</b></span>
+
 
 
 ---
