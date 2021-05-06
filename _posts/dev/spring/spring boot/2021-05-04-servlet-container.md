@@ -260,7 +260,7 @@ public class PortListener implements ApplicationListener<ServletWebServerInitial
 
 <img src="/assets/img/study/serv11.png" width="70%" align="center"><br/>
 
-<span style="font-size:16pt"><b>&#9654; HTTPS</b></span>
+<span style="font-size:16pt"><b>&#9654; HTTPS 설정하기</b></span>
 
 &nbsp;&nbsp;&nbsp;HTTPS 설정하는 방법에 대해서 알아보자. 먼저 HTTPS를 사용하려면 키스토어를 만들어야 한다. 아래와 같은 내용을 콘솔창에서 입력하자.
 
@@ -278,7 +278,7 @@ keytool -genkey -alias spring -storetype PKCS12 -keyalg RSA -keysize 2048 -keyst
 server.ssl.key-store=keystore.p12
 server.ssl.key-store-type= PKCS12
 server.ssl.key-store-password=123456
-server.ssl.key-alias=spring
+server.ssl.key-alias=tomcat
 ```
 
 여기서 keystore를 루트에 넣지 않고 resources 안이나 classpath에 넣고 싶다면 `server.ssl.key-stroe=classpath:keystore.p12`와 같은 형식으로 작성하면 된다. 지금같은 경우 application 폴더 루트에 있기 때문에 `keystore.p12`만 작성했다.
@@ -293,10 +293,131 @@ server.ssl.key-alias=spring
 
 <img src="/assets/img/study/serv14.png" width="70%" align="center"><br/>
 
+HTTPS를 붙여야해서 붙였는데 왜 저런 화면이 뜰까
 
+브라우저가 서버에 요청을 보냈을 때, 서버에서는 인증서를 보내고 그 인증서는 keystore 안에 들어 있다. 그리고 브라우저는 이 인증서의 POP[^1] key를 모르는 상태이기 때문에 저런 화면이 출력되는 것이다.  
+공인된 인증서 <b>Let's Encrypt</b>, <b>GeoTrust</b>, <b>GoDaddy</b>와 같은 곳에서 발급하는 인증서에 대한 POP key는 대부분의 브라우저가 알고 있다. 그래서 그러한 인증서들은 녹색으로 표시되면서 이러한 화면이 안뜬다. 하지만 방금 만든 인증서는 브라우저가 전혀모르는 로컬 인증서이기 때문에 경고문이 발생한 것이다.  
+
+<span style="font-size:16pt"><b>&#9654; 코딩으로 HTTP 커넥터 설정하기</b></span>
+
+&nbsp;&nbsp;&nbsp;보시다시피 현재 커넥터에는 HTTPS가 들어와 있기 때문에 HTTP를 사용할 수가 없다. 물론 사용하고자 하면 사용할 수 있는 방법이 있다. 직접 코딩을 해서 설정해주면 되는데 코딩을 해보자.
+
+```java
+package me.gracenam;
+
+import org.apache.catalina.connector.Connector;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@SpringBootApplication
+@RestController
+public class Application {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello Spring";
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+    @Bean
+    public ServletWebServerFactory serverFactory() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+        tomcat.addAdditionalTomcatConnectors(createStandardConnector());
+        return tomcat;
+    }
+
+    private Connector createStandardConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setPort(8080);
+        return connector;
+    }
+
+}
+```
+
+8080 포트를 HTTP에게 주고 HTTPS는 8443 포트로 넘겼다. 콘솔 창에서 각각 확인해 보면 각 포트에서 정상적으로 뜨는 것을 볼 수 있다.
+
+<img src="/assets/img/study/serv15.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; HTTP2 설정하기</b></span>
+
+&nbsp;&nbsp;&nbsp; HTTP2를 설정하는 방법은 공식문서에 나와있는데 서버마다 제약사항이 다르다. 먼저 application.properties에 `server.http2.enabled=true`를 추가해주자. 그리고 난 후 서버별 설정을 살펴보면 다음과 같다.
+
+Undertow는 HTTPS만 적용이 되어있으면 추가설정이 필요없다. 하지만 Tomcat이나 Jetty의 경우 다소 복잡한 추가설정이 필요하다.
+
+&#128161;톰캣 9.0.x 이상부터는 추가설정이 필요없다고 한다.
+
+여기서는 사용하기 편리한 Undertow를 통해서 확인해보자. 의존성에 Undertow를 추가해주고, 포트 설정은 8443으로 되어있고 HTTP2를 켰다.
+
+&#9654; pom.xml
+
+```
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <exclusions>
+            <exclusion>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+</dependencies>
+```
+
+&#9654; application.properties
+
+```
+server.ssl.key-store=keystore.p12
+server.ssl.key-store-type= PKCS12
+server.ssl.key-store-password=123456
+server.ssl.key-alias=spring
+server.port=8443
+server.http2.enabled=true
+```
+
+<img src="/assets/img/study/serv16.png" width="70%" align="center"><br/>
+
+8443 포트로 Undertow가 실행되는 것을 확인했으니 콘솔로 HTTP2로 동작하는지 확인해보자.
+
+<img src="/assets/img/study/serv17.png" width="70%" align="center"><br/>
+
+잘 동작하는 것을 확인할 수 있다!
+
+<span style="font-size:16pt"><b>&#9654; HTTP2 설정하기 ver. 톰캣</b></span>
+
+&nbsp;&nbsp;&nbsp;현재는 버전업이 많이 되어서 톰캣 9.0.X 버전을 기본으로 제공해주고 있다. 따라서 굳이 Undertow를 사용하지 않고도 HTTP2를 확인할 수 있다.
+
+<img src="/assets/img/study/serv18.png" width="70%" align="center"><br/>
+
+<img src="/assets/img/study/serv19.png" width="70%" align="center"><br/>
 
 
 ---
 **Reference**
 + [스프링 부트 개념과 활용](https://inf.run/Xny5)
 + [공식 문서](https://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/htmlsingle/)
+
+---
+[^1]:Proof Of Propession. 개인키 소유 증명.
