@@ -413,7 +413,6 @@ server.http2.enabled=true
 
 <img src="/assets/img/study/serv19.png" width="70%" align="center"><br/>
 
-
 ---
 **Reference**
 + [스프링 부트 개념과 활용](https://inf.run/Xny5)
