@@ -262,6 +262,38 @@ public class PortListener implements ApplicationListener<ServletWebServerInitial
 
 <span style="font-size:16pt"><b>&#9654; HTTPS</b></span>
 
+&nbsp;&nbsp;&nbsp;HTTPS 설정하는 방법에 대해서 알아보자. 먼저 HTTPS를 사용하려면 키스토어를 만들어야 한다. 아래와 같은 내용을 콘솔창에서 입력하자.
+
+```
+keytool -genkey -alias spring -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 4000
+```
+
+엔터를 누르면 나타나는 문항들에 순차적으로 값을 입력해주면 된다. 로컬에서 사용할 것이기때문에 임의의 값들로 채워넣으면 된다. <b>여기에 입력된 값들은 다 가짜다!</b>
+
+<img src="/assets/img/study/serv12.png" width="70%" align="center"><br/>
+
+생성하고 나면 `keystore.p12`가 생성된 것을 확인할 수 있고 이 keystore를 가지고 세팅을 시작하면 된다. application.properties로 가서 아래와 같이 값을 입력해주자.
+
+```
+server.ssl.key-store=keystore.p12
+server.ssl.key-store-type= PKCS12
+server.ssl.key-store-password=123456
+server.ssl.key-alias=spring
+```
+
+여기서 keystore를 루트에 넣지 않고 resources 안이나 classpath에 넣고 싶다면 `server.ssl.key-stroe=classpath:keystore.p12`와 같은 형식으로 작성하면 된다. 지금같은 경우 application 폴더 루트에 있기 때문에 `keystore.p12`만 작성했다.
+
+이제 HTTPS 설정이 되었다. 스프링 부트에서는 기본적으로 톰캣이 사용하는 커넥터가 하나만 등록된다. 이 커넥터에 SSL을 적용시켜준다. 따라서 모든 요청은 HTTPS를 붙여서 해야한다.
+
+&#9654; HTTPS를 안붙였을 때
+
+<img src="/assets/img/study/serv13.png" width="70%" align="center"><br/>
+
+&#9654; HTTPS를 붙였을 때
+
+<img src="/assets/img/study/serv14.png" width="70%" align="center"><br/>
+
+
 
 
 ---
