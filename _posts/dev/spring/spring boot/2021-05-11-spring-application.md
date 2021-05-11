@@ -101,7 +101,6 @@ VM options에 `-Ddebug`라고 적어주거나 Program arguments에 `--debug`라�
 <img src="/assets/img/study/sa06.png" width="70%" align="center"><br/>
 
 기존의 배너가 아닌 직접 만든 배너가 출력되는 것을 확인할 수 있다. 여기에 ASCII Generator 같은 툴로 로고를 만들어서 넣어도 된다.  
-
 배너를 만들 때 쓸 수 있는 변수들이 있는데, 예를 들어 `${spring-boot.version}` 같은 경우에는 스프링 부트의 버전을 함께 출력해 준다.
 
 ```
@@ -124,13 +123,87 @@ VM options에 `-Ddebug`라고 적어주거나 Program arguments에 `--debug`라�
 
 <img src="/assets/img/study/sa08.png" width="70%" align="center"><br/>
 
-&nbsp;&nbsp;&nbsp;스프링 부트의 패키징은 굉장히 독특한데 패키징을 할 경우 모든 의존성을 포함하여 단 하나의 JAR 파일이 생성된다. 그리고 이 JAR 파일만 실행하면 다 실행 할 수 있다.
-
+&nbsp;&nbsp;&nbsp;스프링 부트의 패키징은 굉장히 독특한데 패키징을 할 경우 모든 의존성을 포함하여 단 하나의 JAR 파일이 생성된다. 그리고 이 JAR 파일만 실행하면 다 실행 할 수 있다.  
 JAR 파일을 실행해보면 버전이 정상적으로 출력되는 것을 볼 수 있는데, 패키징을 하는 과정에서 pom.xml에서 버전 정보를 가져가서 MANIFEST 파일이 생성되었기 때문이다.
 
 <img src="/assets/img/study/sa09.png" width="70%" align="center"><br/>
 
+텍스트 파일 뿐만 아니라 gif, jpg, png 등으로 만들 수도 있다. 텍스트 파일과 마찬가지로 resource 폴더에 넣으면 되는데, 다른 경로에 넣고 싶을 수도 있다.  
+그런 경우에는 application.properties에서 `spring.banner.location`이라는 속성이 있다. 이 값을 설정해주면 된다.
 
+배너를 구현하는 다양한 방법 중에는 코딩으로 구현하는 방법도 있다.  
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringinitApplication {
+
+    public static void main(String[] args) {
+        SpringApplication app = new SpringApplication(SpringinitApplication.class);
+        app.setBanner((environment, sourceClass, out) -> {
+            out.println("=================================");
+            out.println("GRACE NAM");
+            out.println("=================================");
+        });
+        app.run(args);
+    }
+
+}
+```
+
+<img src="/assets/img/study/sa10.png" width="70%" align="center"><br/>
+
+참고로 banner 텍스트 파일이 있을 경우, 코드보다 텍스트 파일이 우선 순위가 높아 텍스트 파일에 작성된 배너가 출력된다.
+
+마지막으로 배너를 끄는 방법은 간단하다.
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringinitApplication {
+
+    public static void main(String[] args) {
+        SpringApplication app = new SpringApplication(SpringApplication.class);
+        app.setBannerMode(Banner.Mode.OFF);
+        app.run(args);
+    }
+
+}
+```
+
+<span style="font-size:16pt"><b>&#9654; SpringApplicationBuilder</b></span>
+
+&nbsp;&nbsp;&nbsp;static하게 사용되는 스프링 애플리케이션 실행방법은 커스터마이징을 할 수 없다고 했다. 그래서 인스턴스를 직접 만들어서 커스터마이징하는 방법들을 봤었는데, 인스턴스를 만드는 방법말고 <b>SpringApplicationBuilder</b>를 활용하는 방법도 있다.
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+
+@SpringBootApplication
+public class SpringinitApplication {
+
+    public static void main(String[] args) {
+        new SpringApplicationBuilder()
+                .sources(SpringinitApplication.class)
+                .run(args);
+    }
+
+}
+```
+
+이렇게 sources에 메인 애플리케이션을 설정하고 run하면 동작하는 것을 확인할 수 있다.
+
+<img src="/assets/img/study/sa11.png" width="70%" align="center"><br/>
 
 ---
 **Reference**
