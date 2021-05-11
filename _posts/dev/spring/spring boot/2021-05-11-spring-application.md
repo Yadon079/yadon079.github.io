@@ -128,6 +128,7 @@ VM options에 `-Ddebug`라고 적어주거나 Program arguments에 `--debug`라�
 
 JAR 파일을 실행해보면 버전이 정상적으로 출력되는 것을 볼 수 있는데, 패키징을 하는 과정에서 pom.xml에서 버전 정보를 가져가서 MANIFEST 파일이 생성되었기 때문이다.
 
+<img src="/assets/img/study/sa09.png" width="70%" align="center"><br/>
 
 
 
