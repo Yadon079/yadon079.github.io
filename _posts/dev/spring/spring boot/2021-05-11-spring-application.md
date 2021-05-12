@@ -205,6 +205,8 @@ public class SpringinitApplication {
 
 <img src="/assets/img/study/sa11.png" width="70%" align="center"><br/>
 
+
+
 ---
 **Reference**
 + [스프링 부트 개념과 활용](https://inf.run/Xny5)
