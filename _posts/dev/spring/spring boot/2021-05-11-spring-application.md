@@ -309,8 +309,110 @@ ApplicationListener의 타입을 <b>ApplicationStartingEvent</b>에서 <b>Applic
 
 <span style="font-size:16pt"><b>&#9654; WebApplicationType 설정</b></span>
 
-&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<b>setWebApplicationType()</b>을 이용해서 웹 애플리케이션의 타입을 정할 수 있다. <b>NONE</b>, <b>SERVLET</b>, <b>REACTIVE</b>가 있는데, 이러한 것이 왜 있을까?
 
+<img src="/assets/img/study/sa15.png" width="70%" align="center"><br/>
+
+기본적으로 서블릿 웹 MVC가 있다면 웹 MVC로 동작을 한다. 만약 스프링 MVC가 들어있다면 기본적인 타입으로 SERVLET이 들어온다.  
+서블릿이 없고 스프링 WebFlux가 들어있다면 REACTIVE로 동작하는데, 만약 둘 다 있다면 서블릿이 최우선 시 되어 SERVLET으로 동작하고, 둘 다 없다면 NONE이 된다.  
+둘 다 있는데 왜 SERVLET으로 동작하는가 하면 첫 번째 조건이 SERVLET 검사이기 때문이다.
+
+만약, 둘 다 있는데 WebFlux로 동작하고 싶다면 이제 <b>setWebApplicationType()</b>을 쓰는 것이다.
+
+```java
+app.setWebApplicationType(WebApplicationType.REACTIVE);
+```
+
+classpath에는 Spring Web MVC와 Spring WebFlux가 모두 있지만 그 중에 WebFlux를 쓰겠다는 의미이다.
+
+<span style="font-size:16pt"><b>&#9654; Application Arguments 사용하기</b></span>
+
+&nbsp;&nbsp;&nbsp;Application Argument라는 것은 `--`로 들어온다. `-D`로 들어오는 옵션은 JVM 옵션이다.
+
+<img src="/assets/img/study/sa16.png" width="70%" align="center"><br/>
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SampleArgsComponent {
+
+    public SampleArgsComponent(ApplicationArguments arguments) {
+        System.out.println("foo : " + arguments.containsOption("foo"));
+        System.out.println("bar : " + arguments.containsOption("bar"));
+    }
+
+}
+```
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringinitApplication {
+
+    public static void main(String[] args) {
+        SpringApplication app = new SpringApplication(SpringinitApplication.class);
+        app.setWebApplicationType(WebApplicationType.NONE);
+        app.run(args);
+    }
+
+}
+```
+
+어떤 빈의 생성자가 하나이고 그 생성자의 파라미터가 빈일 경우, 해당 빈은 스프링이 알아서 주입해준다. 이 빈을 생성할 때 argument가 있는지 확인하기 위한 클래스를 작성하고 애플리케이션을 실행하여서 입력이 되었는지 확인해보자. VM options은 foo이고 Program arguments는 bar이다.
+
+<img src="/assets/img/study/sa17.png" width="70%" align="center"><br/>
+
+foo는 없고 bar는 있는데, 이것은 ApplicationArguments에서 -D로 들어오는 것은 VM options으로 인식하고 --로 들어오는 것만 Program arguments로 쓰는 것이다.
+
+마찬가지로 콘솔에서 실행해봐도 동일한 결과가 나오는 것을 확인할 수 있다.
+
+<img src="/assets/img/study/sa18.png" width="70%" align="center"><br/>
+
+<span style="font-size:16pt"><b>&#9654; 추가적인 사항이 있을 때</b></span>
+
+&nbsp;&nbsp;&nbsp;애플리케이션을 실행하고 다 출력이 되고 난 후에 뭔가를 추가한다던가 하고 싶을 때 사용할 수 있는게 두 가지 있다.  
+<b>ApplicationRunner</b>와 <b>CommandLineRunner</b> 두 가지가 있는데 이 중에 추천되는 <b>ApplicationRunner</b>를 살펴보자. 두 가지 모두 기능은 동일하다.
+
+ApplicationRunner은 추상화된 Api를 사용해서 유용한 메서드들이 있기 때문에 low level의 코딩을 하지 않아도 된다. CommandLineRunner는 JVM 옵션을 받지 못한다. 
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SampleArgsComponent implements ApplicationRunner {
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        System.out.println("foo: " + args.containsOption("foo"));
+        System.out.println("bar: " + args.containsOption("bar"));
+    }
+}
+```
+
+ApplicationRunner의 경우 `@Order()`를 사용하여 순서를 정할 수도 있다. 숫자가 낮을수록 우선순위가 높다.
+
+```java
+...
+
+@Component
+@Order(1)
+public class SampleRunner implements ApplicationRunner {
+    ...
+}
+```
 
 ---
 **Reference**
