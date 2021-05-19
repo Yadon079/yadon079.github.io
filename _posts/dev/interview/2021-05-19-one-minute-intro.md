@@ -1,6 +1,6 @@
 ---
 layout: post
-date: 2021-05-19 18:45:00
+date: 2021-05-19 17:00:00
 title: "1분 자기소개"
 description: "면접을 대비한 자기소개 준비"
 subject: Interview
