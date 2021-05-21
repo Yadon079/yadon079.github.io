@@ -1,7 +1,7 @@
 ---
 layout: post
 date: 2021-05-15 23:00:00
-title: "스프링 부트 활용 : 외부 설정"
+title: "스프링 부트 활용 : 외부 설정 1부"
 description: "스프링 부트 개념과 활용"
 subject: Spring Boot
 category: [ spring boot ]
@@ -207,6 +207,52 @@ class SpringinitApplicationTests {
 2순위인 @TestPropertySource는 별도의 애노테이션으로 선언해주는 방법으로 이 방법 역시 우선순위가 제일 높을 때 grace2가 출력될 것이다.
 
 아니면 아예 로케이션을 주는 방법도 있다. properties 파일을 명시해주는 것이다.
+
+```
+grace.name = gracenam2
+```
+
+```java
+package me.gracenam.springinit;
+
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+@RunWith(SpringRunner.class)
+@TestPropertySource(locations = "classpath:/test.properties")
+@SpringBootTest
+class SpringinitApplicationTests {
+
+    @Autowired
+    Environment environment;
+
+    @Test
+    public void contextLoads() {
+        assertThat(environment.getProperty("grace.name"))
+                .isEqualTo("gracenam");
+    }
+
+}
+```
+
+test.properties라는 파일을 생성하고 해당 파일의 로케이션을 지정해줬다. 이렇게하면 기존의 properties 파일에서 test.properties에 적힌 값으로 덮어 씌워진다. 이 때 위에서 봤던 application.properties를 복사하는 방법과 다른 점은 test.properties에 작성된 값에만 영향을 준다는 점이다.
+
+&#9654; application.properties 우선 순위
+
+&nbsp;&nbsp;&nbsp;application.properties는 여러 곳에 파일을 생성할 수 있는데 이 파일의 위치에 따라서 우선 순위가 달라진다.
+
+1. file:./config/
+2. file:./
+3. classpath:/config/
+4. classpath:/
 
 ---
 **Reference**
