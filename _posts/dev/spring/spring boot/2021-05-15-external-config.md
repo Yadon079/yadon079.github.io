@@ -14,7 +14,8 @@ comments: true
 
 ## 외부 설정
 
-&nbsp;&nbsp;&nbsp;외부 설정은 애플리케이션에서 사용하는 여러 설정 값들을 애플리케이션 밖이나 안에 정의할 수 있는 기능이다. 흔하게 볼 수 있는 설정 파일은 <b>application.properties</b>라는 파일이다. 이 파일은 스프링 부트가 애플리케이션을 구동할 때 자동으로 로딩하는 파일로 일종의 컨벤션이다.
+&nbsp;&nbsp;&nbsp;외부 설정은 애플리케이션에서 사용하는 여러 설정 값들을 애플리케이션 밖이나 안에 정의할 수 있는 기능이다.  
+흔하게 볼 수 있는 설정 파일은 <b>application.properties</b>라는 파일이다. 이 파일은 스프링 부트가 애플리케이션을 구동할 때 자동으로 로딩하는 파일로 일종의 컨벤션이다.
 
 이처럼 정의되어 있는 파일 안에 key-value 형태로 값을 정의하면 애플리케이션에서 참조해서 사용할 수 있다. 참조해서 사용하는 방법은 여러가지인데 그 중에서 가장 기본적인 방법은 아래와 같이 @Value 애노테이션을 사용하는 것이다.
 
@@ -48,7 +49,7 @@ public class SampleRunner implements ApplicationRunner {
 
 이렇게 한 후 실행해보면 간단하게 정의한 값이 출력되는 것을 확인할 수 있다.
 
-<img src="/assets/img/study/ex01.png" align="center"><br/>
+<img src="/assets/img/study/ex01.png" width="70%" height="auto" align="center"><br/>
 
 &#9654; 랜덤 값과 place holder
 
