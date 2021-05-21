@@ -49,7 +49,7 @@ public class SampleRunner implements ApplicationRunner {
 
 이렇게 한 후 실행해보면 간단하게 정의한 값이 출력되는 것을 확인할 수 있다.
 
-<img src="/assets/img/study/ex01.png" width="70%" height="auto" align="center"><br/>
+<img src="/assets/img/study/ex01.png" width="50%" align="center"><br/>
 
 &#9654; 랜덤 값과 place holder
 
@@ -131,7 +131,7 @@ class SpringinitApplicationTests {
 
 &nbsp;&nbsp;&nbsp;그.런.데. 이 테스트에서 사용하는 properties 파일을 바꿔야 하는 경우가 있을 수 있다. 이런 경우에 test 폴더 아래에 resources 디렉토리를 만들어 안에 application.properties 파일을 만들어 준 뒤 값을 지정해 줄 수 있다. 이 방법은 2, 3번째 우선순위 방법과는 조금 다른 방법이다.
 
-<img src="/assets/img/study/ex04.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/ex04.png" width="50%" align="center"><br/>
 
 ```
 grace.name = gracenam
