@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2021-05-15 23:00:00
-title: "스프링 부트 활용 : 외부 설정 1부"
+date: 2021-05-21 23:00:00
+title: "스프링 부트 활용 : 외부 설정 2부"
 description: "스프링 부트 개념과 활용"
 subject: Spring Boot
 category: [ spring boot ]
