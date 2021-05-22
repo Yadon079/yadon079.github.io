@@ -49,7 +49,7 @@ public class SampleRunner implements ApplicationRunner {
 
 이렇게 한 후 실행해보면 간단하게 정의한 값이 출력되는 것을 확인할 수 있다.
 
-<img src="/assets/img/study/ex01.png" width="50%" align="center"><br/>
+<img src="/assets/img/study/ex01.png" width="50%" height="auto" align="center"><br/>
 
 &#9654; 랜덤 값과 place holder
 
@@ -61,7 +61,7 @@ key = ${random.*}
 
 `random.*`에서 *로 올 수 있는 값들은 다음과 같다. 단, int 값의 value와 MAX 값을 사용할 때는 공백이 들어가서는 안된다.
 
-<img src="/assets/img/study/ex06.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/ex06.png" width="70%" heigth="auto"align="center"><br/>
 
 properties에 한 번 정의된 값은 재사용할 수 있다. 이런 것을 place holder라고 한다.
 
@@ -94,7 +94,7 @@ fullName = ${name} nam
 16. @PropertySource
 17. 기본 프로퍼티 <b>SpringApplication.setDefaultProperties</b>
 
-<img src="/assets/img/study/ex02.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/ex02.png" width="70%" heigth="auto" align="center"><br/>
 
 15번째 방법으로 작성했던 애플리케이션을 패키징한 후 실행할 때 커맨드 라인으로 다른 값을 주었더니 바뀐 값이 나온 것을 볼 수 있다. 이 방법은 4순위인 커맨드 라인 아규먼트를 사용한 방법으로 15번째 방법보다 우선순위가 높다. 따라서 기존의 방법에 오버라이딩되어 실행된 것이다.
 
@@ -127,11 +127,11 @@ class SpringinitApplicationTests {
 
 `isEqualTo()`의 값이 grace인 이유는 src/main/resources 안에 있는 application.properties에 정의된 값이 grace이기 때문이다. 이제 값을 확인해 보면 정상적으로 출력되는 것을 확인할 수 있다.
 
-<img src="/assets/img/study/ex03.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/ex03.png" width="70%" heigth="auto" align="center"><br/>
 
 &nbsp;&nbsp;&nbsp;그.런.데. 이 테스트에서 사용하는 properties 파일을 바꿔야 하는 경우가 있을 수 있다. 이런 경우에 test 폴더 아래에 resources 디렉토리를 만들어 안에 application.properties 파일을 만들어 준 뒤 값을 지정해 줄 수 있다. 이 방법은 2, 3번째 우선순위 방법과는 조금 다른 방법이다.
 
-<img src="/assets/img/study/ex04.png" width="50%" align="center"><br/>
+<img src="/assets/img/study/ex04.png" width="50%" height="auto" align="center"><br/>
 
 ```
 grace.name = gracenam
@@ -164,7 +164,7 @@ class SpringinitApplicationTests {
 
 이렇게 한 뒤에 실행을 하면 바뀐 값이 찍히는 것을 확인할 수 있다.
 
-<img src="/assets/img/study/ex05.png" width="70%" align="center"><br/>
+<img src="/assets/img/study/ex05.png" width="70%" heigth="auto" align="center"><br/>
 
 테스트용 빌드를 수행할 때 src에 들어 있는 파일들을 모두 classpath에 넣는다. 이 때 main 아래에 있는 모든 파일들이 claspath에 먼저 들어가서 빌드가 되고 그 다음에 test 아래에 있는 것들이 들어가게 된다. 이 과정에서 appliction.properties는 바뀌게 되고 따라서 바뀐 값이 출력되게 되는 것이다.
 

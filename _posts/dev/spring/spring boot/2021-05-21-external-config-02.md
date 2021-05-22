@@ -131,7 +131,7 @@ public class SampleRunner implements ApplicationRunner {
 }
 ```
 
-<img src="/assets/img/study/ex07.png" width="50%" align="center"><br/>
+<img src="/assets/img/study/ex07.png" width="50%" heigth="auto" align="center"><br/>
 
 ## 융통성 있는 바인딩
 
@@ -250,7 +250,7 @@ public class SampleRunner implements ApplicationRunner {
 }
 ```
 
-<img src="/assets/img/study/ex08.png" width="50%" align="center"><br/>
+<img src="/assets/img/study/ex08.png" width="50%" heigth="auto" align="center"><br/>
 
 설정한 값이 출력되는 것을 확인할 수 있다.
 
@@ -333,7 +333,7 @@ public class GraceProperties {
 
 name의 값이 비어있지 말라고(`@NotEmpty`)해놓고 properties의 name을 비워놨다. 그리고 실행을 해보면 validate, 검증하는 과정에서 에러메시지가 출력될 것이다.
 
-<img src="/assets/img/study/ex09.png" width="60%" align="center"><br/>
+<img src="/assets/img/study/ex09.png" width="60%" heigth="auto" align="center"><br/>
 
 아주 친절한 에러 메시지가 나오는 것을 확인할 수 있다.
 
