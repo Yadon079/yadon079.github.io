@@ -59,7 +59,7 @@ properties를 작성할 때 임의의 값을 넣고싶을 수도 있다. 그럴 
 key = ${random.*}
 ```
 
-`random.*`에서 *로 올 수 있는 값들은 다음과 같다.
+`random.*`에서 *로 올 수 있는 값들은 다음과 같다. 단, int 값의 value와 MAX 값을 사용할 때는 공백이 들어가서는 안된다.
 
 <img src="/assets/img/study/ex06.png" width="70%" align="center"><br/>
 
