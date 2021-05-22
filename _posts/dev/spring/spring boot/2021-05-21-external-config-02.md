@@ -146,8 +146,196 @@ public class SampleRunner implements ApplicationRunner {
 
 ## Property Type Conversion
 
+&nbsp;&nbsp;&nbsp;스프링 프레임워크에서는 타입 컨버젼도 지원을 하는데, properties 문서 안에서는 타입이라는게 존재하지 않는다. 전부 문자열로 되어 있는데 값이 들어갈 때는 타입이 변환되어서 들어가게 된다. 이런 기본적인 컨버팅이 되는데 스프링 부트가 제공하는 안 똑똑한(...) 컨버젼 타입이 한 가지 있다. 바로 <b>DurationUnit</b>이다. 
 
+DurationUnit은 시간정보인데, 아래와 같이 사용할 수 있다.
 
+```java
+@DurationUnit(ChronoUnit.SECONDS)
+private Duration sessionTimeout = Duration.ofSeconds(30);
+```
+
+`@DurationUnit`이라는 애노테이션을 붙이고 이 값을 초로 받겠다(ChronoUnit.SECONDS)라고 선언한 것이다. 해당 값이 들어오지 않으면 기본값은 30초이다.
+
+properties에 값을 주고 출력이 되는지 확인해 보자.
+
+```
+grace.name = Grace
+grace.age = ${random.int(0,100)}
+grace.fullName = ${grace.name} Nam
+grace.sessionTimeout = 25
+```
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.convert.DurationUnit;
+import org.springframework.stereotype.Component;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
+@Component
+@ConfigurationProperties("grace")
+public class GraceProperties {
+
+    private String name;
+
+    private int age;
+
+    private String fullName;
+
+    @DurationUnit(ChronoUnit.SECONDS)
+    private Duration sessionTimeout = Duration.ofSeconds(30);
+
+    public Duration getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    public void setSessionTimeout(Duration sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+}
+```
+
+```java
+package me.gracenam.springinit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class SampleRunner implements ApplicationRunner {
+
+    @Autowired
+    GraceProperties graceProperties;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        System.out.println("=================");
+        System.out.println(graceProperties.getName());
+        System.out.println(graceProperties.getAge());
+        System.out.println(graceProperties.getSessionTimeout());
+        System.out.println("=================");
+    }
+
+}
+```
+
+<img src="/assets/img/study/ex08.png" width="50%" align="center"><br/>
+
+설정한 값이 출력되는 것을 확인할 수 있다.
+
+또한 `@DurationUnit` 애노테이션을 사용하지 않고 properties 값 뒤에 단위를 붙이면 Duration이 알아서 컨버젼을 해준다. 굳이 애노테이션을 사용하지 않아도 된다.
+
+## Property 값 검증
+
+&nbsp;&nbsp;&nbsp;지금까지 프로퍼티를 이용해서 많은 값들을 입력받아 사용해왔는데 이렇게 사용되는 값들을 검증하는 방법이 있다.
+
+`@Validated`라는 애노테이션을 붙이고 JSR-303 Validation API를 사용하는 것인데 이 것의 구현체는 hibernate-validator 의존성에 들어있다.
+
+```
+grace.name =
+grace.age = ${random.int(0,100)}
+grace.fullName = ${grace.name} Nam
+grace.sessionTimeout = 25
+```
+
+```java
+package me.gracenam.springinit;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.convert.DurationUnit;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
+@Component
+@ConfigurationProperties("grace")
+@Validated
+public class GraceProperties {
+
+    @NotEmpty
+    private String name;
+
+    private int age;
+
+    private String fullName;
+
+    @DurationUnit(ChronoUnit.SECONDS)
+    private Duration sessionTimeout = Duration.ofSeconds(30);
+
+    public Duration getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    public void setSessionTimeout(Duration sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+}
+```
+
+name의 값이 비어있지 말라고(`@NotEmpty`)해놓고 properties의 name을 비워놨다. 그리고 실행을 해보면 validate, 검증하는 과정에서 에러메시지가 출력될 것이다.
+
+<img src="/assets/img/study/ex09.png" width="60%" align="center"><br/>
+
+아주 친절한 에러 메시지가 나오는 것을 확인할 수 있다.
 
 ---
 **Reference**
